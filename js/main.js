@@ -20,6 +20,8 @@ let fadeSpeed = 0.05;
 let hdrTexture = null;
 let bloomComposer, finalComposer;
 let bloomPass;
+let renderScene, finalPass;
+let renderCamera;
 
 let bloomParams = {
   strength: 2.6,
@@ -41,6 +43,71 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(5, 4, 5);
 camera.lookAt(new THREE.Vector3(0, 2, 0));
+renderCamera = camera;
+
+let currentCameraMode = 'perspective';
+let orthoCamera;
+
+function switchCameraMode(mode) {
+  const aspect = window.innerWidth / window.innerHeight;
+
+  if (mode === 'ortho') {
+    const frustumSize = 10;
+    const height = frustumSize;
+    const width = frustumSize * aspect;
+
+    orthoCamera = new THREE.OrthographicCamera(
+      -width / 2, width / 2,
+      height / 2, -height / 2,
+      0.1, 1000
+    );
+
+    orthoCamera.position.copy(camera.position);
+    orthoCamera.lookAt(new THREE.Vector3(0, 2, 0));
+    renderCamera = orthoCamera;
+    currentCameraMode = 'ortho';
+
+    currentAntialias = true;
+    aaToggles.forEach(t => t.checked = true);
+    initRenderer(true);
+    setOrthoZoomLimits(0.7, 2.0); 
+
+  } else {
+    camera.aspect = aspect;
+    camera.updateProjectionMatrix();
+    renderCamera = camera;
+    currentCameraMode = 'perspective';
+
+    currentAntialias = false;
+    aaToggles.forEach(t => t.checked = false);
+    initRenderer(false);
+  }
+
+  if (controls) {
+    controls.object = renderCamera;
+    controls.update();
+  }
+
+  if (renderScene) renderScene.camera = renderCamera;
+  if (bloomComposer) bloomComposer.setSize(window.innerWidth, window.innerHeight);
+}
+
+document.querySelectorAll('.per-mode, .orto-mode').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const mode = btn.classList.contains('per-mode') ? 'perspective' : 'ortho';
+    switchCameraMode(mode);
+    updateActiveCameraClass(btn);
+  });
+});
+
+function updateActiveCameraClass(activeButton) {
+  document.querySelectorAll('.per-mode, .orto-mode').forEach(btn => {
+    btn.classList.remove('active-camera');
+  });
+  activeButton.classList.add('active-camera');
+}
+
+
 
 let renderer;
 let controls;
@@ -92,6 +159,7 @@ function initRenderer(antialias = false) {
   }
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias });
+  renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setClearColor(0x000000, 0);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputEncoding = THREE.sRGBEncoding;
@@ -106,7 +174,7 @@ function initRenderer(antialias = false) {
     controls.dispose();
   }
 
-  controls = new OrbitControls(camera, renderer.domElement);
+  controls = new OrbitControls(renderCamera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
   controls.maxPolarAngle = Math.PI / 2.2;
@@ -121,41 +189,65 @@ function initRenderer(antialias = false) {
   updateEnvMap();
   controls.update();
 
-  // ✅ Gunakan MSAA hanya jika antialiasing diaktifkan
-  const size = new THREE.Vector2(window.innerWidth, window.innerHeight);
-  const baseRenderTarget = antialias
-    ? new THREE.WebGLMultisampleRenderTarget(size.x, size.y, {
-      format: THREE.RGBAFormat,
-      encoding: THREE.sRGBEncoding,
-    })
-    : new THREE.WebGLRenderTarget(size.x, size.y, {
-      format: THREE.RGBAFormat,
-      encoding: THREE.sRGBEncoding,
-    });
+  const DPR = window.devicePixelRatio || 1;
+  const width = window.innerWidth * DPR;
+  const height = window.innerHeight * DPR;
 
-  const renderScene = new RenderPass(scene, camera);
+  const size = new THREE.Vector2(width, height);
+
+  // === Gunakan AA khusus untuk bloomComposer saat mode ortho ===
+  const bloomRenderTarget = currentCameraMode === 'ortho'
+    ? new THREE.WebGLMultisampleRenderTarget(size.x, size.y, {
+        format: THREE.RGBAFormat,
+        encoding: THREE.sRGBEncoding,
+      })
+    : (antialias
+        ? new THREE.WebGLMultisampleRenderTarget(size.x, size.y, {
+            format: THREE.RGBAFormat,
+            encoding: THREE.sRGBEncoding,
+          })
+        : new THREE.WebGLRenderTarget(size.x, size.y, {
+            format: THREE.RGBAFormat,
+            encoding: THREE.sRGBEncoding,
+          })
+      );
+
+  const finalRenderTarget = antialias
+    ? new THREE.WebGLMultisampleRenderTarget(size.x, size.y, {
+        format: THREE.RGBAFormat,
+        encoding: THREE.sRGBEncoding,
+      })
+    : new THREE.WebGLRenderTarget(size.x, size.y, {
+        format: THREE.RGBAFormat,
+        encoding: THREE.sRGBEncoding,
+      });
+
+  renderScene = new RenderPass(scene, renderCamera);
   bloomPass = new UnrealBloomPass(
     size,
     bloomParams.strength,
     bloomParams.radius,
     bloomParams.threshold
   );
+  bloomPass.setSize(size.x, size.y);
+  bloomPass.renderToScreen = false;
+  bloomPass.clearColor = new THREE.Color(0x000000);
 
-  bloomComposer = new EffectComposer(renderer, baseRenderTarget);
+  bloomComposer = new EffectComposer(renderer, bloomRenderTarget);
   bloomComposer.renderToScreen = false;
   bloomComposer.addPass(renderScene);
   bloomComposer.addPass(bloomPass);
+  bloomComposer.setPixelRatio(window.devicePixelRatio);
+  bloomComposer.setSize(window.innerWidth, window.innerHeight);
 
-  const finalPass = new ShaderPass(AdditiveBlendShader);
+  finalPass = new ShaderPass(AdditiveBlendShader);
   finalPass.uniforms['tAdd'].value = bloomComposer.renderTarget2.texture;
 
-  finalComposer = new EffectComposer(renderer, baseRenderTarget.clone());
+  finalComposer = new EffectComposer(renderer, finalRenderTarget.clone());
   finalComposer.renderToScreen = true;
-  finalComposer.addPass(new RenderPass(scene, camera));
+  finalComposer.addPass(new RenderPass(scene, renderCamera));
   finalComposer.addPass(finalPass);
-  
 }
-
 
 initRenderer(false);
 
@@ -170,8 +262,6 @@ bloomToggles.forEach(toggle => {
     bloomToggles.forEach(t => t.checked = bloomEnabled);
   });
 });
-
-
 
 // Grid
 const gridHelper = new THREE.GridHelper(30, 20);
@@ -207,7 +297,6 @@ const shadowQualityMap = {
 };
 
 let currentShadowQuality = "Low";
-
 
 // HDRI environment
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -485,24 +574,38 @@ function animate() {
 
   if (bloomEnabled) {
     darkenNonBloomed(scene);
-    camera.layers.set(1);
+    renderCamera.layers.set(1);
     bloomComposer.render();
-    camera.layers.set(0);
+    renderCamera.layers.set(0);
     restoreMaterials(scene);
     finalComposer.render();
   } else {
-    renderer.render(scene, camera);
+    renderer.render(scene, renderCamera);
   }
 }
 
 animate();
 
-// Resize handler
 window.addEventListener("resize", () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
-  camera.aspect = width / height;
-  camera.updateProjectionMatrix();
+  const aspect = width / height;
+
+  if (currentCameraMode === 'ortho' && orthoCamera) {
+    const frustumSize = 10;
+    const newHeight = frustumSize;
+    const newWidth = frustumSize * aspect;
+
+    orthoCamera.left = -newWidth / 2;
+    orthoCamera.right = newWidth / 2;
+    orthoCamera.top = newHeight / 2;
+    orthoCamera.bottom = -newHeight / 2;
+    orthoCamera.updateProjectionMatrix();
+  } else {
+    camera.aspect = aspect;
+    camera.updateProjectionMatrix();
+  }
+
   renderer.setSize(width, height);
   bloomComposer.setSize(width, height);
   finalComposer.setSize(width, height);
@@ -1039,15 +1142,15 @@ function updateSliderBackground(slider) {
   const val = parseFloat(slider.value);
   const percent = ((val - min) / (max - min)) * 100;
 
-  let activeColor = '#4ee59e'; // default
+  let activeColor = '#2ecc71'; // default
   let backgroundColor = '#1e2a3a'; // default
 
   // Cek konteks slider
   if (slider.closest('.panel-setting-info')) {
-    activeColor = '#4ee59e'; // warna untuk panel-setting-info
+    activeColor = '#2ecc71'; // warna untuk panel-setting-info
     backgroundColor = '#1e2a3a';
   } else if (slider.closest('.card-wrapper')) {
-    activeColor = '#4ee59e'; // warna untuk card-wrapper
+    activeColor = '#2ecc71'; // warna untuk card-wrapper
     backgroundColor = '#3b4b5d';
   }
 
@@ -1120,4 +1223,17 @@ function resetToggle(selector, value = false) {
   toggles.forEach(t => {
     if (t) t.checked = value;
   });
+}
+
+function setOrthoZoomLimits(min = 0.5, max = 2.5) {
+  if (controls && currentCameraMode === 'ortho' && renderCamera.isOrthographicCamera) {
+    controls.enableZoom = true;
+    controls.zoomSpeed = 1.0;
+    controls.minZoom = min;
+    controls.maxZoom = max;
+
+    // Pastikan zoom kamera saat ini masih dalam batas
+    renderCamera.zoom = THREE.MathUtils.clamp(renderCamera.zoom, min, max);
+    renderCamera.updateProjectionMatrix();
+  }
 }

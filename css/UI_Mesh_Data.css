@@ -1,5 +1,6 @@
 .card-mesh,
-.bloom-card-container {
+.bloom-card-container,
+.camera-card-container {
   background-color: #3b4b5d;
   color: #fff;
   border-radius: 10px;

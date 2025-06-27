@@ -30,7 +30,7 @@
   <header class="header">
     <div class="header-left">
       <img src="img/event.png" alt="logo" class="logo">
-      <p class="model-name">3D VIEWER <br> V 2.1.8 | BETA VERSION</p>
+      <p class="model-name">3D VIEWER <br> V 2.1.9 | BETA VERSION</p>
     </div>
     <!-- <nav class="nav-tabs">
       <button>Rendering</button>
@@ -70,25 +70,27 @@
       </div>
     </div>
     <div class="panel-body-image">
-    </div>
-    <div class="card-container">
-      <div class="card group-1 active-model" data-model="Mini Stadium">
-        <img src="img/stadion 800-800.webp" alt="Card Image 1">
+      <div class="card-container card-container-desktop">
+        <div class="card group-1 active-model" data-model="Mini Stadium">
+          <img src="img/stadion 800-800.webp" alt="Card Image 1">
+        </div>
+        <div class="card group-1" data-model="Clock">
+          <img src="img/clock 800-800.webp" alt="Card Image 2">
+        </div>
+        <div class="card group-1" data-model="Living Room">
+          <img src="img/living 800-800.webp" alt="Card Image 3">
+        </div>
+        <div class="card group-1" data-model="Game Room">
+          <img src="img/Retro Game Room 800-800 Final.webp" alt="Card Image 4">
+        </div>
       </div>
-      <div class="card group-1" data-model="Clock">
-        <img src="img/clock 800-800.webp" alt="Card Image 2">
-      </div>
-      <div class="card group-1" data-model="Living Room">
-        <img src="img/living 800-800.webp" alt="Card Image 3">
-      </div>
-      <div class="card group-1" data-model="Game Room">
-        <img src="img/Retro Game Room 800-800 Final.webp" alt="Card Image 4">
-      </div>
-      <div class="card group-1" data-model="Fox">
+      <div class="card-container card-container-desktop">
+        <div class="card group-1" data-model="Fox">
         <img src="img/fox 800-800.webp" alt="Card Image 5">
-      </div>
-      <div class="card group-1" data-model="Lion Bear">
-        <img src="img/untitled.png" alt="Card Image 6">
+        </div>
+        <div class="card group-1" data-model="Lion Bear">
+          <img src="img/untitled.png" alt="Card Image 6">
+        </div>
       </div>
     </div>
     <div class="card-mesh"  id="cardMeshDesktop">
@@ -166,6 +168,16 @@
         <div class="slider-bloom">
           <input type="range" id="bloomThresholdDesktop" class="bloom-threshold" min="0" max="1" step="0.01" value="0.6">
         </div>
+      </div>
+    </div>
+    <div class="camera-card-container" id="cameraCard">
+      <div class="camera-card-header">
+        <h2>Camera</h2>
+        <div class="close-mesh-data" id="cameraVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
+      </div>
+      <div class="camera-card">
+        <button class="per-mode active-camera">Perspective</button>
+        <button class="orto-mode">Ortographic</button>
       </div>
     </div>
   </div>
@@ -256,7 +268,6 @@
   </div>
 
   <div class="card-wrapper" id="cardWrapper">
-
     <div class="card-section">
       <div class="title-model">
         <h2 class="model-title">Mini Stadium</h2>
@@ -285,9 +296,6 @@
         <div class="card group-1" data-model="Lion Bear">
           <img src="img/untitled.png" alt="Card Image 6">
         </div>
-      </div>
-      <div class="footer-set">
-
       </div>
     </div>
 
@@ -447,6 +455,16 @@
         <div class="slider-bloom">
           <input type="range" id="bloomThresholdMobile" class="bloom-threshold" min="0" max="1" step="0.01" value="0.6">
         </div>
+      </div>
+    </div>
+    <div class="camera-card-container" id="cameraCard">
+      <div class="camera-card-header">
+        <h2>Camera</h2>
+        <div class="close-mesh-data" id="cameraVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-minus"></i></div>
+      </div>
+      <div class="camera-card">
+        <button class="per-mode active-camera">Perspective</button>
+        <button class="orto-mode">Ortographic</button>
       </div>
     </div>
 

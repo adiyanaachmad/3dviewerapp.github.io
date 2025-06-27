@@ -4,7 +4,7 @@
 body {
   margin: 0px;
   padding: 0px;
-   font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: #1e2a3a;
   line-height: 1.5;
   letter-spacing: 1.5px;
@@ -199,6 +199,19 @@ main {
   margin: 0;
 }
 
+.camera-card-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.camera-card-header h2{
+  font-weight: 500;
+  font-size: 20px;
+  margin: 0;
+}
+
 .bloom-value{
   background: #3b4b5d;
   padding: 8px;
@@ -244,7 +257,7 @@ main {
     -webkit-appearance: none;
     height: 20px;
     width: 20px;
-    background-color: #4ee59e;
+    background-color: #2ecc71;
     border-radius: 50%;
     cursor: pointer;
     margin-top: -6px;
@@ -255,7 +268,7 @@ main {
     -webkit-appearance: none;
     height: 20px;
     width: 20px;
-    background-color: #4ee59e;
+    background-color: #2ecc71;
     border-radius: 50%;
     cursor: pointer;
     margin-top: -6px;
@@ -266,7 +279,7 @@ main {
     appearance: none;
     height: 20px;
     width: 20px;
-    background-color: #4ee59e;
+    background-color: #2ecc71;
     border-radius: 50%;
     cursor: pointer;
     margin-top: -6px;
@@ -275,7 +288,7 @@ main {
 
 .slider-bloom input[type="range"]:active::-webkit-slider-thumb {
     background-color: #ffffff;
-    border: 3px solid #4ee59e;
+    border: 3px solid #2ecc71;
 }
 
 .panel-setting{
@@ -304,6 +317,7 @@ main {
   background-color: #3b4b5d;
   position: fixed;
   bottom: 0;
+  top: 0;
   width: 300px;
   padding: 20px;
   z-index: 9999;
@@ -347,6 +361,50 @@ main {
   border-radius: 10px;
 }
 
+.camera-card{
+  display: flex;
+  align-items: center;
+  background-color: #3b4b5d;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 8px;
+}
+
+.camera-card button{
+  padding: 15px 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  flex: 1;
+  transition: background 0.2s;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 1.5px;
+  font-weight: 500;
+}
+
+.active-camera{
+  background-color: #2ecc71 !important;
+  border-radius: 8px;
+  color: black!important;
+}
+
+.panel-body-image::-webkit-scrollbar {
+  height: 8px;
+}
+
+.panel-body-image::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.panel-body-image::-webkit-scrollbar-thumb {
+  background-color: #4ee59e;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
 @media screen and (min-width: 768px){
   .title-model{
     padding: 0;
@@ -364,14 +422,28 @@ main {
   .card-container{
      grid-template-columns: repeat(2, 1fr)!important;
      gap: .5rem!important;
+      grid-template-rows: repeat(2, 1fr)!important; 
     padding: 0!important;
     padding-top: 20px!important;
     transition: all 0.3s ease!important;
     background-color: transparent!important;
     margin-top: 0px!important;
+     flex: 0 0 auto!important;
+     width: 300px!important;
   }
-  .card-container.grid-3 {
-    grid-template-columns: repeat(3, 1fr) !important;
+  .panel-body-image {
+    overflow-x: auto;
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+  .card-container-desktop{
+     transition: opacity 0.5s ease!important;
+    opacity: 1;
+  }
+  .card-container-desktop.hidden {
+    opacity: 0;
+    pointer-events: none;
   }
   .card-mesh{
       min-width: 260px!important;
@@ -382,6 +454,14 @@ main {
       transition: height 0.5s ease!important;
   }
   .bloom-card-container{
+    background-color: #1e2a3a!important;
+    min-width: 260px!important;
+    margin-top: 20px;
+    position: relative;
+    height: 30px;
+    transition: height 0.5s ease!important;
+  }
+  .camera-card-container{
     background-color: #1e2a3a!important;
     min-width: 260px!important;
     margin-top: 20px;
@@ -407,6 +487,17 @@ main {
 @media screen and (max-width: 768px) {
   .header {
     zoom: .9;
+  }
+  .camera-card-container{
+    height: 125px!important;
+    min-width: 320px!important;
+  }
+  .camera-card{
+    background-color: #1e2a3a!important;
+    padding: 10px!important;
+  }
+  .camera-card button{
+    font-size: 18px;
   }
   .advance-setting-mod{
     left: 15px;
