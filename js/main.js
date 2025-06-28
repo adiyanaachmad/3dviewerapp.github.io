@@ -96,15 +96,16 @@ document.querySelectorAll('.per-mode, .orto-mode').forEach(btn => {
   btn.addEventListener('click', () => {
     const mode = btn.classList.contains('per-mode') ? 'perspective' : 'ortho';
     switchCameraMode(mode);
-    updateActiveCameraClass(btn);
+    updateActiveCameraClassByMode(mode);
   });
 });
 
-function updateActiveCameraClass(activeButton) {
+function updateActiveCameraClassByMode(mode) {
   document.querySelectorAll('.per-mode, .orto-mode').forEach(btn => {
-    btn.classList.remove('active-camera');
+    const isActive = (mode === 'perspective' && btn.classList.contains('per-mode')) ||
+                     (mode === 'ortho' && btn.classList.contains('orto-mode'));
+    btn.classList.toggle('active-camera', isActive);
   });
-  activeButton.classList.add('active-camera');
 }
 
 
