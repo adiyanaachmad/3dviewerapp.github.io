@@ -30,7 +30,7 @@
   <header class="header">
     <div class="header-left">
       <img src="img/event.png" alt="logo" class="logo">
-      <p class="model-name">3D VIEWER <br> V 2.1.9 | BETA VERSION</p>
+      <p class="model-name">3D VIEWER <br> V 2.2.0 | BETA VERSION</p>
     </div>
     <!-- <nav class="nav-tabs">
       <button>Rendering</button>
@@ -178,6 +178,27 @@
       <div class="camera-card">
         <button class="per-mode active-camera">Perspective</button>
         <button class="orto-mode">Ortographic</button>
+      </div>
+      <div class="camera-card-header">
+        <h2>Auto Rotate</h2>
+        <label class="switch">
+          <input type="checkbox" id="rotateToggle" class="rotate-toggle">
+          <span class="slider-cam"></span>
+        </label>
+      </div>
+    </div>
+    <div class="material-card-container" id="materialCard">
+      <div class="material-card-header">
+        <h2>Material</h2>
+        <div class="close-mesh-data" id="materialVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
+      </div>
+      <div class="material-card">
+        <div class="card-select solid-material active-material">
+          <img src="img/PlasticMoldWorn.webp" alt="">
+        </div>
+        <div class="card-select colourfull-material">
+          <img src="img/MetalPaintedMatte.webp" alt="">
+        </div>
       </div>
     </div>
   </div>
@@ -457,17 +478,39 @@
         </div>
       </div>
     </div>
-    <div class="camera-card-container" id="cameraCard">
-      <div class="camera-card-header">
-        <h2>Camera</h2>
-        <div class="close-mesh-data" id="cameraVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-minus"></i></div>
+    <div class="card-section">
+      <div class="camera-card-container" id="cameraCard">
+        <div class="camera-card-header">
+          <h2>Camera</h2>
+          <div class="close-mesh-data" id="cameraVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-minus"></i></div>
+        </div>
+        <div class="camera-card">
+          <button class="per-mode active-camera">Perspective</button>
+          <button class="orto-mode">Ortographic</button>
+        </div>
+        <div class="camera-card-header">
+          <h2>Auto Rotate</h2>
+          <label class="switch">
+            <input type="checkbox" id="rotateToggle" class="rotate-toggle">
+            <span class="slider"></span>
+          </label>
+        </div>
       </div>
-      <div class="camera-card">
-        <button class="per-mode active-camera">Perspective</button>
-        <button class="orto-mode">Ortographic</button>
+      <div class="material-card-container"  style="margin-top: 20px;" id="materialCard">
+        <div class="material-card-header">
+          <h2>Material</h2>
+          <div class="close-mesh-data" id="materialVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
+        </div>
+        <div class="material-card">
+          <div class="card-select solid-material active-material">
+            <img src="img/PlasticMoldWorn.webp" alt="">
+          </div>
+          <div class="card-select colourfull-material">
+            <img src="img/MetalPaintedMatte.webp" alt="">
+          </div>
+        </div>
       </div>
     </div>
-
   </div>
 
   <div class="loader-wrapper" id="loader">

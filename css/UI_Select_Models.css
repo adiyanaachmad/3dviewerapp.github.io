@@ -33,7 +33,6 @@
     object-fit: cover;
     display: block;
     border-radius: 20px;
-    transition: .3s ease;
 }
 
 .card-container.disabled {

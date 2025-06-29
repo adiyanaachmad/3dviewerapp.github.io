@@ -78,6 +78,12 @@ document.addEventListener("DOMContentLoaded", function () {
       toggleBtn: document.getElementById("cameraVisible"),
       icon: document.getElementById("cameraVisible").querySelector("i"),
       isExpanded: false
+    },
+    material: {
+      container: document.querySelector(".material-card-container"),
+      toggleBtn: document.getElementById("materialVisible"),
+      icon: document.getElementById("materialVisible").querySelector("i"),
+      isExpanded: false
     }
   };
 
@@ -91,11 +97,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function expandPanel(key) {
     const panel = panels[key];
-    panel.container.style.height = key === "camera" ? "120px" : "440px";
+
+    let height = "440px"; 
+    if (key === "camera") height = "165px";
+    if (key === "material") height = "180px"; 
+
+    panel.container.style.height = height;
     panel.icon.classList.remove("fa-plus");
     panel.icon.classList.add("fa-minus");
     panel.isExpanded = true;
   }
+
 
   function togglePanel(activeKey) {
     const panel = panels[activeKey];
@@ -138,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
   panels.mesh.toggleBtn.addEventListener("click", () => togglePanel("mesh"));
   panels.bloom.toggleBtn.addEventListener("click", () => togglePanel("bloom"));
   panels.camera.toggleBtn.addEventListener("click", () => togglePanel("camera"));
+  panels.material.toggleBtn.addEventListener("click", () => togglePanel("material"));
 
   openBtn.addEventListener("click", () => {
     panelSetting.style.display = "block";

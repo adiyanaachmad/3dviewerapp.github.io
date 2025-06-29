@@ -22,6 +22,14 @@ let bloomComposer, finalComposer;
 let bloomPass;
 let renderScene, finalPass;
 let renderCamera;
+let autoRotateEnabled = false;
+let autoRotateSpeed = 0.5; 
+let initialCameraPosition = new THREE.Vector3();
+let initialCameraTarget = new THREE.Vector3();
+let isReturningCamera = false;
+let cameraFadeAlpha = 1;
+let userIsInteracting = false;
+
 
 let bloomParams = {
   strength: 2.6,
@@ -182,6 +190,15 @@ function initRenderer(antialias = false) {
   controls.minDistance = 5;
   controls.maxDistance = 20;
   controls.enablePan = false;
+
+  controls.addEventListener('start', () => {
+    userIsInteracting = true;
+    isReturningCamera = false;
+  });
+
+  controls.addEventListener('end', () => {
+    userIsInteracting = false;
+  });
 
   if (previousTarget) {
     controls.target.copy(previousTarget);
@@ -429,12 +446,17 @@ function setCameraFrontTop(model) {
   const y = center.y + distance * 0.6;
   const z = center.z + distance;
 
-  camera.position.set(x, y, z);
-  camera.lookAt(center);
+  renderCamera.position.set(x, y, z);
+  renderCamera.lookAt(center);
+
 
   controls.target.copy(center);
   controls.update();
+
+  initialCameraPosition.copy(renderCamera.position);
+  initialCameraTarget.copy(center);
 }
+
 
 const loader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
@@ -552,6 +574,28 @@ document.querySelectorAll('.vertical-level-selector').forEach(wrapper => {
   });
 });
 
+function animateCameraBack(deltaTime) {
+  if (!isReturningCamera || userIsInteracting) return;
+
+  const cam = renderCamera; // gunakan kamera aktif saat ini
+  const lerpSpeed = 2.0 * deltaTime;
+
+  cam.position.lerp(initialCameraPosition, lerpSpeed);
+  controls.target.lerp(initialCameraTarget, lerpSpeed);
+  controls.update();
+
+  cameraFadeAlpha = THREE.MathUtils.lerp(cameraFadeAlpha, 1, lerpSpeed);
+
+  if (cam.position.distanceTo(initialCameraPosition) < 0.01 &&
+      controls.target.distanceTo(initialCameraTarget) < 0.01) {
+    cam.position.copy(initialCameraPosition);
+    controls.target.copy(initialCameraTarget);
+    controls.update();
+    isReturningCamera = false;
+    cameraFadeAlpha = 1;
+  }
+}
+
 
 // Animation
 function animate() {
@@ -560,6 +604,21 @@ function animate() {
   controls.update();
   swingModel(deltaTime);
   returnToCenter();
+  animateCameraBack(deltaTime);
+
+  if (autoRotateEnabled && controls) {
+    const angle = autoRotateSpeed * deltaTime;
+    const axis = new THREE.Vector3(0, 1, 0);
+
+    const cam = controls.object;
+    const target = controls.target;
+
+    const offset = new THREE.Vector3().subVectors(cam.position, target);
+    offset.applyAxisAngle(axis, angle);
+    cam.position.copy(target).add(offset);
+    cam.lookAt(target);
+  }
+
 
   if (gridHelper.material.opacity !== gridFadeTarget) {
     const diff = gridFadeTarget - gridHelper.material.opacity;
@@ -586,6 +645,12 @@ function animate() {
 }
 
 animate();
+
+if (isReturningCamera) {
+  renderer.domElement.style.opacity = cameraFadeAlpha.toFixed(2);
+} else {
+  renderer.domElement.style.opacity = '1';
+}
 
 window.addEventListener("resize", () => {
   const width = window.innerWidth;
@@ -1158,7 +1223,6 @@ function updateSliderBackground(slider) {
   slider.style.background = `linear-gradient(to right, ${activeColor} ${percent}%, ${backgroundColor} ${percent}%)`;
 }
 
-
 function setupBloomSliderControls() {
   const strengthSliders = document.querySelectorAll('.bloom-strength');
   const radiusSliders = document.querySelectorAll('.bloom-radius');
@@ -1238,3 +1302,26 @@ function setOrthoZoomLimits(min = 0.5, max = 2.5) {
     renderCamera.updateProjectionMatrix();
   }
 }
+
+const rotateToggles = document.querySelectorAll('.rotate-toggle');
+rotateToggles.forEach(toggle => {
+  toggle.checked = false;
+  toggle.addEventListener('change', (e) => {
+    const enabled = e.target.checked;
+    autoRotateEnabled = enabled;
+    rotateToggles.forEach(t => t.checked = enabled);
+
+    if (enabled) {
+      // 🟢 Hentikan animasi balik, pulihkan opacity
+      isReturningCamera = false;
+      cameraFadeAlpha = 1;
+      renderer.domElement.style.opacity = '1';
+    } else {
+      // 🔴 Mulai transisi balik kamera
+      isReturningCamera = true;
+      cameraFadeAlpha = 0;
+    }
+  });
+});
+
+

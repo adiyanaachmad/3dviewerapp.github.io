@@ -38,10 +38,10 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  
+
 }
 
-.container-model-pf{
+.container-model-pf {
   position: fixed;
   bottom: 280px;
   left: 0px;
@@ -58,10 +58,10 @@ body {
   color: white;
   padding: 12px 20px;
   border-radius: 10px;
-   font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
-.title-model h2{
+.title-model h2 {
   background-color: #1e2a3a;
   border-radius: 10px;
   /* width: 56%; */
@@ -69,7 +69,7 @@ body {
   color: #ffff;
   font-weight: 500;
   margin: 0;
-   font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .logo {
@@ -133,7 +133,7 @@ body {
   zoom: .7;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.5s ease!important;
+  transition: opacity 0.5s ease !important;
 }
 
 .card-wrapper::-webkit-scrollbar {
@@ -151,7 +151,6 @@ body {
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  min-width: 500px;
 }
 
 .header-right {
@@ -176,7 +175,7 @@ main {
   position: relative;
 }
 
-.bloom-card{
+.bloom-card {
   background-color: #1e2a3a;
   color: #ffff;
   border-radius: 8px;
@@ -186,33 +185,35 @@ main {
   overflow: hidden;
 }
 
-.bloom-card-header{
+.bloom-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.bloom-card-header h2{
+.bloom-card-header h2 {
   font-weight: 500;
   font-size: 20px;
   margin: 0;
 }
 
-.camera-card-header{
+.camera-card-header,
+.material-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.camera-card-header h2{
+.camera-card-header h2,
+.material-card-header h2 {
   font-weight: 500;
   font-size: 20px;
   margin: 0;
 }
 
-.bloom-value{
+.bloom-value {
   background: #3b4b5d;
   padding: 8px;
   border-radius: 8px;
@@ -225,95 +226,94 @@ main {
 }
 
 .slider-bloom input[type="range"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    display: block;
-    width: 100%;
-    height: 8px;
-    background: linear-gradient(to right, #4ee59e 50%, #3b4b5d 50%);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    border-radius: 8px;
-    outline: none;
-    transition: background 0.3s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display: block;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(to right, #4ee59e 50%, #3b4b5d 50%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  outline: none;
+  transition: background 0.3s ease;
 }
 
 .slider-bloom input[type="range"]::-webkit-slider-runnable-track {
-    -webkit-appearance: none;
-    height: 8px;
+  -webkit-appearance: none;
+  height: 8px;
 }
 
-.slider-bloom input[type="range"]::-moz-track{
-    -moz-appearance: none;
-    height: 8px;
+.slider-bloom input[type="range"]::-moz-track {
+  -moz-appearance: none;
+  height: 8px;
 }
 
 .slider-bloom input[type="range"]::-ms-track {
-    appearance: none;
-    height: 8px;
+  appearance: none;
+  height: 8px;
 }
 
 .slider-bloom input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 20px;
-    width: 20px;
-    background-color: #2ecc71;
-    border-radius: 50%;
-    cursor: pointer;
-    margin-top: -6px;
-    border: none;
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -6px;
+  border: none;
 }
 
-.slider-bloom input[type="range"]::-moz-range-thumb{
-    -webkit-appearance: none;
-    height: 20px;
-    width: 20px;
-    background-color: #2ecc71;
-    border-radius: 50%;
-    cursor: pointer;
-    margin-top: -6px;
-    border: none;
+.slider-bloom input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -6px;
+  border: none;
 }
 
 .slider-bloom input[type="range"]::-ms-thumb {
-    appearance: none;
-    height: 20px;
-    width: 20px;
-    background-color: #2ecc71;
-    border-radius: 50%;
-    cursor: pointer;
-    margin-top: -6px;
-    border: none;
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -6px;
+  border: none;
 }
 
 .slider-bloom input[type="range"]:active::-webkit-slider-thumb {
-    background-color: #ffffff;
-    border: 3px solid #2ecc71;
+  background-color: #ffffff;
+  border: 3px solid #2ecc71;
 }
 
-.panel-setting{
+.panel-setting {
   background-color: transparent;
   position: fixed;
   top: 0;
   bottom: 0;
   /* width: 300px; */
   padding: 20px;
-  z-index: 9999;
   opacity: 0;
   display: none;
   pointer-events: none;
   right: 0;
   overflow: hidden;
-  margin: 1em ;
+  margin: 1em;
   border-radius: 10px;
   zoom: .7;
   transform: translateX(100%);
-   transition:
+  transition:
     transform 0.6s cubic-bezier(0.77, 0, 0.175, 1),
     opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-.panel-setting-info{
+.panel-setting-info {
   background-color: #3b4b5d;
   position: fixed;
   bottom: 0;
@@ -327,22 +327,22 @@ main {
   pointer-events: none;
   right: 0px;
   overflow: hidden;
-  margin: 1em ;
+  margin: 1em;
   border-radius: 10px;
   transform: translateX(100%);
-   transition:
+  transition:
     transform 0.6s cubic-bezier(0.77, 0, 0.175, 1),
     opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 .panel-active {
-  transform: translateX(0)!important;
-  opacity: 1!important;
-  pointer-events: auto!important;
-  display: block!important;
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  display: block !important;
 }
 
-.panel-setting-advance{
+.panel-setting-advance {
   position: fixed;
   bottom: 0;
   /* width: 300px; */
@@ -352,16 +352,16 @@ main {
   opacity: 0;
   display: none;
   left: 0px;
-   transform: translateX(-100%);
+  transform: translateX(-100%);
   transition:
     transform 0.6s cubic-bezier(0.77, 0, 0.175, 1),
     opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1);
   overflow: hidden;
-  margin: 1em ;
+  margin: 1em;
   border-radius: 10px;
 }
 
-.camera-card{
+.camera-card {
   display: flex;
   align-items: center;
   background-color: #3b4b5d;
@@ -370,7 +370,7 @@ main {
   padding: 8px;
 }
 
-.camera-card button{
+.camera-card button {
   padding: 15px 10px;
   background: none;
   border: none;
@@ -382,12 +382,6 @@ main {
   font-family: "Montserrat", sans-serif;
   letter-spacing: 1.5px;
   font-weight: 500;
-}
-
-.active-camera{
-  background-color: #2ecc71 !important;
-  border-radius: 8px;
-  color: black!important;
 }
 
 .panel-body-image::-webkit-scrollbar {
@@ -405,107 +399,230 @@ main {
   background-clip: content-box;
 }
 
-@media screen and (min-width: 768px){
-  .title-model{
+.card-select:hover,
+.active-material {
+  border: 5px solid #FFA726 !important;
+  border-radius: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .title-model {
     padding: 0;
   }
-  .title-model h2{
+
+  .active-camera {
+    background-color: #1e2a3a !important;
+    border-radius: 8px;
+    color: #fff !important;
+  }
+
+  .title-model h2 {
     padding: 16px;
   }
-  .menu-btn-rex i{
+
+  .menu-btn-rex i {
     font-size: 30px;
   }
-  .menu-btn-rex{
-    width: 70px!important;
-    height: 70px!important;
+
+  .menu-btn-rex {
+    width: 70px !important;
+    height: 70px !important;
   }
-  .card-container{
-     grid-template-columns: repeat(2, 1fr)!important;
-     gap: .5rem!important;
-      grid-template-rows: repeat(2, 1fr)!important; 
-    padding: 0!important;
-    padding-top: 20px!important;
-    transition: all 0.3s ease!important;
-    background-color: transparent!important;
-    margin-top: 0px!important;
-     flex: 0 0 auto!important;
-     width: 300px!important;
+
+  .card-container {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: .5rem !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    padding: 0 !important;
+    padding-top: 20px !important;
+    transition: all 0.3s ease !important;
+    background-color: transparent !important;
+    margin-top: 0px !important;
+    flex: 0 0 auto !important;
+    width: 300px !important;
   }
+
   .panel-body-image {
     overflow-x: auto;
     display: flex;
     gap: 1rem;
     padding-bottom: 1rem;
   }
-  .card-container-desktop{
-     transition: opacity 0.5s ease!important;
+
+  .card-container-desktop {
+    transition: opacity 0.5s ease !important;
     opacity: 1;
   }
+
   .card-container-desktop.hidden {
     opacity: 0;
     pointer-events: none;
   }
-  .card-mesh{
-      min-width: 260px!important;
-      position: relative;
-      background-color: #1e2a3a!important;
-      margin-top: 20px;
-      height: 30px;
-      transition: height 0.5s ease!important;
+
+  .card-mesh {
+    min-width: 260px !important;
+    position: relative;
+    background-color: #1e2a3a !important;
+    margin-top: 20px;
+    height: 30px;
+    transition: height 0.5s ease !important;
   }
-  .bloom-card-container{
-    background-color: #1e2a3a!important;
-    min-width: 260px!important;
+
+  .bloom-card-container {
+    background-color: #1e2a3a !important;
+    min-width: 260px !important;
     margin-top: 20px;
     position: relative;
     height: 30px;
-    transition: height 0.5s ease!important;
+    transition: height 0.5s ease !important;
   }
-  .camera-card-container{
-    background-color: #1e2a3a!important;
-    min-width: 260px!important;
+
+  .material-card-container {
+    background-color: #1e2a3a !important;
+    min-width: 260px !important;
     margin-top: 20px;
     position: relative;
     height: 30px;
-    transition: height 0.5s ease!important;
+    transition: height 0.5s ease !important;
   }
-  .bloom-card{
+
+  .material-card {
+    display: flex;
+    gap: .5rem;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+
+  .card-select {
+    flex: 0 0 auto;
+    background-color: #3b4b5d;
+    border-radius: 10px;
+    border: 5px solid #3b4b5d;
+    transition: all .3s ease !important;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+  }
+
+  .card-select img {
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .camera-card{
+     margin-bottom: 20px;
+  }
+
+  .camera-card-container {
+    background-color: #1e2a3a !important;
+    min-width: 260px !important;
+    margin-top: 20px;
+    position: relative;
+    height: 30px;
+    transition: height 0.5s ease !important;
+  }
+
+  .bloom-card {
     background-color: #3b4b5d;
   }
-  .bloom-value{
+
+  .bloom-value {
     background-color: #1e2a3a;
   }
+
   .info-data-mesh,
-  .progress-bar-mesh{
-    background-color: #3b4b5d!important;
+  .progress-bar-mesh {
+    background-color: #3b4b5d !important;
   }
-  .setting-mod{
+
+  .setting-mod {
     zoom: 1.2;
   }
+
+  .switch{
+    width: 65px!important;
+    height: 30px!important;
+  }
+
+  .slider:before,
+  .slider-cam::before{
+    width: 35px!important;
+    top: 5px!important;
+    height: 20px !important;
+  }
+
+  input:checked+.slider:before,
+  input:checked+.slider-cam:before {
+    transform: translateX(20px)!important;
+}
 }
 
 @media screen and (max-width: 768px) {
   .header {
     zoom: .9;
   }
-  .camera-card-container{
-    height: 125px!important;
-    min-width: 320px!important;
+
+  .active-camera {
+    background-color: #3b4b5d !important;
+    border-radius: 8px;
+    color: #fff !important;
   }
-  .camera-card{
-    background-color: #1e2a3a!important;
-    padding: 10px!important;
+
+  .card-select img {
+    height: 133px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
   }
-  .camera-card button{
+
+  .card-select {
+    flex: 0 0 auto;
+    background-color: #1e2a3a;
+    border-radius: 10px;
+    border: 5px solid #3b4b5d;
+    transition: all .3s ease !important;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    padding: 8px;
+  }
+
+  .material-card {
+    display: flex;
+    gap: .5rem;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+
+  .material-card-container{
+    width: 320px!important;
+  }
+
+  .camera-card-container {
+    height: 165px !important;
+    min-width: 320px !important;
+  }
+
+  .camera-card {
+    background-color: #1e2a3a !important;
+    padding: 10px !important;
+    margin-bottom: 15px;
+  }
+
+  .camera-card button {
     font-size: 18px;
   }
-  .advance-setting-mod{
+
+  .advance-setting-mod {
     left: 15px;
   }
-  .toast{
-    top: 10px!important;
+
+  .toast {
+    top: 10px !important;
   }
-  #openSettingBtnAsd{
+
+  #openSettingBtnAsd {
     display: none;
     pointer-events: none;
     opacity: 0;
