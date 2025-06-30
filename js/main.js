@@ -29,6 +29,7 @@ let initialCameraTarget = new THREE.Vector3();
 let isReturningCamera = false;
 let cameraFadeAlpha = 1;
 let userIsInteracting = false;
+let isInSolidMode = false;
 
 
 let bloomParams = {
@@ -276,10 +277,18 @@ let bloomEnabled = false;
 bloomToggles.forEach(toggle => {
   toggle.checked = false;
   toggle.addEventListener('change', (e) => {
+    if (isInSolidMode && e.target.checked) {
+      showErrorToast("Effect Not Allowed", "Bloom effects is not supported ");
+      e.target.checked = false;
+      bloomToggles.forEach(t => t.checked = false);
+      return;
+    }
+
     bloomEnabled = e.target.checked;
     bloomToggles.forEach(t => t.checked = bloomEnabled);
   });
 });
+
 
 // Grid
 const gridHelper = new THREE.GridHelper(30, 20);
@@ -478,6 +487,8 @@ window.addEventListener("DOMContentLoaded", () => {
           child.castShadow = false;
           child.receiveShadow = false;
 
+          child.userData.originalMaterial = child.material.clone();
+
           const matName = child.material?.name?.toLowerCase() || "";
           if (matName.startsWith("bloom_effect")) {
             child.userData.isBloom = true;
@@ -596,7 +607,6 @@ function animateCameraBack(deltaTime) {
   }
 }
 
-
 // Animation
 function animate() {
   requestAnimationFrame(animate);
@@ -645,6 +655,58 @@ function animate() {
 }
 
 animate();
+
+function updateActiveMaterialClassByMode(mode) {
+  document.querySelectorAll('.colourfull-material, .solid-material').forEach(btn => {
+    const isActive = (mode === 'colourfull' && btn.classList.contains('colourfull-material')) ||
+                     (mode === 'solid' && btn.classList.contains('solid-material'));
+    btn.classList.toggle('active-material', isActive);
+  });
+}
+
+document.querySelectorAll('.solid-material').forEach(btn => {
+  btn.addEventListener('click', () => {
+    fadeTransitionMaterial('solid');
+  });
+});
+
+function applySolidMaterial() {
+  isInSolidMode = true;
+  updateActiveMaterialClassByMode('solid');
+
+  if (object) {
+    object.traverse(child => {
+      if (child.isMesh) {
+        child.material = new THREE.MeshStandardMaterial({
+          color: 0x808080,
+          roughness: 0.3,
+          metalness: 0.0,
+          side: THREE.DoubleSide,
+          flatShading: false,
+          transparent: true,
+          opacity: 0  // mulai dari 0, akan di-fade-in
+        });
+        child.material.needsUpdate = true;
+        child.userData.isBloom = false;
+        child.layers.disable(1);
+      }
+    });
+  }
+
+  bloomEnabled = false;
+  bloomToggles.forEach(t => t.checked = false);
+  scene.environment = null;
+  if (object) applyEnvMapToMaterials(object, null);
+}
+
+
+document.querySelectorAll('.colourfull-material').forEach(btn => {
+  btn.addEventListener('click', () => {
+    isInSolidMode = false;
+    updateActiveMaterialClassByMode('colourfull');
+    fadeTransitionMaterial('colourfull');
+  });
+});
 
 if (isReturningCamera) {
   renderer.domElement.style.opacity = cameraFadeAlpha.toFixed(2);
@@ -859,7 +921,14 @@ function loadNewModel(modelName) {
   currentAntialias = false;
   initRenderer(false);
 
-  resetSettingsToDefault(); // Tidak lagi menyentuh renderer
+  if (autoRotateEnabled) {
+    autoRotateEnabled = false;
+    rotateToggles.forEach(t => t.checked = false);
+    isReturningCamera = true;
+    cameraFadeAlpha = 0;
+  }
+
+  resetSettingsToDefault(); 
 
   setTimeout(() => {
     const newLoader = new GLTFLoader();
@@ -875,6 +944,8 @@ function loadNewModel(modelName) {
         if (child.isMesh) {
           child.castShadow = renderer.shadowMap.enabled;
           child.receiveShadow = renderer.shadowMap.enabled;
+
+          child.userData.originalMaterial = child.material.clone();
 
           // 🌟 Tandai bloom layer jika material name cocok
           const matName = child.material?.name?.toLowerCase() || "";
@@ -917,6 +988,10 @@ function loadNewModel(modelName) {
         });
       }
 
+      isInSolidMode = false;
+      updateActiveMaterialClassByMode('colourfull');
+      restoreOriginalMaterial();
+
       hideLoader();
       isModelLoading = false;
     }, undefined, (error) => {
@@ -931,6 +1006,40 @@ function loadNewModel(modelName) {
     });
   }, 5000);
 }
+
+function restoreOriginalMaterial() {
+  if (!object) return;
+
+  object.traverse((child) => {
+    if (child.isMesh && child.userData.originalMaterial) {
+      child.material = child.userData.originalMaterial.clone();
+      child.material.needsUpdate = true;
+
+      const matName = child.material?.name?.toLowerCase() || "";
+      const shouldBloom = matName.startsWith("bloom_effect") || child.userData?.isBloom;
+
+      if (shouldBloom) {
+        child.userData.isBloom = true;
+        child.layers.enable(1);
+
+        if (!child.material.emissive || child.material.emissive.equals(new THREE.Color(0x000000))) {
+          child.material.emissive = child.material.color.clone();
+          child.material.emissiveIntensity = 1.0;
+        }
+
+        child.material.needsUpdate = true;
+      } else {
+        child.userData.isBloom = false;
+        child.layers.disable(1);
+      }
+    }
+  });
+
+  const useEnvMap = Array.from(hdriToggles).some(t => t.checked) ? envMapGlobal : null;
+  scene.environment = useEnvMap;
+  applyEnvMapToMaterials(object, useEnvMap);
+}
+
 
 function updateMeshDataDisplay(model) {
   let totalVertices = 0;
@@ -1324,4 +1433,60 @@ rotateToggles.forEach(toggle => {
   });
 });
 
+function fadeTransitionMaterial(targetMode = 'solid', duration = 500) {
+  if (!object) return;
+
+  const meshes = [];
+  object.traverse(child => {
+    if (child.isMesh && child.material && 'opacity' in child.material) {
+      child.material.transparent = true;
+      meshes.push(child);
+    }
+  });
+
+  const start = performance.now();
+  const fadeOut = () => {
+    const now = performance.now();
+    const elapsed = now - start;
+    const t = Math.min(elapsed / duration, 1);
+
+    meshes.forEach(mesh => {
+      mesh.material.opacity = 1 - t;
+      mesh.material.needsUpdate = true;
+    });
+
+    if (t < 1) {
+      requestAnimationFrame(fadeOut);
+    } else {
+      // Setelah fade-out selesai, ganti material
+      if (targetMode === 'solid') {
+        applySolidMaterial();
+      } else {
+        restoreOriginalMaterial();
+      }
+      fadeIn();
+    }
+  };
+
+  const fadeIn = () => {
+    const startIn = performance.now();
+    const animateIn = () => {
+      const now = performance.now();
+      const elapsed = now - startIn;
+      const t = Math.min(elapsed / duration, 1);
+
+      meshes.forEach(mesh => {
+        mesh.material.opacity = t;
+        mesh.material.needsUpdate = true;
+      });
+
+      if (t < 1) {
+        requestAnimationFrame(animateIn);
+      }
+    };
+    animateIn();
+  };
+
+  fadeOut();
+}
 
