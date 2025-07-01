@@ -23,7 +23,7 @@ let bloomPass;
 let renderScene, finalPass;
 let renderCamera;
 let autoRotateEnabled = false;
-let autoRotateSpeed = 2.0; 
+let autoRotateSpeed = 6.0; 
 let initialCameraPosition = new THREE.Vector3();
 let initialCameraTarget = new THREE.Vector3();
 let isReturningCamera = false;
