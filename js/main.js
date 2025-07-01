@@ -194,13 +194,14 @@ function initRenderer(antialias = false) {
   controls.maxDistance = 20;
   controls.enablePan = false;
   controls.autoRotate = autoRotateEnabled;
+
   controls.autoRotateSpeed = autoRotateSpeed * autoRotateDirection;
 
-controls.addEventListener('start', () => {
-  userIsInteracting = true;
-  isReturningCamera = false;
-  lastAzimuthalAngle = controls.getAzimuthalAngle(); // simpan sudut awal
-});
+  controls.addEventListener('start', () => {
+    userIsInteracting = true;
+    isReturningCamera = false;
+    lastAzimuthalAngle = controls.getAzimuthalAngle(); 
+  });
 
   controls.addEventListener('change', () => {
     const currentAzimuthalAngle = controls.getAzimuthalAngle();
@@ -302,7 +303,6 @@ bloomToggles.forEach(toggle => {
     bloomToggles.forEach(t => t.checked = bloomEnabled);
   });
 });
-
 
 // Grid
 const gridHelper = new THREE.GridHelper(30, 20);
@@ -408,7 +408,6 @@ function applyGlassAndMetalMaterial(child) {
   const isMetal = matName.includes("metal") || child.material.metalness > 0;
   const isBloom = child.userData?.isBloom === true || matName === "bloom_effect";
 
-  // ✅ Terapkan bloom layer hanya jika perlu
   if (isBloom) {
     child.userData.isBloom = true;
     child.layers.enable(1);
@@ -418,14 +417,12 @@ function applyGlassAndMetalMaterial(child) {
       child.material.emissiveIntensity = 1.0;
       child.material.needsUpdate = true;
     }
+  } else {
+    child.userData.isBloom = false;
+    child.layers.disable(1);
   }
 
-  if (!isBloom) {
-    child.material.transparent = false;
-    child.material.depthWrite = true;
-    child.material.depthTest = true;
-    child.material.needsUpdate = true;
-  }
+  const useEnvMap = envMapGlobal ?? null;
 
   if (isGlass) {
     child.material = new THREE.MeshPhysicalMaterial({
@@ -438,22 +435,32 @@ function applyGlassAndMetalMaterial(child) {
       clearcoat: 1.0,
       clearcoatRoughness: 0.05,
       reflectivity: 0.15,
-      transparent: true,      
+      transparent: true,
       opacity: 1,
       side: THREE.DoubleSide,
-      envMap: envMapGlobal,
-      envMapIntensity: 1.0,
-      depthWrite: false       
+      envMap: useEnvMap,
+      envMapIntensity: useEnvMap ? 1.0 : 0,
+      depthWrite: false
     });
   }
 
   else if (isMetal) {
-    child.material.roughness = 0.1;
-    child.material.metalness = 1.0;
-    child.material.envMapIntensity = 0.3;
-    child.material.needsUpdate = true;
+    child.material = new THREE.MeshPhysicalMaterial({
+      color: child.material.color || 0xffffff,
+      metalness: 0.5,
+      roughness: 0.05, 
+      reflectivity: 0.8,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.02,
+      side: THREE.DoubleSide,
+      envMap: useEnvMap,
+      envMapIntensity: useEnvMap ? 1.0 : 0
+    });
   }
+
+  child.userData.originalMaterial = child.material.clone();
 }
+
 
 function setCameraFrontTop(model) {
   const box = new THREE.Box3().setFromObject(model);
@@ -472,6 +479,8 @@ function setCameraFrontTop(model) {
   renderCamera.position.set(x, y, z);
   renderCamera.lookAt(center);
 
+  controls.object = renderCamera;
+  controls.update();
 
   controls.target.copy(center);
   controls.update();
@@ -938,6 +947,11 @@ function loadNewModel(modelName) {
   showLoader();
   removeCurrentModel();
 
+  if (renderCamera?.isOrthographicCamera) {
+    switchCameraMode('perspective');
+    updateActiveCameraClassByMode('perspective');
+  }
+
   bloomToggles.checked = false;
   bloomEnabled = false;
 
@@ -951,6 +965,9 @@ function loadNewModel(modelName) {
     isReturningCamera = true;
     cameraFadeAlpha = 0;
   }
+
+  controls.autoRotate = autoRotateEnabled;
+  controls.autoRotateSpeed = autoRotateSpeed * autoRotateDirection;
 
   resetSettingsToDefault(); 
 
@@ -1039,23 +1056,7 @@ function restoreOriginalMaterial() {
       child.material = child.userData.originalMaterial.clone();
       child.material.needsUpdate = true;
 
-      const matName = child.material?.name?.toLowerCase() || "";
-      const shouldBloom = matName.startsWith("bloom_effect") || child.userData?.isBloom;
-
-      if (shouldBloom) {
-        child.userData.isBloom = true;
-        child.layers.enable(1);
-
-        if (!child.material.emissive || child.material.emissive.equals(new THREE.Color(0x000000))) {
-          child.material.emissive = child.material.color.clone();
-          child.material.emissiveIntensity = 1.0;
-        }
-
-        child.material.needsUpdate = true;
-      } else {
-        child.userData.isBloom = false;
-        child.layers.disable(1);
-      }
+      applyGlassAndMetalMaterial(child);
     }
   });
 
@@ -1063,7 +1064,6 @@ function restoreOriginalMaterial() {
   scene.environment = useEnvMap;
   applyEnvMapToMaterials(object, useEnvMap);
 }
-
 
 function updateMeshDataDisplay(model) {
   let totalVertices = 0;
