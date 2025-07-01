@@ -23,13 +23,17 @@ let bloomPass;
 let renderScene, finalPass;
 let renderCamera;
 let autoRotateEnabled = false;
-let autoRotateSpeed = 0.5; 
+let autoRotateSpeed = 2.0; 
 let initialCameraPosition = new THREE.Vector3();
 let initialCameraTarget = new THREE.Vector3();
 let isReturningCamera = false;
 let cameraFadeAlpha = 1;
 let userIsInteracting = false;
 let isInSolidMode = false;
+let autoRotateDirection = 1;
+let lastAzimuthalAngle = 0;
+let lastHorizontalDelta = 0;
+let lastInteractionTime = 0;
 
 
 let bloomParams = {
@@ -117,8 +121,6 @@ function updateActiveCameraClassByMode(mode) {
   });
 }
 
-
-
 let renderer;
 let controls;
 
@@ -191,10 +193,22 @@ function initRenderer(antialias = false) {
   controls.minDistance = 5;
   controls.maxDistance = 20;
   controls.enablePan = false;
+  controls.autoRotate = autoRotateEnabled;
+  controls.autoRotateSpeed = autoRotateSpeed * autoRotateDirection;
 
-  controls.addEventListener('start', () => {
-    userIsInteracting = true;
-    isReturningCamera = false;
+controls.addEventListener('start', () => {
+  userIsInteracting = true;
+  isReturningCamera = false;
+  lastAzimuthalAngle = controls.getAzimuthalAngle(); // simpan sudut awal
+});
+
+  controls.addEventListener('change', () => {
+    const currentAzimuthalAngle = controls.getAzimuthalAngle();
+    const delta = currentAzimuthalAngle - lastAzimuthalAngle;
+    lastAzimuthalAngle = currentAzimuthalAngle;
+
+    lastHorizontalDelta = delta;
+    lastInteractionTime = performance.now();
   });
 
   controls.addEventListener('end', () => {
@@ -617,17 +631,18 @@ function animate() {
   animateCameraBack(deltaTime);
 
   if (autoRotateEnabled && controls) {
-    const angle = autoRotateSpeed * deltaTime;
-    const axis = new THREE.Vector3(0, 1, 0);
+    const now = performance.now();
+    const timeSinceLastInteraction = now - lastInteractionTime;
 
-    const cam = controls.object;
-    const target = controls.target;
+    // Ubah arah jika user baru saja geser horizontal
+    if (timeSinceLastInteraction < 300 && Math.abs(lastHorizontalDelta) > 0.001) {
+      autoRotateDirection = lastHorizontalDelta > 0 ? -1 : 1;
+      controls.autoRotateSpeed = autoRotateSpeed * autoRotateDirection;
+    }
 
-    const offset = new THREE.Vector3().subVectors(cam.position, target);
-    offset.applyAxisAngle(axis, angle);
-    cam.position.copy(target).add(offset);
-    cam.lookAt(target);
+    controls.autoRotate = true; // pastikan aktif
   }
+
 
 
   if (gridHelper.material.opacity !== gridFadeTarget) {
@@ -674,6 +689,9 @@ function applySolidMaterial() {
   isInSolidMode = true;
   updateActiveMaterialClassByMode('solid');
 
+  const useHDRI = Array.from(hdriToggles).some(t => t.checked);
+  const useEnvMap = useHDRI ? envMapGlobal : null;
+
   if (object) {
     object.traverse(child => {
       if (child.isMesh) {
@@ -684,9 +702,14 @@ function applySolidMaterial() {
           side: THREE.DoubleSide,
           flatShading: false,
           transparent: true,
-          opacity: 0  // mulai dari 0, akan di-fade-in
+          opacity: 0
         });
+
+        // Tambahkan envMap jika HDRI masih aktif
+        child.material.envMap = useEnvMap;
+        child.material.envMapIntensity = 0.3;
         child.material.needsUpdate = true;
+
         child.userData.isBloom = false;
         child.layers.disable(1);
       }
@@ -695,9 +718,10 @@ function applySolidMaterial() {
 
   bloomEnabled = false;
   bloomToggles.forEach(t => t.checked = false);
-  scene.environment = null;
-  if (object) applyEnvMapToMaterials(object, null);
+
+  scene.environment = useEnvMap;
 }
+
 
 
 document.querySelectorAll('.colourfull-material').forEach(btn => {
@@ -1418,15 +1442,15 @@ rotateToggles.forEach(toggle => {
   toggle.addEventListener('change', (e) => {
     const enabled = e.target.checked;
     autoRotateEnabled = enabled;
+    controls.autoRotate = enabled;
+    controls.autoRotateSpeed = autoRotateSpeed * autoRotateDirection;
     rotateToggles.forEach(t => t.checked = enabled);
 
     if (enabled) {
-      // 🟢 Hentikan animasi balik, pulihkan opacity
       isReturningCamera = false;
       cameraFadeAlpha = 1;
       renderer.domElement.style.opacity = '1';
     } else {
-      // 🔴 Mulai transisi balik kamera
       isReturningCamera = true;
       cameraFadeAlpha = 0;
     }
