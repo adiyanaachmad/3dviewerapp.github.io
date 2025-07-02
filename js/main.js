@@ -273,6 +273,8 @@ function initRenderer(antialias = false) {
   bloomComposer.addPass(bloomPass);
   bloomComposer.setPixelRatio(window.devicePixelRatio);
   bloomComposer.setSize(window.innerWidth, window.innerHeight);
+  bloomComposer.renderTarget1.depthBuffer = true;
+  bloomComposer.renderTarget2.depthBuffer = true;
 
   finalPass = new ShaderPass(AdditiveBlendShader);
   finalPass.uniforms['tAdd'].value = bloomComposer.renderTarget2.texture;
@@ -1056,6 +1058,11 @@ function restoreOriginalMaterial() {
       child.material = child.userData.originalMaterial.clone();
       child.material.needsUpdate = true;
 
+      const matName = child.userData.originalMaterial.name?.toLowerCase() || "";
+      if (matName.startsWith("bloom_effect")) {
+        child.userData.isBloom = true;
+      }
+
       applyGlassAndMetalMaterial(child);
     }
   });
@@ -1064,6 +1071,7 @@ function restoreOriginalMaterial() {
   scene.environment = useEnvMap;
   applyEnvMapToMaterials(object, useEnvMap);
 }
+
 
 function updateMeshDataDisplay(model) {
   let totalVertices = 0;
@@ -1403,6 +1411,8 @@ function darkenNonBloomed(obj) {
     if (child.isMesh && bloomLayer.test(child.layers) === false) {
       materials[child.uuid] = child.material;
       child.material = darkMaterial;
+
+      child.layers.enable(1);
     }
   });
 }
@@ -1412,6 +1422,9 @@ function restoreMaterials(obj) {
     if (child.isMesh && materials[child.uuid]) {
       child.material = materials[child.uuid];
       delete materials[child.uuid];
+      if (!child.userData.isBloom) {
+        child.layers.disable(1);
+      }
     }
   });
 }
