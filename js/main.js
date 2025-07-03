@@ -347,7 +347,7 @@ let envMapGlobal = null;
 
 new RGBELoader()
   .setPath('./hdr/')
-  .load('paul_lobe_haus_4k.hdr', (texture) => {
+  .load('paul_lobe_haus_2k.hdr', (texture) => {
     hdrTexture = texture;
 
     const newPMREM = new THREE.PMREMGenerator(renderer);
