@@ -37,7 +37,7 @@
       <button class="active">3D Model</button>
     </nav> -->
     <div class="header-right">
-      <button class="menu-btn animate-btn" id="openSettingDasboard">
+      <button class="menu-btn animate-btn sound-init" id="openSettingDasboard">
         <i class="fa-solid fa-grid-horizontal"></i>
       </button>
     </div>
@@ -64,31 +64,31 @@
     <div class="title-model">
       <h2 class="model-title">Mini Stadium</h2>
       <div class="title-btn">
-        <button class="menu-btn-rex animate-btn close-btn-lr" id="closhMeshData">
+        <button class="menu-btn-rex animate-btn close-btn-lr sound-init" id="closhMeshData">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
     </div>
     <div class="panel-body-image">
       <div class="card-container card-container-desktop">
-        <div class="card group-1 active-model" data-model="Mini Stadium">
+        <div class="card group-1 active-model sound-init" data-model="Mini Stadium">
           <img src="img/stadion 800-800.webp" alt="Card Image 1">
         </div>
-        <div class="card group-1" data-model="Clock">
+        <div class="card group-1 sound-init" data-model="Clock">
           <img src="img/clock 800-800.webp" alt="Card Image 2">
         </div>
-        <div class="card group-1" data-model="Living Room">
+        <div class="card group-1 sound-init" data-model="Living Room">
           <img src="img/living 800-800.webp" alt="Card Image 3">
         </div>
-        <div class="card group-1" data-model="Game Room">
+        <div class="card group-1 sound-init" data-model="Game Room">
           <img src="img/Retro Game Room 800-800 Final.webp" alt="Card Image 4">
         </div>
       </div>
       <div class="card-container card-container-desktop">
-        <div class="card group-1" data-model="Fox">
+        <div class="card group-1 sound-init" data-model="Fox">
         <img src="img/fox 800-800.webp" alt="Card Image 5">
         </div>
-        <div class="card group-1" data-model="Lion Bear">
+        <div class="card group-1 sound-init" data-model="Lion Bear">
           <img src="img/untitled.png" alt="Card Image 6">
         </div>
       </div>
@@ -96,7 +96,7 @@
     <div class="card-mesh"  id="cardMeshDesktop">
       <div class="card-header-mesh">
         <h2>Mesh Data</h2>
-        <div class="close-mesh-data" id="meshDataVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
+        <div class="close-mesh-data sound-init" id="meshDataVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
       </div>
 
       <div class="info-data-mesh">
@@ -137,7 +137,7 @@
     <div class="bloom-card-container" id="bloomCard">
       <div class="bloom-card-header-container">
         <h2>Bloom Effect</h2>
-        <div class="close-mesh-data" id="meshDataVisibleBloom" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
+        <div class="close-mesh-data sound-init" id="meshDataVisibleBloom" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
       </div>
       <!-- <div class="info-data-mesh">
         <div class="total-fps">0</div>
@@ -148,7 +148,7 @@
           <span class="bloom-value">2.60</span>
         </div>
         <div class="slider-bloom">
-          <input type="range" id="bloomStrengthDesktop" class="bloom-strength" min="0" max="5" step="0.1" value="2.6">
+          <input type="range" id="bloomStrengthDesktop" class="bloom-strength sound-init" min="0" max="5" step="0.1" value="2.6">
         </div>
       </div>
       <div class="bloom-card">
@@ -157,7 +157,7 @@
           <span class="bloom-value">0.60</span>
         </div>
         <div class="slider-bloom">
-          <input type="range" id="bloomRadiusDesktop" class="bloom-radius" min="0" max="1.5" step="0.01" value="0.6">
+          <input type="range" id="bloomRadiusDesktop" class="bloom-radius sound-init" min="0" max="1.5" step="0.01" value="0.6">
         </div>
       </div>
       <div class="bloom-card">
@@ -166,23 +166,23 @@
           <span class="bloom-value">0.00</span>
         </div>
         <div class="slider-bloom">
-          <input type="range" id="bloomThresholdDesktop" class="bloom-threshold" min="0" max="1" step="0.01" value="0.6">
+          <input type="range" id="bloomThresholdDesktop" class="bloom-threshold sound-init" min="0" max="1" step="0.01" value="0.6">
         </div>
       </div>
     </div>
     <div class="camera-card-container" id="cameraCard">
       <div class="camera-card-header">
         <h2>Camera</h2>
-        <div class="close-mesh-data" id="cameraVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
+        <div class="close-mesh-data sound-init" id="cameraVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
       </div>
       <div class="camera-card">
-        <button class="per-mode active-camera">Perspective</button>
-        <button class="orto-mode">Ortographic</button>
+        <button class="per-mode active-camera sound-init">Perspective</button>
+        <button class="orto-mode sound-init">Ortographic</button>
       </div>
       <div class="camera-card-header">
         <h2>Auto Rotate</h2>
         <label class="switch">
-          <input type="checkbox" id="rotateToggle" class="rotate-toggle">
+          <input type="checkbox" id="rotateToggle" class="rotate-toggle sound-init">
           <span class="slider-cam"></span>
         </label>
       </div>
@@ -190,13 +190,13 @@
     <div class="material-card-container" id="materialCard">
       <div class="material-card-header">
         <h2>Material</h2>
-        <div class="close-mesh-data" id="materialVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
+        <div class="close-mesh-data sound-init" id="materialVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
       </div>
       <div class="material-card">
-        <div class="card-select colourfull-material active-material">
+        <div class="card-select colourfull-material active-material sound-init">
           <img src="img/DefaultMaterial.webp" alt="">
         </div>
-        <div class="card-select solid-material">
+        <div class="card-select solid-material sound-init">
           <img src="img/PlasticMoldWorn.webp" alt="">
         </div>
       </div>
@@ -209,28 +209,28 @@
         <div class="header-view-mod">
           <h3>Antialiasing</h3>
           <label class="switch">
-            <input type="checkbox" id="antialiasingToggleDesktop" class="aa-toggle">
+            <input type="checkbox" id="antialiasingToggleDesktop" class="aa-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
         <div class="header-view-mod">
           <h3>Grid</h3>
           <label class="switch">
-            <input type="checkbox" id="gridToggleDesktop" class="grid-toggle">
+            <input type="checkbox" id="gridToggleDesktop" class="grid-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
         <div class="header-view-mod">
           <h3>HDRI Lighting</h3>
           <label class="switch">
-            <input type="checkbox" id="hdriToggleDesktop" class="hdri-toggle">
+            <input type="checkbox" id="hdriToggleDesktop" class="hdri-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
         <div class="header-view-mod">
           <h3>Bloom Effect</h3>
           <label class="switch">
-            <input type="checkbox" id="bloomToggleDesktop" class="bloom-toggle">
+            <input type="checkbox" id="bloomToggleDesktop" class="bloom-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
@@ -240,24 +240,24 @@
         <div class="header-animate-speed">
           <h3>Shadow Resolution</h3>
           <label class="switch">
-            <input type="checkbox" id="shadowToggleDesktop" class="shadow-toggle">
+            <input type="checkbox" id="shadowToggleDesktop" class="shadow-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
         <div class="vertical-level-shadow" data-default="Low">
-          <div class="v-circle-shadow" data-level="Low">L</div>
+          <div class="v-circle-shadow sound-init" data-level="Low">L</div>
           <div class="v-line-wrapper-shadow">
             <div class="v-line-shadow"></div>
           </div>
-          <div class="v-circle-shadow" data-level="Medium">M</div>
+          <div class="v-circle-shadow sound-init" data-level="Medium">M</div>
           <div class="v-line-wrapper-shadow">
             <div class="v-line-shadow"></div>
           </div>
-          <div class="v-circle-shadow" data-level="High">H</div>
+          <div class="v-circle-shadow sound-init" data-level="High">H</div>
           <div class="v-line-wrapper-shadow">
             <div class="v-line-shadow"></div>
           </div>
-          <div class="v-circle-shadow" data-level="Ultra">U</div>
+          <div class="v-circle-shadow sound-init" data-level="Ultra">U</div>
         </div>
       </div>
 
@@ -265,24 +265,24 @@
         <div class="header-animate-speed">
           <h3>Animation Speed</h3>
           <label class="switch">
-            <input type="checkbox" id="animationToggleDesktop" class="animation-toggle">
+            <input type="checkbox" id="animationToggleDesktop" class="animation-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
         <div class="vertical-level-selector" data-default="0.5">
-          <div class="v-circle" data-level="0.5">0.5</div>
+          <div class="v-circle sound-init " data-level="0.5">0.5</div>
           <div class="v-line-wrapper">
             <div class="v-line"></div>
           </div>
-          <div class="v-circle" data-level="1.0">1.0</div>
+          <div class="v-circle sound-init" data-level="1.0">1.0</div>
           <div class="v-line-wrapper">
             <div class="v-line"></div>
           </div>
-          <div class="v-circle" data-level="1.5">1.5</div>
+          <div class="v-circle sound-init" data-level="1.5">1.5</div>
           <div class="v-line-wrapper">
             <div class="v-line"></div>
           </div>
-          <div class="v-circle" data-level="2.0">2.0</div>
+          <div class="v-circle sound-init" data-level="2.0">2.0</div>
         </div>
       </div>
     </div>
@@ -293,28 +293,28 @@
       <div class="title-model">
         <h2 class="model-title">Mini Stadium</h2>
         <div class="title-btn">
-          <button class="menu-btn-rex animate-btn close-btn-lr" id="closhMeshData">
+          <button class="menu-btn-rex animate-btn close-btn-lr sound-init" id="closhMeshData">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
       </div>
       <div class="card-container">
-        <div class="card group-1 active-model" data-model="Mini Stadium">
+        <div class="card group-1 active-model sound-init" data-model="Mini Stadium">
           <img src="img/stadion 800-800.webp" alt="Card Image 1">
         </div>
-        <div class="card group-1" data-model="Clock">
+        <div class="card group-1 sound-init" data-model="Clock">
           <img src="img/clock 800-800.webp" alt="Card Image 2">
         </div>
-        <div class="card group-1" data-model="Living Room">
+        <div class="card group-1 sound-init" data-model="Living Room">
           <img src="img/living 800-800.webp" alt="Card Image 3">
         </div>
-        <div class="card group-1" data-model="Game Room">
+        <div class="card group-1 sound-init" data-model="Game Room">
           <img src="img/Retro Game Room 800-800 Final.webp" alt="Card Image 4">
         </div>
-        <div class="card group-1" data-model="Fox">
+        <div class="card group-1 sound-init" data-model="Fox">
           <img src="img/fox 800-800.webp" alt="Card Image 5">
         </div>
-        <div class="card group-1" data-model="Lion Bear">
+        <div class="card group-1 sound-init" data-model="Lion Bear">
           <img src="img/untitled.png" alt="Card Image 6">
         </div>
       </div>
@@ -368,21 +368,21 @@
         <div class="header-view-mod">
           <h3>Antialiasing</h3>
           <label class="switch">
-            <input type="checkbox" id="antialiasingToggleMobile" class="aa-toggle">
+            <input type="checkbox" id="antialiasingToggleMobile" class="aa-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
         <div class="header-view-mod">
           <h3>Grid</h3>
           <label class="switch">
-            <input type="checkbox" id="gridToggleMobile" class="grid-toggle">
+            <input type="checkbox" id="gridToggleMobile" class="grid-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
         <div class="header-view-mod">
           <h3>HDRI Lighting</h3>
           <label class="switch">
-            <input type="checkbox" id="hdriToggleMobile" class="hdri-toggle">
+            <input type="checkbox" id="hdriToggleMobile" class="hdri-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
@@ -392,24 +392,24 @@
         <div class="header-animate-speed">
           <h3>Shadow Resolution</h3>
           <label class="switch">
-            <input type="checkbox" id="shadowToggleMobile" class="shadow-toggle">
+            <input type="checkbox" id="shadowToggleMobile" class="shadow-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
         <div class="vertical-level-shadow" data-default="Low">
-          <div class="v-circle-shadow" data-level="Low">L</div>
+          <div class="v-circle-shadow sound-init" data-level="Low">L</div>
           <div class="v-line-wrapper-shadow">
             <div class="v-line-shadow"></div>
           </div>
-          <div class="v-circle-shadow" data-level="Medium">M</div>
+          <div class="v-circle-shadow sound-init" data-level="Medium">M</div>
           <div class="v-line-wrapper-shadow">
             <div class="v-line-shadow"></div>
           </div>
-          <div class="v-circle-shadow" data-level="High">H</div>
+          <div class="v-circle-shadow sound-init" data-level="High">H</div>
           <div class="v-line-wrapper-shadow">
             <div class="v-line-shadow"></div>
           </div>
-          <div class="v-circle-shadow" data-level="Ultra">U</div>
+          <div class="v-circle-shadow sound-init" data-level="Ultra">U</div>
         </div>
       </div>
 
@@ -417,24 +417,24 @@
         <div class="header-animate-speed">
           <h3>Animation Speed</h3>
           <label class="switch">
-            <input type="checkbox" id="animationToggleMobile" class="animation-toggle">
+            <input type="checkbox" id="animationToggleMobile" class="animation-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
         <div class="vertical-level-selector" data-default="0.5">
-          <div class="v-circle" data-level="0.5">0.5</div>
+          <div class="v-circle sound-init" data-level="0.5">0.5</div>
           <div class="v-line-wrapper">
             <div class="v-line"></div>
           </div>
-          <div class="v-circle" data-level="1.0">1.0</div>
+          <div class="v-circle sound-init" data-level="1.0">1.0</div>
           <div class="v-line-wrapper">
             <div class="v-line"></div>
           </div>
-          <div class="v-circle" data-level="1.5">1.5</div>
+          <div class="v-circle sound-init" data-level="1.5">1.5</div>
           <div class="v-line-wrapper">
             <div class="v-line"></div>
           </div>
-          <div class="v-circle" data-level="2.0">2.0</div>
+          <div class="v-circle sound-init" data-level="2.0">2.0</div>
         </div>
       </div>
     </div>
@@ -443,7 +443,7 @@
       <div class="card-header-mesh">
         <h2>Bloom Effect</h2>
         <label class="switch">
-          <input type="checkbox" id="bloomToggleMobile" class="bloom-toggle">
+          <input type="checkbox" id="bloomToggleMobile" class="bloom-toggle sound-init">
           <span class="slider"></span>
         </label>
       </div>
@@ -456,7 +456,7 @@
           <span class="bloom-value">2.60</span>
         </div>
         <div class="slider-bloom">
-          <input type="range" id="bloomStrengthMobile" class="bloom-strength" min="0" max="5" step="0.1" value="2.6">
+          <input type="range" id="bloomStrengthMobile" class="bloom-strength sound-init" min="0" max="5" step="0.1" value="2.6">
         </div>
       </div>
       <div class="bloom-card">
@@ -465,7 +465,7 @@
           <span class="bloom-value">0.60</span>
         </div>
         <div class="slider-bloom">
-          <input type="range" id="bloomRadiusMobile" class="bloom-radius" min="0" max="1.5" step="0.01" value="0.6">
+          <input type="range" id="bloomRadiusMobile" class="bloom-radius sound-init" min="0" max="1.5" step="0.01" value="0.6">
         </div>
       </div>
       <div class="bloom-card">
@@ -474,7 +474,7 @@
           <span class="bloom-value">0.00</span>
         </div>
         <div class="slider-bloom">
-          <input type="range" id="bloomThresholdMobile" class="bloom-threshold" min="0" max="1" step="0.01" value="0.6">
+          <input type="range" id="bloomThresholdMobile" class="bloom-threshold sound-init" min="0" max="1" step="0.01" value="0.6">
         </div>
       </div>
     </div>
@@ -482,16 +482,16 @@
       <div class="camera-card-container" id="cameraCard">
         <div class="camera-card-header">
           <h2>Camera</h2>
-          <div class="close-mesh-data" id="cameraVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-minus"></i></div>
+          <div class="close-mesh-data sound-init" id="cameraVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-minus"></i></div>
         </div>
         <div class="camera-card">
-          <button class="per-mode active-camera">Perspective</button>
-          <button class="orto-mode">Ortographic</button>
+          <button class="per-mode active-camera sound-init">Perspective</button>
+          <button class="orto-mode sound-init">Ortographic</button>
         </div>
         <div class="camera-card-header">
           <h2>Auto Rotate</h2>
           <label class="switch">
-            <input type="checkbox" id="rotateToggle" class="rotate-toggle">
+            <input type="checkbox" id="rotateToggle" class="rotate-toggle sound-init">
             <span class="slider"></span>
           </label>
         </div>
@@ -499,13 +499,13 @@
       <div class="material-card-container"  style="margin-top: 20px;" id="materialCard">
         <div class="material-card-header">
           <h2>Material</h2>
-          <div class="close-mesh-data" id="materialVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
+          <div class="close-mesh-data" id="materialVisible" style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-minus"></i></div>
         </div>
         <div class="material-card">
-          <div class="card-select colourfull-material active-material">
+          <div class="card-select colourfull-material active-material sound-init">
             <img src="img/DefaultMaterial.webp" alt="">
           </div>
-          <div class="card-select solid-material">
+          <div class="card-select solid-material sound-init">
             <img src="img/PlasticMoldWorn.webp" alt="">
           </div>
         </div>
