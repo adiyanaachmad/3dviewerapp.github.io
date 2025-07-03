@@ -171,7 +171,7 @@ function initRenderer(antialias = false) {
   }
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias });
-  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 0);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputEncoding = THREE.sRGBEncoding;
@@ -271,7 +271,7 @@ function initRenderer(antialias = false) {
   bloomComposer.renderToScreen = false;
   bloomComposer.addPass(renderScene);
   bloomComposer.addPass(bloomPass);
-  bloomComposer.setPixelRatio(window.devicePixelRatio);
+  bloomComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   bloomComposer.setSize(window.innerWidth, window.innerHeight);
   bloomComposer.renderTarget1.depthBuffer = true;
   bloomComposer.renderTarget2.depthBuffer = true;
@@ -283,6 +283,8 @@ function initRenderer(antialias = false) {
   finalComposer.renderToScreen = true;
   finalComposer.addPass(new RenderPass(scene, renderCamera));
   finalComposer.addPass(finalPass);
+  finalComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  finalComposer.setSize(window.innerWidth, window.innerHeight);
 }
 
 initRenderer(false);
