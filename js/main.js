@@ -430,7 +430,7 @@ function applyGlassAndMetalMaterial(child) {
 
   if (isGlass) {
     child.material = new THREE.MeshPhysicalMaterial({
-      color: child.material.color || 0xffffff,
+      color: child.material.color || fffffffff,
       metalness: 0,
       roughness: 0,
       transmission: 1.0,
