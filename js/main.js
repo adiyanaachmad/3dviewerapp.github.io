@@ -8,6 +8,7 @@ import { RenderPass } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/p
 import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/postprocessing/ShaderPass.js';
 
+
 // Global Default
 let swingEnabled = false;
 let swingSpeed = 0.5;
@@ -119,6 +120,20 @@ function updateActiveCameraClassByMode(mode) {
                      (mode === 'ortho' && btn.classList.contains('orto-mode'));
     btn.classList.toggle('active-camera', isActive);
   });
+}
+
+function updateModelCredit(modelName) {
+  const credit = modelCredits[modelName];
+  if (!credit) return;
+
+  const modelNameEl = document.querySelector(".model-name-credit");
+  const creatorLink = document.querySelector(".creator-link");
+
+  if (modelNameEl) modelNameEl.textContent = modelName;
+  if (creatorLink) {
+    creatorLink.textContent = credit.creator;
+    creatorLink.href = credit.url;
+  }
 }
 
 let renderer;
@@ -493,13 +508,15 @@ function setCameraFrontTop(model) {
   initialCameraTarget.copy(center);
 }
 
-
 const loader = new GLTFLoader();
+
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.3/');
+
 loader.setDRACOLoader(dracoLoader);
 
-const objToRender = 'Mini Stadium';
+
+const objToRender = 'Soccer Icon';
 
 window.addEventListener("DOMContentLoaded", () => {
   showLoader();
@@ -1006,6 +1023,7 @@ function loadNewModel(modelName) {
       setCameraFrontTop(object);
       updateMeshDataDisplay(object);
       updateTitleWithAnimation(modelName);
+      updateModelCredit(modelName);
 
       // 🌍 HDRI
       const useEnvMap = hdriToggles.checked ? envMapGlobal : null;
@@ -1529,3 +1547,38 @@ function fadeTransitionMaterial(targetMode = 'solid', duration = 500) {
   fadeOut();
 }
 
+const modelCredits = {
+  "Soccer Icon": { creator: "Polygon Runway", url: "https://www.youtube.com/@polygonrunway" },
+  "Clock": { creator: "Polygon Runway", url: "https://www.youtube.com/@polygonrunway" },
+  "Living Room": { creator: "3DGreenhorn", url: "https://www.youtube.com/@3dgreenhorn" },
+  "Game Room": { creator: "Polygon Runway", url: "https://www.youtube.com/@polygonrunway" },
+  "Fox": { creator: "Ksenia Starkova", url: "https://www.youtube.com/@KseniaStarkova" },
+  "Lion Bear": { creator: "Fullsworld", url: "https://www.youtube.com/@fullsworld" },
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+  window.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+    showErrorToast("Access denied", "Developer tools detected.");
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (
+      e.key === "F12" ||
+      (e.ctrlKey && e.shiftKey && e.key === "I") ||
+      (e.ctrlKey && e.key === "U") ||
+      (e.ctrlKey && e.shiftKey && e.key === "J")
+    ) {
+      e.preventDefault();
+    }
+  });
+
+  setInterval(function () {
+    if (
+      window.outerHeight - window.innerHeight > 100 ||
+      window.outerWidth - window.innerWidth > 100
+    ) {
+      document.body.innerHTML = "<h1 style='text-align:center; margin-top:50px;'>Developer tools detected. Access denied.</h1>";
+    }
+  }, 1000);
+});

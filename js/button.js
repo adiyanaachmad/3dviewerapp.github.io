@@ -7,6 +7,7 @@ document.querySelectorAll('.menu-btn').forEach(btn => {
 });
 
 const clickSound = new Audio('sounds/minecraft_click.mp3');
+clickSound.volume = 1.0;
 
 function playSoundEffect() {
   clickSound.currentTime = 0;

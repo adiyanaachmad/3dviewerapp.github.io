@@ -12,6 +12,42 @@ body {
   height: 100svh;
 }
 
+.credit-info {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  text-align: center;
+  padding: 8px 16px;
+  background: #3b4b5d;
+  color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  width: max-content;
+  max-width: 90%;
+}
+
+.credit-info.hidden {
+  transform: translateX(-50%) translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.creator-link{
+  color: #4ee59e;
+  text-decoration: none;
+}
+
+.card-cc h2{
+ color: white;
+ font-size: 18px;
+ margin: 0;
+ font-weight: 500;
+ font-family: "Montserrat", sans-serif;
+}
+
 .hidden {
   display: none;
   transition: .3s ease;
@@ -122,6 +158,7 @@ body {
   gap: 20px;
   position: fixed;
   bottom: 0px;
+  z-index: 999;
   left: 0;
   right: 0;
   padding: 20px;
@@ -347,7 +384,7 @@ main {
   position: fixed;
   bottom: 0;
   /* width: 300px; */
-  padding: 20px;
+  /* padding: 20px; */
   z-index: 9999;
   zoom: .7;
   opacity: 0;
@@ -557,7 +594,15 @@ main {
   input:checked+.slider:before,
   input:checked+.slider-cam:before {
     transform: translateX(20px)!important;
+  }
 }
+
+@media (max-width: 600px) {
+  .credit-info {
+    font-size: 12px;
+    bottom: 8px;
+    padding: 6px 12px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -613,6 +658,11 @@ main {
 
   .camera-card button {
     font-size: 18px;
+  }
+
+  .credit-info{
+    zoom: .8;
+    width: 80%;
   }
 
   .advance-setting-mod {

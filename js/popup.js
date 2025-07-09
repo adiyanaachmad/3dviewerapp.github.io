@@ -159,6 +159,8 @@ document.addEventListener("DOMContentLoaded", function () {
     handleResponsivePanel();
     handleResponsiveAdvancePanel();
 
+    toggleCreditInfo(false);
+
     requestAnimationFrame(() => {
       panelSetting.classList.add("panel-active");
     });
@@ -170,6 +172,8 @@ document.addEventListener("DOMContentLoaded", function () {
       panelSettingInfo.classList.remove("panel-active");
       panelSettingAdvance.classList.remove("panel-active");
 
+      toggleCreditInfo(true);
+      
       cardWrapper.style.opacity = "0";
       cardWrapper.style.pointerEvents = "none";
 
@@ -205,3 +209,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+function toggleCreditInfo(show = true) {
+  const creditInfo = document.querySelector(".credit-info");
+  if (!creditInfo) return;
+
+  if (show) {
+    creditInfo.classList.remove("hidden");
+  } else {
+    creditInfo.classList.add("hidden");
+  }
+}
