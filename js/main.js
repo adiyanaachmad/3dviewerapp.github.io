@@ -1154,7 +1154,7 @@ function updateMeshDataDisplay(model) {
 modelCards.forEach(card => {
   card.addEventListener('click', () => {
     if (isModelLoading) {
-      showErrorToast("Model Loading", "Please wait until the current model is fully loaded.");
+      showErrorToast("Model Loading", "Please wait while the model loads.");
       return; 
     }
 

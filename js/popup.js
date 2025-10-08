@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const allCardContainers = document.querySelectorAll(".card-container-desktop");
 
   const openBtn = document.getElementById("openSettingDasboard");
-  const closeButtons = document.querySelectorAll(".close-btn-lr"); 
+  const closeButtons = document.querySelectorAll(".close-btn-lr");
 
   const panelSetting = document.querySelector(".panel-setting");
   const panelSettingInfo = document.querySelector(".panel-setting-info");
@@ -98,9 +98,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function expandPanel(key) {
     const panel = panels[key];
 
-    let height = "440px"; 
+    let height = "440px";
     if (key === "camera") height = "165px";
-    if (key === "material") height = "180px"; 
+    if (key === "material") height = "180px";
 
     panel.container.style.height = height;
     panel.icon.classList.remove("fa-plus");
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
       panelSettingAdvance.classList.remove("panel-active");
 
       toggleCreditInfo(true);
-      
+
       cardWrapper.style.opacity = "0";
       cardWrapper.style.pointerEvents = "none";
 
@@ -220,3 +220,17 @@ function toggleCreditInfo(show = true) {
     creditInfo.classList.add("hidden");
   }
 }
+
+let i = 0;
+let blocks = document.querySelectorAll(".block-loader");
+const interval = setInterval(() => {
+  if (i == blocks.length) {
+    i = 0;
+    blocks.forEach((block) => {
+      block.style.background = "transparent";
+    });
+  } else if (blocks[i]) {
+    blocks[i].style.background = "rgb(255,255,0)";
+    i = i + 1;
+  }
+}, 250);

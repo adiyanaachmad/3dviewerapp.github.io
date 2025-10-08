@@ -355,7 +355,7 @@ main {
   background-color: #3b4b5d;
   position: fixed;
   bottom: 0;
-  top: 0;
+  /* top: 0; */
   width: 300px;
   padding: 20px;
   z-index: 9999;
@@ -677,5 +677,11 @@ main {
     display: none;
     pointer-events: none;
     opacity: 0;
+  }
+}
+
+@media screen and (min-width: 1250px){
+  .panel-setting-info{
+    top: 0;
   }
 }
