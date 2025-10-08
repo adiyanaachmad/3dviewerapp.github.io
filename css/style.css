@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
   margin: 0px;
   padding: 0px;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Quicksand", sans-serif;
   background-color: #1e2a3a;
   line-height: 1.5;
   letter-spacing: 1.5px;
@@ -24,7 +24,7 @@ body {
   background: #3b4b5d;
   color: white;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 20px;
   width: max-content;
   max-width: 90%;
 }
@@ -42,10 +42,10 @@ body {
 
 .card-cc h2{
  color: white;
- font-size: 18px;
+ font-size: 20px;
  margin: 0;
  font-weight: 500;
- font-family: "Montserrat", sans-serif;
+ font-family: "Quicksand", sans-serif;
 }
 
 .hidden {
@@ -95,7 +95,7 @@ body {
   color: white;
   padding: 12px 20px;
   border-radius: 10px;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Quicksand", sans-serif;
 }
 
 .title-model h2 {
@@ -106,7 +106,7 @@ body {
   color: #ffff;
   font-weight: 500;
   margin: 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Quicksand", sans-serif;
 }
 
 .logo {
@@ -139,7 +139,7 @@ body {
   font-size: 16px;
   cursor: pointer;
   transition: 0.3s;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Quicksand", sans-serif;
 }
 
 .nav-tabs button.active {
@@ -417,7 +417,7 @@ main {
   color: #fff;
   flex: 1;
   transition: background 0.2s;
-  font-family: "Montserrat", sans-serif;
+  font-family:"Quicksand", sans-serif;
   letter-spacing: 1.5px;
   font-weight: 500;
 }

@@ -1153,19 +1153,22 @@ function updateMeshDataDisplay(model) {
 
 modelCards.forEach(card => {
   card.addEventListener('click', () => {
-    if (isModelLoading) return;
+    if (isModelLoading) {
+      showErrorToast("Model Loading", "Please wait until the current model is fully loaded.");
+      return; 
+    }
 
     const modelName = card.dataset.model;
 
-    // Sinkronkan class active-model untuk semua card dengan model yang sama
     document.querySelectorAll('.card.group-1').forEach(c => {
       const isActive = c.dataset.model === modelName;
       c.classList.toggle('active-model', isActive);
     });
 
-    loadNewModel(modelName);
+    loadNewModel(modelName);  
   });
 });
+
 
 
 const aaToggles = document.querySelectorAll('.aa-toggle');
@@ -1387,18 +1390,15 @@ function setupBloomSliderControls() {
   const strengthSliders = document.querySelectorAll('.bloom-strength');
   const radiusSliders = document.querySelectorAll('.bloom-radius');
   const thresholdSliders = document.querySelectorAll('.bloom-threshold');
-  const strengthDisplays = document.querySelectorAll('.bloom-strength');
-  const radiusDisplays = document.querySelectorAll('.bloom-radius');
-  const thresholdDisplays = document.querySelectorAll('.bloom-threshold');
 
   function syncSliderGroup(sliders, paramKey, passKey) {
     sliders.forEach(slider => {
       slider.value = bloomParams[paramKey];
       updateSliderBackground(slider);
 
-      // Temukan elemen <span class="bloom-value"> di dalam parent .bloom-card
       const card = slider.closest('.bloom-card');
       const display = card?.querySelector('.bloom-value');
+
 
       slider.addEventListener('input', e => {
         const val = parseFloat(e.target.value);
@@ -1410,20 +1410,18 @@ function setupBloomSliderControls() {
           updateSliderBackground(s);
         });
 
-        // Update value jika ditemukan
-        document.querySelectorAll(`.bloom-${paramKey}`).forEach(otherSlider => {
-          const otherCard = otherSlider.closest('.bloom-card');
-          const otherDisplay = otherCard?.querySelector('.bloom-value');
-          if (otherDisplay) otherDisplay.textContent = val.toFixed(2);
-        });
+        if (display) {
+          display.textContent = val.toFixed(1); 
+        }
       });
     });
   }
 
-  syncSliderGroup(strengthSliders, 'strength', 'strength', strengthDisplays);
-  syncSliderGroup(radiusSliders, 'radius', 'radius', radiusDisplays);
-  syncSliderGroup(thresholdSliders, 'threshold', 'threshold', thresholdDisplays);
+  syncSliderGroup(strengthSliders, 'strength', 'strength');
+  syncSliderGroup(radiusSliders, 'radius', 'radius');
+  syncSliderGroup(thresholdSliders, 'threshold', 'threshold');
 }
+
 
 function darkenNonBloomed(obj) {
   obj.traverse((child) => {

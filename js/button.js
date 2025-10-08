@@ -9,9 +9,13 @@ document.querySelectorAll('.menu-btn').forEach(btn => {
 const clickSound = new Audio('sounds/minecraft_click.mp3');
 clickSound.volume = 1.0;
 
+clickSound.load();
+
 function playSoundEffect() {
-  clickSound.currentTime = 0;
-  clickSound.play();
+  clickSound.currentTime = 0; 
+  clickSound.play().catch(error => {
+    console.error('Gagal memutar sound:', error);
+  });
 }
 
 const soundElements = document.querySelectorAll('.sound-init');
