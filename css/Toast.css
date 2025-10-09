@@ -50,3 +50,106 @@
     color: #ffff;
     text-transform: uppercase;
 }
+
+.bottom-navbar {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 95%;
+    padding: 10px 0;
+    border-radius: 10px;
+    background: #3b4b5d;
+}
+
+.bottom-nav-out {
+    position: fixed;
+    bottom: 80px;
+    margin: .5em;
+    right: 0;
+    display: flex;
+    flex-direction: column; 
+    gap: 5px;
+}
+
+.bottom-navbar button {
+    background-color: transparent;
+    width: 50px;
+    height: 50px;
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+.bottom-nav-out button {
+    background-color: #3b4b5d;
+    width: 50px;
+    height: 50px;
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+.bottom-navbar button.active-bottom:not(.plus) {
+    transform: scale(1);
+}
+
+.bottom-navbar button.active-bottom {
+    color: #739eb2;
+    background-color: #1e2a3a;
+}
+
+.bottom-navbar button i, 
+.bottom-nav-out button i {
+    font-size: 20px;
+    pointer-events: none;
+}
+
+.bottom-navbar button.plus {
+    width: 70px;
+    height: 70px;
+    color: #fff;
+    background: #739eb2;
+    border-radius: 50%;
+    margin-top: -50px;
+    border: 5px solid #1e2a3a;
+}
+
+.bottom-navbar button.plus:hover {
+    transform: translateY(-4px);
+}
+
+.bottom-navbar .effect {
+    position: absolute;
+    width: 95%;
+    height: 50px;
+    border-radius: 10px;
+    /* background: #1e2a3a; */
+    z-index: -1;
+}
+
+.bottom-navbar .line-effect {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 5px;
+    background: #1e2a3a;
+    border-radius: 0px 0px 2px 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bottom-navbar button.active-bottom .line-effect {
+  opacity: 0;
+}
