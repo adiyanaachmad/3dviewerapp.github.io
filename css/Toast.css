@@ -65,6 +65,34 @@
     background: #3b4b5d;
 }
 
+.bottom-select {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  align-items: center;
+  justify-content: flex-start;
+  width: 95%;
+  padding: 10px 0;
+  border-radius: 10px 10px 0 0;
+  overflow-x: auto;
+  gap: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.bottom-select.show {
+  display: flex;
+  opacity: 1; 
+}
+
+.bottom-select::-webkit-scrollbar-thumb,
+.bottom-select::-webkit-scrollbar{
+    display: none;
+    position: absolute;
+}
+
 .bottom-nav-out {
     position: fixed;
     bottom: 80px;
@@ -135,10 +163,24 @@
     border-radius: 50%;
     margin-top: -50px;
     border: 5px solid #1e2a3a;
+    transition: margin-top 0.3s ease;
 }
 
-.bottom-navbar button.plus:hover {
+.bottom-navbar button.plus.clicked{
+    margin-top: 0px;
+}
+
+/* .bottom-navbar button.plus:hover {
     transform: translateY(-4px);
+} */
+
+.bottom-nav-material.hidden, 
+.bottom-nav-out.hidden {
+  display: none;
+}
+
+.bottom-nav-material, .bottom-nav-out {
+  transition: opacity 0.3s ease;
 }
 
 .bottom-navbar .effect {

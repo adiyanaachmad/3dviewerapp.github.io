@@ -234,3 +234,37 @@ const interval = setInterval(() => {
     i = i + 1;
   }
 }, 250);
+
+const toggleButton = document.getElementById("toggleMbg");
+const popup = document.getElementById("popup1");
+const toggleIcon = document.getElementById("toggleFolder");
+const bottomNavMaterial = document.querySelector(".bottom-nav-material");
+const bottomNavOut = document.querySelector(".bottom-nav-out");
+
+toggleButton.addEventListener("click", () => {
+  toggleButton.classList.toggle("clicked");
+
+  if (popup.classList.contains("show")) {
+    popup.classList.remove("show");
+    setTimeout(() => {
+      popup.style.display = "none";
+    }, 300); 
+
+    bottomNavMaterial.classList.remove("hidden");
+    bottomNavOut.classList.remove("hidden");
+
+    toggleIcon.classList.remove("fa-xmark");
+    toggleIcon.classList.add("fa-folder");
+  } else {
+    popup.style.display = "flex";
+    setTimeout(() => {
+      popup.classList.add("show");
+    }, 10); 
+
+    bottomNavMaterial.classList.add("hidden");
+    bottomNavOut.classList.add("hidden");
+
+    toggleIcon.classList.remove("fa-folder");
+    toggleIcon.classList.add("fa-xmark");
+  }
+});

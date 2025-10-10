@@ -72,24 +72,24 @@
     </div>
     <div class="panel-body-image">
       <div class="card-container card-container-desktop">
-        <div class="card group-1 active-model sound-init" data-model="Soccer Icon">
+        <div class="model-sdfr card group-1 active-model sound-init" data-model="Soccer Icon">
           <img src="img/stadion 800-800.webp" alt="Card Image 1">
         </div>
-        <div class="card group-1 sound-init" data-model="Clock">
+        <div class="model-sdfr card group-1 sound-init" data-model="Clock">
           <img src="img/clock 800-800.webp" alt="Card Image 2">
         </div>
-        <div class="card group-1 sound-init" data-model="Living Room">
+        <div class="model-sdfr card group-1 sound-init" data-model="Living Room">
           <img src="img/living 800-800.webp" alt="Card Image 3">
         </div>
-        <div class="card group-1 sound-init" data-model="Game Room">
+        <div class="model-sdfr card group-1 sound-init" data-model="Game Room">
           <img src="img/Retro Game Room 800-800 Final.webp" alt="Card Image 4">
         </div>
       </div>
-      <div class="card-container card-container-desktop">
+      <div class="model-sdfr card-container card-container-desktop">
         <div class="card group-1 sound-init" data-model="Fox">
           <img src="img/fox 800-800.webp" alt="Card Image 5">
         </div>
-        <div class="card group-1 sound-init" data-model="Lion Bear">
+        <div class="model-sdfr card group-1 sound-init" data-model="Lion Bear">
           <img src="img/untitled.png" alt="Card Image 6">
         </div>
       </div>
@@ -307,22 +307,22 @@
         </div>
       </div>
       <div class="card-container">
-        <div class="card group-1 active-model sound-init" data-model="Soccer Icon">
+        <div class="model-sdfr card group-1 active-model sound-init" data-model="Soccer Icon">
           <img src="img/stadion 800-800.webp" alt="Card Image 1">
         </div>
-        <div class="card group-1 sound-init" data-model="Clock">
+        <div class="model-sdfr card group-1 sound-init" data-model="Clock">
           <img src="img/clock 800-800.webp" alt="Card Image 2">
         </div>
-        <div class="card group-1 sound-init" data-model="Living Room">
+        <div class="model-sdfr card group-1 sound-init" data-model="Living Room">
           <img src="img/living 800-800.webp" alt="Card Image 3">
         </div>
-        <div class="card group-1 sound-init" data-model="Game Room">
+        <div class="model-sdfr card group-1 sound-init" data-model="Game Room">
           <img src="img/Retro Game Room 800-800 Final.webp" alt="Card Image 4">
         </div>
-        <div class="card group-1 sound-init" data-model="Fox">
+        <div class="model-sdfr card group-1 sound-init" data-model="Fox">
           <img src="img/fox 800-800.webp" alt="Card Image 5">
         </div>
-        <div class="card group-1 sound-init" data-model="Lion Bear">
+        <div class="model-sdfr card group-1 sound-init" data-model="Lion Bear">
           <img src="img/untitled.png" alt="Card Image 6">
         </div>
       </div>
@@ -589,9 +589,9 @@
         <div class="line-effect"></div>
         <i class="fa-solid fa-chart-simple"></i>
       </button>
-      <button class="plus">
+      <button class="plus" id="toggleMbg">
         <div class="line-effect"></div>
-        <i class="fa-solid fa-folder"></i>
+        <i class="fa-solid fa-folder" id="toggleFolder"></i>
       </button>
       <button>
         <div class="line-effect"></div>
@@ -599,11 +599,31 @@
       </button>
       <button>
         <div class="line-effect"></div>
-       <i class="fa-solid fa-user"></i>
+        <i class="fa-solid fa-user"></i>
       </button>
     </div>
-  </div>
 
+    <div class="bottom-select" id="popup1">
+      <div class="model-sdfr card-bottom group-1 active-model sound-init" data-model="Soccer Icon">
+        <img src="img/stadion 800-800.webp" alt="Card Image 1">
+      </div>
+      <div class="model-sdfr card-bottom group-1 sound-init" data-model="Clock">
+        <img src="img/clock 800-800.webp" alt="Card Image 2">
+      </div>
+      <div class="model-sdfr card-bottom group-1 sound-init" data-model="Living Room">
+        <img src="img/living 800-800.webp" alt="Card Image 3">
+      </div>
+      <div class="model-sdfr card-bottom group-1 sound-init" data-model="Game Room">
+        <img src="img/Retro Game Room 800-800 Final.webp" alt="Card Image 4">
+      </div>
+      <div class="model-sdfr card-bottom group-1 sound-init" data-model="Fox">
+        <img src="img/fox 800-800.webp" alt="Card Image 5">
+      </div>
+      <div class="model-sdfr card-bottom group-1 sound-init" data-model="Lion Bear">
+        <img src="img/untitled.png" alt="Card Image 6">
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="module" src="js/main.js"></script>
@@ -617,34 +637,34 @@
     const buttons = document.querySelectorAll('.bottom-navbar button:not(.plus)');
 
     buttons.forEach(button => {
-        button.addEventListener('click', e => {
-            const x = e.target.getBoundingClientRect().left;
-            const width = e.target.offsetWidth;
+      button.addEventListener('click', e => {
+        const x = e.target.getBoundingClientRect().left;
+        const width = e.target.offsetWidth;
 
-            buttons.forEach(btn => {
-                btn.classList.remove('active-bottom');
-            });
-
-            e.target.classList.add('active-bottom');
-
-            // Update posisi .effect dan animasi
-            anime({
-                targets: '.effect',
-                left: `${x - effect.offsetWidth / 2}px`,
-                opacity: 1,
-                duration: 600,
-                easing: 'easeInOutQuad'
-            });
-
-            // Update posisi dan lebar garis efek
-            anime({
-                targets: '.line-effect',
-                left: `${x + width / 2 - lineEffect.offsetWidth / 2}px`, // Sesuaikan garis dengan tombol yang diklik
-                width: `${width}px`, // Setel lebar garis sesuai dengan lebar tombol
-                duration: 300,
-                easing: 'easeInOutQuad'
-            });
+        buttons.forEach(btn => {
+          btn.classList.remove('active-bottom');
         });
+
+        e.target.classList.add('active-bottom');
+
+        // Update posisi .effect dan animasi
+        anime({
+          targets: '.effect',
+          left: `${x - effect.offsetWidth / 2}px`,
+          opacity: 1,
+          duration: 600,
+          easing: 'easeInOutQuad'
+        });
+
+        // Update posisi dan lebar garis efek
+        anime({
+          targets: '.line-effect',
+          left: `${x + width / 2 - lineEffect.offsetWidth / 2}px`, // Sesuaikan garis dengan tombol yang diklik
+          width: `${width}px`, // Setel lebar garis sesuai dengan lebar tombol
+          duration: 300,
+          easing: 'easeInOutQuad'
+        });
+      });
     });
 
 

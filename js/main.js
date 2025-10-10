@@ -933,7 +933,7 @@ document.querySelectorAll('.vertical-level-shadow').forEach(wrapper => {
   });
 });
 
-const modelCards = document.querySelectorAll('.card.group-1');
+const modelCards = document.querySelectorAll('.model-sdfr');
 const loaderWrapper = document.querySelector('.loader-wrapper');
 let isModelLoading = false;
 
@@ -1160,7 +1160,7 @@ modelCards.forEach(card => {
 
     const modelName = card.dataset.model;
 
-    document.querySelectorAll('.card.group-1').forEach(c => {
+    document.querySelectorAll('.model-sdfr').forEach(c => {
       const isActive = c.dataset.model === modelName;
       c.classList.toggle('active-model', isActive);
     });

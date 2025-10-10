@@ -22,13 +22,28 @@
     border: 5px solid #1e2a3a;
 }
 
+.card-bottom{
+    background: #3b4b5d;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    cursor: pointer;
+    transition: .3s ease;
+    border: 5px solid #3b4b5d;
+    min-width: 120px;
+}
+
 .card:hover,
-.card.active-model {
+.card.active-model,
+.card-bottom.active-model,
+.card-bottom:hover {
     border: 5px solid #FFA726;
 }
 
-.card img {
-    width: 100%;
+.card img,
+.card-bottom img {
+    width: 120px;
     height: 100%;
     object-fit: cover;
     display: block;

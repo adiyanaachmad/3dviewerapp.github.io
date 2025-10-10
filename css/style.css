@@ -191,6 +191,27 @@ body {
   transition: opacity 0.5s ease !important;
 }
 
+.card-wrapper-bottom {
+  flex-direction: row;
+  gap: 20px;
+  position: fixed;
+  bottom: 0px;
+  z-index: 999;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-color: #4ee59e transparent;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  zoom: .7;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease !important;
+}
+
 .card-wrapper::-webkit-scrollbar {
   height: 8px;
 }
@@ -459,6 +480,19 @@ main {
   border: 5px solid #FFA726 !important;
   border-radius: 10px;
 }
+
+.card-container-bottom {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: .5rem !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    padding: 0 !important;
+    padding-top: 20px !important;
+    transition: all 0.3s ease !important;
+    background-color: transparent !important;
+    margin-top: 0px !important;
+    flex: 0 0 auto !important;
+    width: 300px !important;
+  }
 
 @media screen and (min-width: 768px) {
   .bottom-navbar{
