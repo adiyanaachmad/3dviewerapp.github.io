@@ -110,13 +110,16 @@ body {
 }
 
 .title-bottom{
+  position: fixed;
+  left: 0;
   zoom: .7;
+  pointer-events: none;
 }
 
 .title-bottom h2 {
     background-color: #3b4b5d;
     border-radius: 10px;
-    padding: 15px 20px;
+    padding: 18px 20px;
     color: #ffff;
     font-weight: 500;
     margin: 0;

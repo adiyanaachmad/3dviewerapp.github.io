@@ -13,6 +13,28 @@
   overflow: hidden;
 }
 
+.card-mesh-bottom{
+  position: fixed;
+  background-color: #3b4b5d;
+  padding: 20px;
+  left: 0;
+  width: 245px;
+  bottom: 90px;
+  border-radius: 10px;
+  zoom: .7;
+}
+
+.card-mesh-bloom{
+  position: fixed;
+  background-color: #3b4b5d;
+  padding: 20px;
+  right: 0;
+  width: 245px;
+  bottom: 90px;
+  border-radius: 10px;
+  zoom: .7;
+}
+
 .card-header-mesh,
 .bloom-card-header-container {
     display: flex;

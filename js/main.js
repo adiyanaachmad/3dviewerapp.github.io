@@ -1120,7 +1120,7 @@ function updateMeshDataDisplay(model) {
 
   const totalAll = totalTriangles + totalVertices + meshCount;
 
-  const cardMeshContainers = document.querySelectorAll('.card-mesh');
+  const cardMeshContainers = document.querySelectorAll('.card-tri');
 
   cardMeshContainers.forEach(container => {
     const totalCountEl = container.querySelector('.total-count');
@@ -1348,7 +1348,7 @@ function showErrorToast(message1 = "Error Message", message2 = "3D model belum t
 }
 
 function updateTitleWithAnimation(newTitle) {
-  const titleEls = document.querySelectorAll('.model-title');
+  const titleEls = document.querySelectorAll('.model-judul');
   if (!titleEls.length) return;
 
   titleEls.forEach(titleEl => {

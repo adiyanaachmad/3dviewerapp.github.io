@@ -268,3 +268,43 @@ toggleButton.addEventListener("click", () => {
     toggleIcon.classList.add("fa-xmark");
   }
 });
+
+document.getElementById('toggleChart').addEventListener('click', function() {
+    const popup = document.getElementById('popup2');
+
+    if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        popup.classList.add('hide');
+        
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 500);
+    } else {
+        popup.style.display = 'flex';
+        setTimeout(() => {
+            popup.classList.remove('hide');
+            popup.classList.add('show');
+        }, 10); 
+    }
+});
+
+
+document.getElementById('toggleBm').addEventListener('click', function() {
+    const popup = document.getElementById('popup3');
+
+    if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        popup.classList.add('hide');
+        
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 500);
+    } else {
+        popup.style.display = 'flex';
+        setTimeout(() => {
+            popup.classList.remove('hide');
+            popup.classList.add('show');
+        }, 10); 
+    }
+});
+

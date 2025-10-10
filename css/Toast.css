@@ -51,7 +51,7 @@
     text-transform: uppercase;
 }
 
-.bottom-navbar {
+.bottom-navbar{
     position: fixed;
     bottom: 10px;
     left: 50%;
@@ -65,9 +65,26 @@
     background: #3b4b5d;
 }
 
+.bottom-data {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 95%;
+    padding: 10px 0;
+    border-radius: 10px;
+    background: transparent;
+    opacity: 0; 
+    transition: opacity 0.5s ease; 
+}
+
 .bottom-select {
   position: fixed;
-  bottom: 100px;
+  bottom: 93px;
   left: 50%;
   transform: translateX(-50%);
   display: none;
@@ -82,9 +99,16 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.bottom-select.show {
+.bottom-select.show,
+.bottom-data.show,
+.bottom-bloom.show {
   display: flex;
   opacity: 1; 
+}
+
+.bottom-data.hide,
+.bottom-bloom.hide {
+    opacity: 0;
 }
 
 .bottom-select::-webkit-scrollbar-thumb,
@@ -93,25 +117,54 @@
     position: absolute;
 }
 
+.bottom-adl{
+    position: fixed;
+    right: 0;
+    display: grid;
+    gap: 5px;
+}
+
 .bottom-nav-out {
     position: fixed;
-    bottom: 80px;
-    margin: .5em;
-    right: 0;
+    bottom: 153px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    flex-direction: column; 
-    gap: 5px;
+    align-items: center;
+    width: 95%;
+    padding: 10px 0;
+    border-radius: 10px;
+    background: transparent;
+}
+
+.bottom-bloom {
+    position: fixed;
+    display: none;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    width: 95%;
+    padding: 10px 0;
+    border-radius: 10px;
+    background: transparent;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .bottom-nav-material {
     position: fixed;
-    bottom: 80px;
-    margin: .5em;
-    left: 0;
+    bottom: 98px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
     display: flex;
-    flex-direction: column; 
-    gap: 5px;
     align-items: center;
+    justify-content: space-evenly;
+    width: 95%;
+    padding: 10px 0;
+    border-radius: 10px;
+    background: transparent;
 }
 
 .bottom-navbar button {
