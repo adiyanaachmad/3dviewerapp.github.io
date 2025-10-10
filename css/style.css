@@ -109,6 +109,23 @@ body {
   font-family: "Quicksand", sans-serif;
 }
 
+.title-bottom{
+  zoom: .7;
+}
+
+.title-bottom h2 {
+    background-color: #3b4b5d;
+    border-radius: 10px;
+    padding: 15px 20px;
+    color: #ffff;
+    font-weight: 500;
+    margin: 0;
+    font-family: "Quicksand", sans-serif;
+    text-align: center;  
+    width: 170px; 
+    max-width: 100%; 
+}
+
 .logo {
   width: 50px;
   height: 50px;
@@ -599,6 +616,12 @@ main {
   input:checked+.slider-cam:before {
     transform: translateX(20px)!important;
   }
+
+  .bottom-nav-material,
+  .bottom-nav-out{
+    display: none;
+    opacity: 0;
+  }
 }
 
 @media (max-width: 600px) {
@@ -606,6 +629,8 @@ main {
     font-size: 12px;
     bottom: 8px;
     padding: 6px 12px;
+
+
   }
 }
 
@@ -625,6 +650,11 @@ main {
     object-fit: cover;
     border-radius: 10px;
     cursor: pointer;
+  }
+
+  .credit-info{
+    display: none;
+    opacity: 0;
   }
 
   .card-select {
@@ -662,11 +692,6 @@ main {
 
   .camera-card button {
     font-size: 18px;
-  }
-
-  .credit-info{
-    zoom: .8;
-    width: 80%;
   }
 
   .advance-setting-mod {
