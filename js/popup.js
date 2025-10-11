@@ -234,153 +234,182 @@ const interval = setInterval(() => {
     i = i + 1;
   }
 }, 250);
-const toggleButtons = document.querySelectorAll('.bottom-navbar button');
-const popups = [document.getElementById('popup1'), document.getElementById('popup2'), document.getElementById('popup3')];
 
-const toggleButton = document.getElementById("toggleMbg");
-const popup1 = document.getElementById("popup1");
-const toggleIcon = document.getElementById("toggleFolder");
-const bottomNavMaterial = document.querySelector(".bottom-nav-material");
-const bottomNavOut = document.querySelector(".bottom-nav-out");
+// Fungsi untuk menutup popup yang terbuka
+function closePopup(popup) {
+    popup.classList.remove('show');
+    popup.classList.add('hide');
+    popup.style.display = 'none';
+}
 
-let marginTopInitial = ""; 
+// Fungsi untuk membuka popup
+function openPopup(popup) {
+    popup.style.display = 'flex';
+    setTimeout(() => {
+        popup.classList.remove('hide');
+        popup.classList.add('show');
+    }, 10);
+}
 
-function closeAllPopupsAndResetButtons() {
-  popups.forEach(popup => {
-    if (popup.classList.contains('show')) {
-      popup.classList.remove('show');
-      popup.classList.add('hide');
-      setTimeout(() => {
-        popup.style.display = 'none';
-      }, 500); 
-    }
-  });
+// Fungsi untuk menutup popup yang terbuka
+function closePopup(popup) {
+    popup.classList.remove('show');
+    popup.classList.add('hide');
+    popup.style.display = 'none';
+}
 
-  bottomNavMaterial.classList.remove("hidden");
-  bottomNavOut.classList.remove("hidden");
+// Fungsi untuk membuka popup
+function openPopup(popup) {
+    popup.style.display = 'flex';
+    setTimeout(() => {
+        popup.classList.remove('hide');
+        popup.classList.add('show');
+    }, 10);
+}
 
-  toggleIcon.classList.remove("fa-xmark");
-  toggleIcon.classList.add("fa-folder");
-  
-  // Reset margin-top jika ada
-  toggleButtons.forEach(button => {
-    button.style.marginTop = marginTopInitial;
+const effect = document.querySelector('.effect');
+const lineEffect = document.querySelector('.line-effect');
+const buttons = document.querySelectorAll('.bottom-navbar button:not(.plus)');
+const toggleMbgButton = document.getElementById('toggleMbg'); // Tombol untuk membuka/menutup toggleMbg
+const toggleMbgPopup = document.getElementById('popup1'); // Popup toggleMbg
+
+// Fungsi untuk menghapus class active-bottom dari semua tombol
+function removeActiveBottom() {
+  buttons.forEach(button => {
+    button.classList.remove('active-bottom');
+    button.style.backgroundColor = '';  // Kembalikan warna tombol semula
   });
 }
 
-// Toggle untuk toggleMbg
-toggleButton.addEventListener("click", () => {
-  toggleButton.classList.toggle("clicked");
+// Event listener untuk tombol-tombol yang ada di navbar
+buttons.forEach(button => {
+  button.addEventListener('click', e => {
+    const x = e.target.getBoundingClientRect().left;
+    const width = e.target.offsetWidth;
 
-  // Reset all buttons' clicked state and margin-top
-  toggleButtons.forEach(button => {
-    if (button !== toggleButton) {
-      button.classList.remove("clicked");
-      button.style.marginTop = marginTopInitial; // Reset margin top for other buttons
-    }
+    // Hapus class active-bottom dari semua tombol
+    removeActiveBottom();
+
+    // Menambahkan class active-bottom pada tombol yang diklik
+    e.target.classList.add('active-bottom');
+
+    // Update posisi .effect dan animasi
+    anime({
+      targets: '.effect',
+      left: `${x - effect.offsetWidth / 2}px`,
+      opacity: 1,
+      duration: 600,
+      easing: 'easeInOutQuad'
+    });
+
+    // Update posisi dan lebar garis efek
+    anime({
+      targets: '.line-effect',
+      left: `${x + width / 2 - lineEffect.offsetWidth / 2}px`,
+      width: `${width}px`,
+      duration: 300,
+      easing: 'easeInOutQuad'
+    });
   });
+});
 
-  if (popup1.classList.contains("show")) {
-    popup1.classList.remove("show");
-    setTimeout(() => {
-      popup1.style.display = "none";
-    }, 300); 
+// Event listener untuk toggleMbg
+toggleMbgButton.addEventListener('click', function() {
+  const popup = toggleMbgPopup;
+  const button = toggleMbgButton;
+  const icon = document.getElementById('toggleFolder'); 
 
-    bottomNavMaterial.classList.remove("hidden");
-    bottomNavOut.classList.remove("hidden");
+  // Cek apakah popup toggleMbg masih terbuka
+  if (popup.classList.contains('show')) {
+    // Menutup popup toggleMbg
+    popup.classList.remove('show');
+    popup.classList.add('hide');
+    popup.style.display = 'none';
+    button.style.marginTop = '-50px';
+    icon.classList.remove('fa-xmark');
+    icon.classList.add('fa-folder');
 
-    toggleIcon.classList.remove("fa-xmark");
-    toggleIcon.classList.add("fa-folder");
-    
-    toggleButtons.forEach(button => {
-      button.style.marginTop = marginTopInitial;
-    });
+    // Menghapus class active-bottom saat toggleMbg ditutup
+    removeActiveBottom();
   } else {
-    popup1.style.display = "flex";
+    // Membuka popup toggleMbg
+    popup.style.display = 'flex';
     setTimeout(() => {
-      popup1.classList.add("show");
-    }, 10); 
+      popup.classList.remove('hide');
+      popup.classList.add('show');
+    }, 10);
+    button.style.marginTop = '0px';
+    icon.classList.remove('fa-folder'); 
+    icon.classList.add('fa-xmark'); 
 
-    bottomNavMaterial.classList.add("hidden");
-    bottomNavOut.classList.add("hidden");
-
-    toggleIcon.classList.remove("fa-folder");
-    toggleIcon.classList.add("fa-xmark");
-
-    toggleButtons.forEach(button => {
-      button.style.marginTop = '0px'; // Set margin-top to 0 for the active toggleMbg button
-    });
+    // Menghapus class active-bottom saat toggleMbg dibuka
+    removeActiveBottom();
   }
 });
 
-// Event listener untuk tombol lainnya
-toggleButtons.forEach(button => {
-  button.addEventListener('click', function() {
-    const targetPopupId = this.getAttribute('data-popup');
-    const targetPopup = document.getElementById(targetPopupId);
-
-    // Hapus class "clicked" dan reset margin-top dari tombol selain toggleMbg
-    if (this !== toggleButton) {
-      toggleButtons.forEach(btn => {
-        if (btn !== this) {
-          btn.classList.remove("clicked");
-          btn.style.marginTop = marginTopInitial; // Reset margin-top if not clicked
-        }
-      });
-    }
-
-    // Jika toggleMbg aktif, tutup popup1 dan reset marginTop
-    if (toggleButton.classList.contains("clicked")) {
-      closeAllPopupsAndResetButtons();
-    }
-
-    closeAllPopupsAndResetButtons(); // Menutup semua popup sebelumnya
-
-    if (targetPopup && !targetPopup.classList.contains('show')) {
-      targetPopup.style.display = 'flex';
-      setTimeout(() => {
-        targetPopup.classList.remove('hide');
-        targetPopup.classList.add('show');
-      }, 10);
-    }
-  });
-});
-
-// Toggle untuk popup lainnya
 document.getElementById('toggleChart').addEventListener('click', function() {
     const popup = document.getElementById('popup2');
+    const toggleMbgPopup = document.getElementById('popup1');
+    const toggleBmPopup = document.getElementById('popup3');
+
+    // Cek apakah toggleMbg masih terbuka
+    if (toggleMbgPopup.classList.contains('show')) {
+        return; // Jika toggleMbg terbuka, hentikan eksekusi dan tidak membuka popup lain
+    }
+
+    // Menutup popup lain jika terbuka
+    if (toggleBmPopup.classList.contains('show')) {
+        closePopup(toggleBmPopup);
+    }
 
     if (popup.classList.contains('show')) {
-        popup.classList.remove('show');
-        popup.classList.add('hide');
-        
-        setTimeout(() => {
-            popup.style.display = 'none';
-        }, 500);
+        // Menutup popup toggleChart jika sudah terbuka
+        closePopup(popup, () => {
+            // Panggil removeActiveBottom setelah popup ditutup
+            removeActiveBottom();
+        });
     } else {
-        popup.style.display = 'flex';
-        setTimeout(() => {
-            popup.classList.remove('hide');
-            popup.classList.add('show');
-        }, 10); 
+        // Membuka popup toggleChart
+        openPopup(popup);
     }
 });
 
 document.getElementById('toggleBm').addEventListener('click', function() {
     const popup = document.getElementById('popup3');
+    const toggleMbgPopup = document.getElementById('popup1');
+    const toggleChartPopup = document.getElementById('popup2');
+
+    // Cek apakah toggleMbg masih terbuka
+    if (toggleMbgPopup.classList.contains('show')) {
+        return; // Jika toggleMbg terbuka, hentikan eksekusi dan tidak membuka popup lain
+    }
+
+    // Menutup popup lain jika terbuka
+    if (toggleChartPopup.classList.contains('show')) {
+        closePopup(toggleChartPopup);
+    }
 
     if (popup.classList.contains('show')) {
-        popup.classList.remove('show');
-        popup.classList.add('hide');
-        
-        setTimeout(() => {
-            popup.style.display = 'none';
-        }, 500);
+        // Menutup popup toggleBm jika sudah terbuka
+        closePopup(popup, () => {
+            // Panggil removeActiveBottom setelah popup ditutup
+            removeActiveBottom();
+        });
     } else {
-        popup.style.display = 'flex';
-        setTimeout(() => {
-            popup.classList.remove('hide');
-            popup.classList.add('show');
-        }, 10); 
+        // Membuka popup toggleBm
+        openPopup(popup);
     }
 });
+
+// Fungsi untuk menutup popup dengan callback setelah penutupan
+function closePopup(popup, callback) {
+    popup.classList.remove('show');
+    popup.classList.add('hide');
+    setTimeout(() => {
+        popup.style.display = 'none';
+        if (callback) {
+            callback(); // Panggil callback setelah popup ditutup
+        }
+    }, 500); // Sesuaikan dengan durasi animasi penutupan
+}
+

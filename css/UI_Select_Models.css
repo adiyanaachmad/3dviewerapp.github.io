@@ -22,23 +22,31 @@
     border: 5px solid #1e2a3a;
 }
 
+.bottom-scroll{
+      overflow-x: auto;
+}
+
 .card-bottom{
-    background: #3b4b5d;
+    background: #1e2a3a;
     border-radius: 10px;
     overflow: hidden;
     aspect-ratio: 1 / 1;
     position: relative;
+    justify-content: flex-start;
     cursor: pointer;
     transition: .3s ease;
-    border: 5px solid #3b4b5d;
+    border: 3px solid #3b4b5d;
     min-width: 120px;
 }
 
 .card:hover,
-.card.active-model,
-.card-bottom.active-model,
-.card-bottom:hover {
+.card.active-model {
     border: 5px solid #FFA726;
+}
+
+.card-bottom.active-model,
+.card-bottom:hover{
+    border: 3px solid #739eb2;
 }
 
 .card img,

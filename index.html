@@ -582,7 +582,7 @@
 
     <div class="bottom-navbar">
       <div class="effect"></div>
-      <button class="active-bottom sound-init">
+      <button class="active-bottom sound-init" id="toggleCl">
         <div class="line-effect"></div>
         <i class="fa-solid fa-house"></i>
       </button>
@@ -604,7 +604,7 @@
       </button>
     </div>
 
-    <div class="bottom-select" id="popup1" data-popup="popup1">
+    <div class="bottom-select" id="popup1">
       <div class="model-sdfr card-bottom group-1 active-model sound-init" data-model="Soccer Icon">
         <img src="img/stadion 800-800.webp" alt="Card Image 1">
       </div>
@@ -626,7 +626,7 @@
     </div>
   </div>
 
-  <div class="bottom-data" id="popup2" data-popup="popup2">
+  <div class="bottom-data" id="popup2">
     <div class="card-mesh-bottom card-tri">
       <div class="card-header-mesh">
         <h2>Mesh Data</h2>
@@ -671,7 +671,7 @@
     </div>
   </div>
 
-  <div class="bottom-bloom" id="popup3" data-popup="popup3">
+  <div class="bottom-bloom" id="popup3">
     <div class="card-mesh-bloom bloom-indi">
       <div class="card-header-mesh">
         <h2>Bloom Effect</h2>
@@ -720,47 +720,7 @@
   <script type="module" src="js/main.js"></script>
   <script src="js/button.js"></script>
   <script src="js/popup.js"></script>
-  <script src="js/Slider.js"></script>
-
-  <script>
-    const effect = document.querySelector('.effect');
-    const lineEffect = document.querySelector('.line-effect');  // Menangkap garis
-    const buttons = document.querySelectorAll('.bottom-navbar button:not(.plus)');
-
-    buttons.forEach(button => {
-      button.addEventListener('click', e => {
-        const x = e.target.getBoundingClientRect().left;
-        const width = e.target.offsetWidth;
-
-        buttons.forEach(btn => {
-          btn.classList.remove('active-bottom');
-        });
-
-        e.target.classList.add('active-bottom');
-
-        // Update posisi .effect dan animasi
-        anime({
-          targets: '.effect',
-          left: `${x - effect.offsetWidth / 2}px`,
-          opacity: 1,
-          duration: 600,
-          easing: 'easeInOutQuad'
-        });
-
-        // Update posisi dan lebar garis efek
-        anime({
-          targets: '.line-effect',
-          left: `${x + width / 2 - lineEffect.offsetWidth / 2}px`, // Sesuaikan garis dengan tombol yang diklik
-          width: `${width}px`, // Setel lebar garis sesuai dengan lebar tombol
-          duration: 300,
-          easing: 'easeInOutQuad'
-        });
-      });
-    });
-
-
-
-  </script>
+  
 </body>
 
 </html>
