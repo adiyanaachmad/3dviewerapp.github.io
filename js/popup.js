@@ -234,20 +234,56 @@ const interval = setInterval(() => {
     i = i + 1;
   }
 }, 250);
+const toggleButtons = document.querySelectorAll('.bottom-navbar button');
+const popups = [document.getElementById('popup1'), document.getElementById('popup2'), document.getElementById('popup3')];
 
 const toggleButton = document.getElementById("toggleMbg");
-const popup = document.getElementById("popup1");
+const popup1 = document.getElementById("popup1");
 const toggleIcon = document.getElementById("toggleFolder");
 const bottomNavMaterial = document.querySelector(".bottom-nav-material");
 const bottomNavOut = document.querySelector(".bottom-nav-out");
 
+let marginTopInitial = ""; 
+
+function closeAllPopupsAndResetButtons() {
+  popups.forEach(popup => {
+    if (popup.classList.contains('show')) {
+      popup.classList.remove('show');
+      popup.classList.add('hide');
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 500); 
+    }
+  });
+
+  bottomNavMaterial.classList.remove("hidden");
+  bottomNavOut.classList.remove("hidden");
+
+  toggleIcon.classList.remove("fa-xmark");
+  toggleIcon.classList.add("fa-folder");
+  
+  // Reset margin-top jika ada
+  toggleButtons.forEach(button => {
+    button.style.marginTop = marginTopInitial;
+  });
+}
+
+// Toggle untuk toggleMbg
 toggleButton.addEventListener("click", () => {
   toggleButton.classList.toggle("clicked");
 
-  if (popup.classList.contains("show")) {
-    popup.classList.remove("show");
+  // Reset all buttons' clicked state and margin-top
+  toggleButtons.forEach(button => {
+    if (button !== toggleButton) {
+      button.classList.remove("clicked");
+      button.style.marginTop = marginTopInitial; // Reset margin top for other buttons
+    }
+  });
+
+  if (popup1.classList.contains("show")) {
+    popup1.classList.remove("show");
     setTimeout(() => {
-      popup.style.display = "none";
+      popup1.style.display = "none";
     }, 300); 
 
     bottomNavMaterial.classList.remove("hidden");
@@ -255,10 +291,14 @@ toggleButton.addEventListener("click", () => {
 
     toggleIcon.classList.remove("fa-xmark");
     toggleIcon.classList.add("fa-folder");
+    
+    toggleButtons.forEach(button => {
+      button.style.marginTop = marginTopInitial;
+    });
   } else {
-    popup.style.display = "flex";
+    popup1.style.display = "flex";
     setTimeout(() => {
-      popup.classList.add("show");
+      popup1.classList.add("show");
     }, 10); 
 
     bottomNavMaterial.classList.add("hidden");
@@ -266,9 +306,47 @@ toggleButton.addEventListener("click", () => {
 
     toggleIcon.classList.remove("fa-folder");
     toggleIcon.classList.add("fa-xmark");
+
+    toggleButtons.forEach(button => {
+      button.style.marginTop = '0px'; // Set margin-top to 0 for the active toggleMbg button
+    });
   }
 });
 
+// Event listener untuk tombol lainnya
+toggleButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    const targetPopupId = this.getAttribute('data-popup');
+    const targetPopup = document.getElementById(targetPopupId);
+
+    // Hapus class "clicked" dan reset margin-top dari tombol selain toggleMbg
+    if (this !== toggleButton) {
+      toggleButtons.forEach(btn => {
+        if (btn !== this) {
+          btn.classList.remove("clicked");
+          btn.style.marginTop = marginTopInitial; // Reset margin-top if not clicked
+        }
+      });
+    }
+
+    // Jika toggleMbg aktif, tutup popup1 dan reset marginTop
+    if (toggleButton.classList.contains("clicked")) {
+      closeAllPopupsAndResetButtons();
+    }
+
+    closeAllPopupsAndResetButtons(); // Menutup semua popup sebelumnya
+
+    if (targetPopup && !targetPopup.classList.contains('show')) {
+      targetPopup.style.display = 'flex';
+      setTimeout(() => {
+        targetPopup.classList.remove('hide');
+        targetPopup.classList.add('show');
+      }, 10);
+    }
+  });
+});
+
+// Toggle untuk popup lainnya
 document.getElementById('toggleChart').addEventListener('click', function() {
     const popup = document.getElementById('popup2');
 
@@ -288,7 +366,6 @@ document.getElementById('toggleChart').addEventListener('click', function() {
     }
 });
 
-
 document.getElementById('toggleBm').addEventListener('click', function() {
     const popup = document.getElementById('popup3');
 
@@ -307,4 +384,3 @@ document.getElementById('toggleBm').addEventListener('click', function() {
         }, 10); 
     }
 });
-

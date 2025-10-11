@@ -258,7 +258,7 @@ main {
   background-color: #1e2a3a;
   color: #ffff;
   border-radius: 8px;
-  margin-top: 18px;
+  margin-top: 15px;
   padding: 20px 12px;
   max-width: 500px;
   overflow: hidden;
@@ -655,9 +655,14 @@ main {
   }
 
   .bottom-nav-material,
-  .bottom-nav-out{
-    display: none;
-    opacity: 0;
+  .bottom-nav-out,
+  .bottom-select,
+  .bottom-data,
+  .bottom-bloom,
+  .bottom-nav{
+    display: none!important;
+    opacity: 0!important;
+    pointer-events: none!important;
   }
 }
 

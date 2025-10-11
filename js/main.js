@@ -1378,7 +1378,7 @@ function updateSliderBackground(slider) {
   if (slider.closest('.panel-setting-info')) {
     activeColor = '#2ecc71'; // warna untuk panel-setting-info
     backgroundColor = '#1e2a3a';
-  } else if (slider.closest('.card-wrapper')) {
+  } else if (slider.closest('.bloom-indi')) {
     activeColor = '#2ecc71'; // warna untuk card-wrapper
     backgroundColor = '#3b4b5d';
   }
