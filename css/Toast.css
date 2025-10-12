@@ -231,6 +231,10 @@
     transition: all .25s ease;
 }
 
+#grid-view.active-exf {
+  background-color: #739eb2 !important;
+}
+
 .bottom-navbar button.active-bottom:not(.plus) {
     transform: scale(1);
 }

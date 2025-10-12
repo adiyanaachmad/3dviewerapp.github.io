@@ -1187,15 +1187,43 @@ gridHelper.material.transparent = true;
 gridHelper.material.opacity = 1;
 gridHelper.visible = true;
 
-const gridToggles = document.querySelectorAll('.grid-toggle');
+const gridToggles = document.querySelectorAll('.grid-view'); // Dapatkan semua elemen checkbox
+const gridButton = document.getElementById('grid-view'); // Tombol biasa
+
+// Fungsi untuk mengatur status grid berdasarkan status toggle
+function setGridVisibility(show) {
+  gridHelper.visible = show;
+  gridFadeTarget = show ? 1 : 0;
+  gridHelper.material.transparent = true;
+  gridHelper.material.opacity = show ? 1 : 0;
+}
+
+// Set event listener untuk checkbox (input)
 gridToggles.forEach(toggle => {
-  toggle.checked = true;
+  toggle.checked = true; // Set status default checkbox (checked)
+  
   toggle.addEventListener('change', (e) => {
-    const show = e.target.checked;
-    gridHelper.visible = true;
-    gridFadeTarget = show ? 1 : 0;
-    gridToggles.forEach(t => t.checked = show);
+    const show = e.target.checked; // Ambil status checkbox
+    setGridVisibility(show); // Update gridHelper visibility
+
+    // Sinkronkan status tombol berdasarkan status checkbox
+    if (show) {
+      gridButton.classList.add('active-exf'); // Aktifkan tombol jika checkbox tercentang
+    } else {
+      gridButton.classList.remove('active-exf'); // Nonaktifkan tombol jika checkbox tidak tercentang
+    }
   });
+});
+
+// Set event listener untuk tombol biasa (button)
+gridButton.addEventListener('click', () => {
+  // Toggle status checkbox sesuai dengan tombol yang ditekan
+  const show = !gridButton.classList.contains('active-exf');
+  gridButton.classList.toggle('active-exf', show); // Set tombol ke status yang sesuai
+  gridToggles.forEach(toggle => toggle.checked = show); // Update status checkbox
+
+  // Update status gridHelper sesuai dengan status tombol
+  setGridVisibility(show);
 });
 
 const hdriToggles = document.querySelectorAll('.hdri-toggle');
@@ -1553,29 +1581,29 @@ const modelCredits = {
   "Lion Bear": { creator: "Fullsworld", url: "https://www.youtube.com/@fullsworld" },
 };
 
-// window.addEventListener("DOMContentLoaded", () => {
-//   window.addEventListener("contextmenu", function (e) {
-//     e.preventDefault();
-//     showErrorToast("Access denied", "Developer tools detected.");
-//   });
+window.addEventListener("DOMContentLoaded", () => {
+  window.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+    showErrorToast("Access denied", "Developer tools detected.");
+  });
 
-//   document.addEventListener("keydown", function(e) {
-//     if (
-//       e.key === "F12" ||
-//       (e.ctrlKey && e.shiftKey && e.key === "I") ||
-//       (e.ctrlKey && e.key === "U") ||
-//       (e.ctrlKey && e.shiftKey && e.key === "J")
-//     ) {
-//       e.preventDefault();
-//     }
-//   });
+  document.addEventListener("keydown", function(e) {
+    if (
+      e.key === "F12" ||
+      (e.ctrlKey && e.shiftKey && e.key === "I") ||
+      (e.ctrlKey && e.key === "U") ||
+      (e.ctrlKey && e.shiftKey && e.key === "J")
+    ) {
+      e.preventDefault();
+    }
+  });
 
-//   setInterval(function () {
-//     if (
-//       window.outerHeight - window.innerHeight > 100 ||
-//       window.outerWidth - window.innerWidth > 100
-//   ) {
-//     document.body.innerHTML = "<h1 style='text-align:center; margin-top:50px;'>Developer tools detected. Access denied.</h1>";
-//   }
-// }, 1000);
-// });
+  setInterval(function () {
+    if (
+      window.outerHeight - window.innerHeight > 100 ||
+      window.outerWidth - window.innerWidth > 100
+  ) {
+    document.body.innerHTML = "<h1 style='text-align:center; margin-top:50px;'>Developer tools detected. Access denied.</h1>";
+  }
+}, 1000);
+});
