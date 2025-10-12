@@ -80,10 +80,9 @@ function switchCameraMode(mode) {
     renderCamera = orthoCamera;
     currentCameraMode = 'ortho';
 
-    currentAntialias = true;
-    aaToggles.forEach(t => t.checked = true);
-    initRenderer(true);
-    setOrthoZoomLimits(0.7, 2.0); 
+    currentAntialias = false; // Disable antialiasing for orthographic mode
+    initRenderer(false); // Initialize without antialiasing
+    setOrthoZoomLimits(0.7, 2.0); // Set zoom limits for orthographic mode
 
   } else {
     camera.aspect = aspect;
@@ -91,9 +90,8 @@ function switchCameraMode(mode) {
     renderCamera = camera;
     currentCameraMode = 'perspective';
 
-    currentAntialias = false;
-    aaToggles.forEach(t => t.checked = false);
-    initRenderer(false);
+    currentAntialias = false; // Disable antialiasing for perspective mode
+    initRenderer(false); // Initialize without antialiasing
   }
 
   if (controls) {
@@ -184,6 +182,17 @@ function initRenderer(antialias = false) {
     oldCanvas?.remove();
   }
 
+  // Hanya menggunakan WebGLMultisampleRenderTarget jika antialiasing aktif
+  const renderTarget = antialias
+    ? new THREE.WebGLMultisampleRenderTarget(window.innerWidth, window.innerHeight, {
+        format: THREE.RGBAFormat,
+        encoding: THREE.sRGBEncoding,
+      })
+    : new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, {
+        format: THREE.RGBAFormat,
+        encoding: THREE.sRGBEncoding,
+      });
+
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 0);
@@ -196,6 +205,7 @@ function initRenderer(antialias = false) {
 
   document.getElementById("container3D").appendChild(renderer.domElement);
 
+  // Setup controls
   if (controls) {
     controls.dispose();
   }
@@ -214,7 +224,7 @@ function initRenderer(antialias = false) {
   controls.addEventListener('start', () => {
     userIsInteracting = true;
     isReturningCamera = false;
-    lastAzimuthalAngle = controls.getAzimuthalAngle(); 
+    lastAzimuthalAngle = controls.getAzimuthalAngle();
   });
 
   controls.addEventListener('change', () => {
@@ -975,7 +985,11 @@ function loadNewModel(modelName) {
   bloomToggles.checked = false;
   bloomEnabled = false;
 
-  aaToggles.checked = false;
+  const aaButton = document.getElementById('aa-toggle');
+  aaButton.classList.remove('active-exf');
+  aaToggles.forEach(toggle => {
+    toggle.checked = false; 
+  });
   currentAntialias = false;
   initRenderer(false);
 
@@ -990,6 +1004,10 @@ function loadNewModel(modelName) {
   controls.autoRotateSpeed = autoRotateSpeed * autoRotateDirection;
 
   resetSettingsToDefault(); 
+
+  const gridButton = document.getElementById('grid-view');
+  gridButton.classList.add('active-exf'); 
+
 
   setTimeout(() => {
     const newLoader = new GLTFLoader();
@@ -1169,18 +1187,60 @@ modelCards.forEach(card => {
   });
 });
 
-
-
 const aaToggles = document.querySelectorAll('.aa-toggle');
-aaToggles.forEach(toggle => {
-  toggle.checked = false;
-  toggle.addEventListener('change', (e) => {
-    const enabled = e.target.checked;
-    currentAntialias = enabled;
-    aaToggles.forEach(t => t.checked = enabled);
-    initRenderer(enabled);
-  });
+
+// Mengambil tombol non-input berdasarkan ID
+const aaButton = document.getElementById('aa-toggle');
+
+// Mengambil checkbox input berdasarkan class
+const aaCheckbox = document.querySelector('.aa-toggle');
+
+// Fungsi untuk mengubah status Antialiasing
+function setAntialiasingVisibility(show) {
+  // Aktifkan atau nonaktifkan antialiasing di renderer
+  currentAntialias = show;
+
+  // Sinkronkan status checkbox hanya untuk elemen .aa-toggle
+  aaCheckbox.checked = show;  
+
+  // Hanya ubah class 'active-exf' pada tombol dengan ID 'aa-toggle' (tombol non-input)
+  if (show) {
+    aaButton.classList.add('active-exf');  // Tambahkan class active-exf jika antialiasing aktif
+  } else {
+    aaButton.classList.remove('active-exf');  // Hapus class active-exf jika antialiasing non-aktif
+  }
+
+  // Panggil initRenderer untuk mengubah setting antialiasing
+  initRenderer(show);
+}
+
+// Event listener untuk tombol non-input (tombol dengan ID 'aa-toggle')
+aaButton.addEventListener('click', () => {
+  // Set visibilitas antialiasing berdasarkan status checkbox
+  const show = !aaCheckbox.checked;
+  setAntialiasingVisibility(show);
 });
+
+// Event listener untuk checkbox input
+aaCheckbox.addEventListener('change', (e) => {
+  // Set visibilitas antialiasing berdasarkan status checkbox
+  setAntialiasingVisibility(e.target.checked);
+});
+
+// Fungsi untuk memperbarui status antialiasing
+function updateAntialiasing() {
+  // Cek status antialiasing dan perbarui elemen terkait
+  if (!currentAntialias) {
+    // Jika antialiasing mati, reset tombol dan checkbox
+    aaButton.classList.remove('active-exf');  // Hapus class 'active-exf' pada tombol non-input
+    aaCheckbox.checked = false;  // Non-cek checkbox jika antialiasing mati
+  }
+}
+
+// Memastikan status default antialiasing saat halaman dimuat
+setAntialiasingVisibility(currentAntialias);
+
+
 
 // === TOGGLE GRID HELPER DENGAN FADE IN/OUT ===
 gridHelper.material.transparent = true;
@@ -1190,12 +1250,38 @@ gridHelper.visible = true;
 const gridToggles = document.querySelectorAll('.grid-view'); // Dapatkan semua elemen checkbox
 const gridButton = document.getElementById('grid-view'); // Tombol biasa
 
+// Fungsi animasi untuk fade in/out grid
+function animateGridFade() {
+  if (Math.abs(gridHelper.material.opacity - gridFadeTarget) < 0.01) {
+    gridHelper.material.opacity = gridFadeTarget; // Pastikan mencapai target
+    return; // Stop jika sudah cukup dekat dengan target
+  }
+
+  const delta = gridFadeTarget - gridHelper.material.opacity;
+  const sign = Math.sign(delta);
+
+  gridHelper.material.opacity += sign * fadeSpeed;
+  gridHelper.material.opacity = THREE.MathUtils.clamp(gridHelper.material.opacity, 0, 1); 
+
+  if (gridHelper.material.opacity === 0) {
+    gridHelper.visible = false;
+  } else {
+    gridHelper.visible = true;
+  }
+
+  // Pastikan animasi terus berjalan
+  requestAnimationFrame(animateGridFade);
+}
+
+
 // Fungsi untuk mengatur status grid berdasarkan status toggle
 function setGridVisibility(show) {
   gridHelper.visible = show;
   gridFadeTarget = show ? 1 : 0;
   gridHelper.material.transparent = true;
   gridHelper.material.opacity = show ? 1 : 0;
+   
+  animateGridFade();
 }
 
 // Set event listener untuk checkbox (input)
@@ -1226,35 +1312,115 @@ gridButton.addEventListener('click', () => {
   setGridVisibility(show);
 });
 
+// Mengambil tombol non-input berdasarkan ID
+const hdriButton = document.getElementById('hdri-toggle');
+
+// Mengambil checkbox input berdasarkan class
+const hdriCheckbox = document.querySelector('.hdri-toggle');
+
+// Mengambil semua elemen dengan class hdri-toggle
 const hdriToggles = document.querySelectorAll('.hdri-toggle');
+
+// Fungsi untuk mengubah status HDRI
+function setHDRIVisibility(show) {
+  // Aktifkan atau nonaktifkan HDRI di scene
+  scene.environment = show ? envMapGlobal : null;
+  if (object) applyEnvMapToMaterials(object, show ? envMapGlobal : null, 0.3);
+
+  // Hanya ubah class 'active-exf' pada tombol dengan ID 'hdri-toggle'
+  if (show) {
+    hdriButton.classList.add('active-exf');  // Tambahkan class active-exf jika show true
+  } else {
+    hdriButton.classList.remove('active-exf');  // Hapus class active-exf jika show false
+  }
+
+  // Sinkronkan status checkbox dengan tombol
+  hdriCheckbox.checked = show;
+
+  // Hapus class 'checked' pada tombol input jika HDRI dimatikan
+  if (!show) {
+    hdriCheckbox.classList.remove('checked');
+  }
+}
+
+// Fungsi untuk menghapus class 'checked' pada tombol input dan 'active-exf' pada tombol non-input
+function resetButtonClasses() {
+  // Hapus class 'checked' pada checkbox input jika HDRI dimatikan
+  hdriCheckbox.classList.remove('checked');  
+
+  // Hapus class 'active-exf' pada tombol non-input jika HDRI dimatikan
+  hdriButton.classList.remove('active-exf');
+}
+
+// Event listener untuk tombol non-input (tombol dengan ID 'hdri-toggle')
+hdriButton.addEventListener('click', () => {
+  // Set visibilitas HDRI berdasarkan status checkbox
+  const show = !hdriCheckbox.checked;
+  setHDRIVisibility(show);
+});
+
+// Event listener untuk checkbox input
+hdriCheckbox.addEventListener('change', (e) => {
+  // Set visibilitas HDRI berdasarkan status checkbox
+  setHDRIVisibility(e.target.checked);
+});
+
+// Event listener untuk semua toggle dengan class .hdri-toggle (checkbox)
 hdriToggles.forEach(toggle => {
-  toggle.checked = false;
+  toggle.checked = false;  // Set status default checkbox (false)
   toggle.addEventListener('change', (e) => {
     const enabled = e.target.checked;
+
+    // Sinkronkan semua toggle (checkbox dan tombol)
     hdriToggles.forEach(t => t.checked = enabled);
+
+    // Atur environment HDRI
     scene.environment = enabled ? envMapGlobal : null;
     if (object) applyEnvMapToMaterials(object, enabled ? envMapGlobal : null, 0.3);
+
+    // Pastikan hanya tombol non-input yang terupdate (hdri-toggle)
+    if (toggle === hdriButton) {
+      if (enabled) {
+        toggle.classList.add('active-exf');  // Menambahkan class active-exf jika enabled true
+      } else {
+        toggle.classList.remove('active-exf');  // Menghapus class active-exf jika enabled false
+      }
+    }
   });
 });
 
+// Fungsi untuk memperbarui environment map HDRI
 function updateEnvMap() {
   if (!hdrTexture || !renderer) return;
 
+  // Membuat PMREM untuk HDRI
   const newPMREM = new THREE.PMREMGenerator(renderer);
   const envMap = newPMREM.fromEquirectangular(hdrTexture).texture;
   envMapGlobal = envMap;
 
-  const enabled = Array.from(hdriToggles || []).some(t => t.checked);
+  // Cek apakah ada toggle yang diaktifkan
+  const enabled = Array.from(hdriToggles).some(t => t.checked);
 
+  // Update scene.environment berdasarkan status toggle
   scene.environment = enabled ? envMapGlobal : null;
   if (object) {
     applyEnvMapToMaterials(object, enabled ? envMapGlobal : null);
   }
 
+  // Membersihkan texture dan PMREM
   hdrTexture.dispose();
   newPMREM.dispose();
 }
 
+// Set status default HDRI saat halaman dimuat
+setHDRIVisibility(hdriCheckbox.checked);
+
+// Fungsi untuk menghapus class saat HDRI dimatikan
+function handleHDRIToggle() {
+  if (!scene.environment) {
+    resetButtonClasses(); // Hapus class jika HDRI dimatikan
+  }
+}
 
 function resetSettingsToDefault() {
 
@@ -1346,13 +1512,20 @@ function resetSettingsToDefault() {
     if (line) line.style.transform = 'scaleX(0)';
   });
 
-
   // Reset HDRI toggle
-  resetToggle('.hdri-toggle', false);
-  scene.environment = null;
+  const hdriButton = document.getElementById('hdri-toggle');
+  const hdriCheckbox = document.querySelector('.hdri-toggle');
+
+  hdriButton.classList.remove('active-exf');  
+  hdriCheckbox.checked = false;  
+  scene.environment = null;  
 
   // Reset Grid toggle
-  resetToggle('.grid-toggle', true);
+  resetToggle('.grid-view', true);
+  gridHelper.visible = true;
+  gridFadeTarget = 1;
+
+  resetToggle('#grid-view', true);
   gridHelper.visible = true;
   gridFadeTarget = 1;
 
@@ -1485,14 +1658,15 @@ function setOrthoZoomLimits(min = 0.5, max = 2.5) {
   if (controls && currentCameraMode === 'ortho' && renderCamera.isOrthographicCamera) {
     controls.enableZoom = true;
     controls.zoomSpeed = 1.0;
-    controls.minZoom = min;
-    controls.maxZoom = max;
+    controls.minZoom = min; // Set zoom min limit
+    controls.maxZoom = max; // Set zoom max limit
 
     // Pastikan zoom kamera saat ini masih dalam batas
     renderCamera.zoom = THREE.MathUtils.clamp(renderCamera.zoom, min, max);
-    renderCamera.updateProjectionMatrix();
+    renderCamera.updateProjectionMatrix(); // Update the projection matrix
   }
 }
+
 
 const rotateToggles = document.querySelectorAll('.rotate-toggle');
 rotateToggles.forEach(toggle => {

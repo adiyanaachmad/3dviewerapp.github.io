@@ -231,7 +231,9 @@
     transition: all .25s ease;
 }
 
-#grid-view.active-exf {
+#grid-view.active-exf,
+#hdri-toggle.active-exf,
+#aa-toggle.active-exf {
   background-color: #739eb2 !important;
 }
 

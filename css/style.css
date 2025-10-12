@@ -173,7 +173,7 @@ body {
 }
 
 .card-wrapper {
-  display: none;
+  display: none!important;
   flex-direction: row;
   gap: 20px;
   position: fixed;
