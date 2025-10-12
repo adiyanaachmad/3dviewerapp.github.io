@@ -659,7 +659,8 @@ main {
   .bottom-select,
   .bottom-data,
   .bottom-bloom,
-  .bottom-nav{
+  .bottom-nav,
+  .bottom-camera{
     display: none!important;
     opacity: 0!important;
     pointer-events: none!important;
@@ -681,8 +682,16 @@ main {
     zoom: .9;
   }
 
+  .card-mesh-bloom{
+    padding-bottom: 46px!important;
+  }
+
+  .progress-bar-mesh{
+     margin-bottom: 25px!important;
+  }
+
   .active-camera {
-    background-color: #3b4b5d !important;
+    background-color: #739eb2!important;
     border-radius: 8px;
     color: #fff !important;
   }
@@ -729,7 +738,8 @@ main {
   .camera-card {
     background-color: #1e2a3a !important;
     padding: 10px !important;
-    margin-bottom: 15px;
+    margin-bottom: 26px;
+    display: grid;
   }
 
   .camera-card button {

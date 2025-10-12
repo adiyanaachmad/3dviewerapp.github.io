@@ -13,12 +13,27 @@
   overflow: hidden;
 }
 
+.camera-card-container-bottom{
+  position: fixed;
+  background-color: #3b4b5d;
+  color: #fff;
+  left: 0;
+  border-radius: 10px;
+  padding: 20px;
+  width: 0px;
+  max-height: 200px;
+  flex: 0 0 auto;
+  min-width: 250px;
+  overflow: hidden;
+  zoom: .7;
+}
+
 .card-mesh-bottom{
   position: fixed;
   background-color: #3b4b5d;
   padding: 20px;
   left: 0;
-  width: 245px;
+  width: 250px;
   bottom: 90px;
   border-radius: 10px;
   zoom: .7;

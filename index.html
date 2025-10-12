@@ -582,7 +582,7 @@
 
     <div class="bottom-navbar">
       <div class="effect"></div>
-      <button class="active-bottom sound-init" id="toggleCl">
+      <button class="sound-init" id="toggleCame">
         <div class="line-effect"></div>
         <i class="fa-solid fa-house"></i>
       </button>
@@ -716,11 +716,32 @@
     </div>
   </div>
 
+  <div class="bottom-camera" id="popup4">
+    <div class="camera-card-container-bottom" id="cameraCard">
+      <div class="camera-card-header">
+        <h2>Camera</h2>
+        <div class="close-mesh-data sound-init" id="cameraVisible"
+          style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-minus"></i></div>
+      </div>
+      <div class="camera-card">
+        <button class="per-mode active-camera sound-init">Perspective</button>
+        <button class="orto-mode sound-init">Ortographic</button>
+      </div>
+      <!-- <div class="camera-card-header">
+        <h2>Auto Rotate</h2>
+        <label class="switch">
+          <input type="checkbox" id="rotateToggle" class="rotate-toggle sound-init">
+          <span class="slider"></span>
+        </label>
+      </div> -->
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="module" src="js/main.js"></script>
   <script src="js/button.js"></script>
   <script src="js/popup.js"></script>
-  
+
 </body>
 
 </html>

@@ -313,44 +313,58 @@ buttons.forEach(button => {
   });
 });
 
+function closeAllPopups() {
+    const popups = [document.getElementById('popup2'), document.getElementById('popup3'), document.getElementById('popup4')];
+
+    popups.forEach(popup => {
+        if (popup.classList.contains('show')) {
+            closePopup(popup);
+        }
+    });
+}
+
 // Event listener untuk toggleMbg
 toggleMbgButton.addEventListener('click', function() {
-  const popup = toggleMbgPopup;
-  const button = toggleMbgButton;
-  const icon = document.getElementById('toggleFolder'); 
+    const popup = toggleMbgPopup;
+    const button = toggleMbgButton;
+    const icon = document.getElementById('toggleFolder'); 
 
-  // Cek apakah popup toggleMbg masih terbuka
-  if (popup.classList.contains('show')) {
-    // Menutup popup toggleMbg
-    popup.classList.remove('show');
-    popup.classList.add('hide');
-    popup.style.display = 'none';
-    button.style.marginTop = '-50px';
-    icon.classList.remove('fa-xmark');
-    icon.classList.add('fa-folder');
+    // Menutup seluruh popup yang sedang terlihat
+    closeAllPopups();
 
-    // Menghapus class active-bottom saat toggleMbg ditutup
-    removeActiveBottom();
-  } else {
-    // Membuka popup toggleMbg
-    popup.style.display = 'flex';
-    setTimeout(() => {
-      popup.classList.remove('hide');
-      popup.classList.add('show');
-    }, 10);
-    button.style.marginTop = '0px';
-    icon.classList.remove('fa-folder'); 
-    icon.classList.add('fa-xmark'); 
+    // Cek apakah popup toggleMbg masih terbuka
+    if (popup.classList.contains('show')) {
+        // Menutup popup toggleMbg
+        popup.classList.remove('show');
+        popup.classList.add('hide');
+        popup.style.display = 'none';
+        button.style.marginTop = '-50px';
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-folder');
 
-    // Menghapus class active-bottom saat toggleMbg dibuka
-    removeActiveBottom();
-  }
-});
+        // Menghapus class active-bottom saat toggleMbg ditutup
+        removeActiveBottom();
+    } else {
+        // Membuka popup toggleMbg
+        popup.style.display = 'flex';
+        setTimeout(() => {
+            popup.classList.remove('hide');
+            popup.classList.add('show');
+        }, 10);
+        button.style.marginTop = '0px';
+        icon.classList.remove('fa-folder'); 
+        icon.classList.add('fa-xmark'); 
+
+        // Menghapus class active-bottom saat toggleMbg dibuka
+        removeActiveBottom();
+    }
+}); 
 
 document.getElementById('toggleChart').addEventListener('click', function() {
     const popup = document.getElementById('popup2');
     const toggleMbgPopup = document.getElementById('popup1');
     const toggleBmPopup = document.getElementById('popup3');
+    const toggleCamePopup = document.getElementById('popup4'); // Tambahkan pengecekan untuk popup4
 
     // Cek apakah toggleMbg masih terbuka
     if (toggleMbgPopup.classList.contains('show')) {
@@ -360,6 +374,11 @@ document.getElementById('toggleChart').addEventListener('click', function() {
     // Menutup popup lain jika terbuka
     if (toggleBmPopup.classList.contains('show')) {
         closePopup(toggleBmPopup);
+    }
+
+    // Menutup popup toggleCame jika terbuka
+    if (toggleCamePopup.classList.contains('show')) {
+        closePopup(toggleCamePopup);
     }
 
     if (popup.classList.contains('show')) {
@@ -378,6 +397,7 @@ document.getElementById('toggleBm').addEventListener('click', function() {
     const popup = document.getElementById('popup3');
     const toggleMbgPopup = document.getElementById('popup1');
     const toggleChartPopup = document.getElementById('popup2');
+    const toggleCamePopup = document.getElementById('popup4'); // Tambahkan pengecekan untuk popup4
 
     // Cek apakah toggleMbg masih terbuka
     if (toggleMbgPopup.classList.contains('show')) {
@@ -389,6 +409,11 @@ document.getElementById('toggleBm').addEventListener('click', function() {
         closePopup(toggleChartPopup);
     }
 
+    // Menutup popup toggleCame jika terbuka
+    if (toggleCamePopup.classList.contains('show')) {
+        closePopup(toggleCamePopup);
+    }
+
     if (popup.classList.contains('show')) {
         // Menutup popup toggleBm jika sudah terbuka
         closePopup(popup, () => {
@@ -397,6 +422,37 @@ document.getElementById('toggleBm').addEventListener('click', function() {
         });
     } else {
         // Membuka popup toggleBm
+        openPopup(popup);
+    }
+});
+
+document.getElementById('toggleCame').addEventListener('click', function() {
+    const popup = document.getElementById('popup4');
+    const toggleMbgPopup = document.getElementById('popup1');
+    const toggleChartPopup = document.getElementById('popup2');
+    const toggleBmPopup = document.getElementById('popup3');
+
+    // Cek apakah toggleMbg masih terbuka
+    if (toggleMbgPopup.classList.contains('show')) {
+        return; // Jika toggleMbg terbuka, hentikan eksekusi dan tidak membuka popup lain
+    }
+
+    // Menutup popup lain jika terbuka
+    if (toggleChartPopup.classList.contains('show')) {
+        closePopup(toggleChartPopup);
+    }
+    if (toggleBmPopup.classList.contains('show')) {
+        closePopup(toggleBmPopup);
+    }
+
+    // Menutup popup toggleCame jika terbuka sebelumnya
+    if (popup.classList.contains('show')) {
+        closePopup(popup, () => {
+            // Panggil removeActiveBottom setelah popup toggleCame ditutup
+            removeActiveBottom();
+        });
+    } else {
+        // Membuka popup toggleCame
         openPopup(popup);
     }
 });
@@ -412,4 +468,14 @@ function closePopup(popup, callback) {
         }
     }, 500); // Sesuaikan dengan durasi animasi penutupan
 }
+
+// Fungsi untuk membuka popup
+function openPopup(popup) {
+    popup.style.display = 'flex';
+    setTimeout(() => {
+        popup.classList.remove('hide');
+        popup.classList.add('show');
+    }, 10);
+}
+
 
