@@ -715,7 +715,7 @@ main {
   }
 
   .card-select img {
-    height: 90px;
+    height: 88px;
     object-fit: cover;
     border-radius: 10px;
     cursor: pointer;
