@@ -672,7 +672,7 @@ main {
   .bottom-data,
   .bottom-bloom,
   .bottom-nav,
-  .bottom-,
+  .bottom-camera,
   .bottom-material{
     display: none!important;
     opacity: 0!important;
@@ -721,6 +721,12 @@ main {
     cursor: pointer;
   }
 
+  .card-select:hover,
+  .active-material {
+    border: 5px solid #739eb2 !important;
+    border-radius: 10px;
+  }
+
   .credit-info{
     display: none;
     opacity: 0;
@@ -728,7 +734,7 @@ main {
 
   .card-select {
     flex: 0 0 auto;
-    background-color: #1e2a3a;
+    background-color: #3b4b5d;
     border-radius: 10px;
     border: 5px solid #3b4b5d;
     transition: all .3s ease !important;
