@@ -83,7 +83,7 @@
 
 .bottom-camera{
     position: fixed;
-    bottom: 157px;
+    bottom: 173px;
     left: -50%;
     transform: translateX(-50%);
     align-items: center;
@@ -204,6 +204,20 @@
     border-radius: 10px;
     background: transparent;
     pointer-events: none;
+}
+
+.bottom-material {
+    position: fixed;
+    bottom: 160px;
+    left: -50%;
+    transform: translateX(-50%) translateY(0);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 95%;
+    padding: 10px 0;
+    border-radius: 10px;
+    background: transparent;
 }
 
 .bottom-navbar button {

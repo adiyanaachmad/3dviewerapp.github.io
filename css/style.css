@@ -449,7 +449,19 @@ main {
   padding: 8px;
 }
 
-.camera-card button {
+.material-card-init{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e2a3a;
+  text-align: center;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 8px;
+}
+
+.camera-card button,
+.material-card-init button {
   padding: 15px 10px;
   background: none;
   border: none;
@@ -660,7 +672,8 @@ main {
   .bottom-data,
   .bottom-bloom,
   .bottom-nav,
-  .bottom-camera{
+  .bottom-,
+  .bottom-material{
     display: none!important;
     opacity: 0!important;
     pointer-events: none!important;
@@ -682,6 +695,11 @@ main {
     zoom: .9;
   }
 
+  input:checked+.slider:before,
+  input:checked+.slider-cam:before {
+    transform: translateX(18px)!important;
+  }
+
   .card-mesh-bloom{
     padding-bottom: 46px!important;
   }
@@ -697,7 +715,7 @@ main {
   }
 
   .card-select img {
-    height: 133px;
+    height: 90px;
     object-fit: cover;
     border-radius: 10px;
     cursor: pointer;
@@ -738,7 +756,7 @@ main {
   .camera-card {
     background-color: #1e2a3a !important;
     padding: 10px !important;
-    margin-bottom: 26px;
+    margin-bottom: 20px;
     display: grid;
   }
 
