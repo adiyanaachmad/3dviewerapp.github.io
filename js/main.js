@@ -1276,13 +1276,12 @@ function animateGridFade() {
 
 // Fungsi untuk mengatur status grid berdasarkan status toggle
 function setGridVisibility(show) {
-  gridHelper.visible = show;
   gridFadeTarget = show ? 1 : 0;
   gridHelper.material.transparent = true;
-  gridHelper.material.opacity = show ? 1 : 0;
-   
-  animateGridFade();
+  if (show && !gridHelper.visible) gridHelper.visible = true;
+  requestAnimationFrame(animateGridFade);
 }
+
 
 // Set event listener untuk checkbox (input)
 gridToggles.forEach(toggle => {

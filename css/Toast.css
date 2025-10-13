@@ -132,7 +132,8 @@
   left: 50%;
 }
 
-.bottom-bloom.show {
+.bottom-bloom.show,
+.bottom-material.show {
   display: flex;
   opacity: 1; 
   transform: translateX(-50%);
@@ -144,7 +145,8 @@
     left: -50%;
 }
 
-.bottom-bloom.hide {
+.bottom-bloom.hide,
+.bottom-material.hide {
     opacity: 0;
     transform: translateX(0);
 }
@@ -209,8 +211,9 @@
 .bottom-material {
     position: fixed;
     bottom: 160px;
-    left: -50%;
-    transform: translateX(-50%) translateY(0);
+    display: none;
+    left: 50%;
+    transform: translateX(0);
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -218,6 +221,7 @@
     padding: 10px 0;
     border-radius: 10px;
     background: transparent;
+    transition: opacity 0.5s ease, transform 0.5s ease; 
 }
 
 .bottom-navbar button {
