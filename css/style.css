@@ -695,6 +695,13 @@ main {
     zoom: .9;
   }
 
+  .animate-wrapper{
+    position: fixed;
+    left: 100px;
+    zoom: .6!important;
+    padding: 27px!important;
+  }
+
   input:checked+.slider:before,
   input:checked+.slider-cam:before {
     transform: translateX(18px)!important;
