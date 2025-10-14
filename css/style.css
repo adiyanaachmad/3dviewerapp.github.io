@@ -699,7 +699,8 @@ main {
 
   .animate-wrapper{
     position: fixed;
-    left: 100px;
+    left: 90px;
+    bottom: 230px!important;
     zoom: .6!important;
     padding: 27px!important;
   }
