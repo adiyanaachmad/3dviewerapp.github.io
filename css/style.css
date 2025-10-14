@@ -111,7 +111,7 @@ body {
 
 .title-bottom{
   position: fixed;
-  left: 0;
+  right: 0;
   zoom: .7;
   pointer-events: none;
 }
@@ -125,8 +125,7 @@ body {
     margin: 0;
     font-family: "Quicksand", sans-serif;
     text-align: center;  
-    width: 170px; 
-    max-width: 100%; 
+    width: 190px; 
 }
 
 .logo {

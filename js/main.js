@@ -123,15 +123,25 @@ function updateModelCredit(modelName) {
   const credit = modelCredits[modelName];
   if (!credit) return;
 
-  const modelNameEl = document.querySelector(".model-name-credit");
-  const creatorLink = document.querySelector(".creator-link");
+  const modelNameEls = document.querySelectorAll(".model-kjul");
+  const creatorLinks = document.querySelectorAll(".link-yt");
 
-  if (modelNameEl) modelNameEl.textContent = modelName;
-  if (creatorLink) {
-    creatorLink.textContent = credit.creator;
-    creatorLink.href = credit.url;
-  }
+  modelNameEls.forEach(el => {
+    el.textContent = modelName;
+  });
+
+  creatorLinks.forEach(link => {
+    const icon = link.querySelector("i"); // cari icon di dalam link
+    const creatorText = document.createTextNode(" " + credit.creator); // tambahkan spasi dan teks
+
+    // kosongkan isi link, lalu tambahkan kembali icon dan teksnya
+    link.innerHTML = "";
+    if (icon) link.appendChild(icon);
+    link.appendChild(creatorText);
+    link.href = credit.url;
+  });
 }
+
 
 let renderer;
 let controls;
