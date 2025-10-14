@@ -674,7 +674,8 @@ main {
   .bottom-camera,
   .bottom-material,
   .bottom-gif,
-  .bottom-graphic{
+  .bottom-graphic,
+  .bottom-profile{
     display: none!important;
     opacity: 0!important;
     pointer-events: none!important;
