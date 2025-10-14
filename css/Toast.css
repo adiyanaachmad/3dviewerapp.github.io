@@ -127,6 +127,13 @@
   left: 50%;
 }
 
+.bottom-graphic.show,
+.bottom-gif.show{
+     display: flex;
+  opacity: 1; 
+  left: 50%;
+}
+
 .bottom-camera.show {
   opacity: 1; 
   left: 50%;
@@ -141,6 +148,12 @@
 
 .bottom-data.hide,
 .bottom-camera.hide{
+    opacity: 0;
+    left: -50%;
+}
+
+.bottom-graphic.hide,
+.bottom-gif.hide{
     opacity: 0;
     left: -50%;
 }
@@ -235,7 +248,7 @@
 .bottom-graphic {
     position: fixed;
     bottom: 180px;
-    /* display: none; */
+    display: none;
     left: -50%;
     transform:  translateX(-50%) translateX(0);
     display: flex;
@@ -243,7 +256,24 @@
     justify-content: space-evenly;
     width: 95%;
     padding: 10px 0;
-    /* opacity: 0; */
+    opacity: 0;
+    border-radius: 10px;
+    background: transparent;
+    transition: opacity 0.5s ease, transform 0.5s ease; 
+}
+
+.bottom-gif {
+    position: fixed;
+    bottom: 180px;
+    display: none;
+    left: -50%;
+    transform:  translateX(-50%) translateX(0);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 95%;
+    padding: 10px 0;
+    opacity: 0;
     border-radius: 10px;
     background: transparent;
     transition: opacity 0.5s ease, transform 0.5s ease; 
@@ -278,6 +308,11 @@
 #hdri-toggle.active-exf,
 #aa-toggle.active-exf {
   background-color: #739eb2 !important;
+}
+
+#toggleSkj.active-free,
+#toggleAni.active-free{
+     background-color: #739eb2 !important;
 }
 
 .bottom-navbar button.active-bottom:not(.plus) {
