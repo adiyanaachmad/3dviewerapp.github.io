@@ -106,7 +106,7 @@
     font-size: 40px;
     font-weight: 500;
     color: #fff;
-    font-family: "Saira", sans-serif;
+    font-family:  "Quicksand", sans-serif;
 }
 
 .increase-info {
@@ -192,7 +192,7 @@
   min-width: 60px;
   text-align: right;
   font-variant-numeric: tabular-nums;
-  font-family: "Saira", sans-serif;
+  font-family:  "Quicksand", sans-serif;
 }
 
 .dot-triangles {
