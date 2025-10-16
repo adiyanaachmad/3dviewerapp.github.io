@@ -697,6 +697,11 @@ main {
     zoom: .9;
   }
 
+  .header-right{
+    display: none;
+    pointer-events: none;
+  }
+
   .animate-wrapper{
     position: fixed;
     left: 90px;
