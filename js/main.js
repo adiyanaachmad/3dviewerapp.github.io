@@ -1460,7 +1460,7 @@ function resetSettingsToDefault() {
       slider.value = val;
       updateSliderBackground(slider);
       const display = slider.closest('.bloom-card')?.querySelector('.bloom-value');
-      if (display) display.textContent = val.toFixed(2);
+      if (display) display.textContent = val.toFixed(1);
     });
   });
 
