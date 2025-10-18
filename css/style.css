@@ -810,6 +810,69 @@ main {
   }
 }
 
+@media screen and (max-width: 375px){
+  .quality-card-container-bottom{
+    bottom: 139px!important;
+    min-width: 230px!important;
+    padding: 0px!important;
+    background-color: transparent!important;
+  }
+  .camera-card-quality{
+    padding: 13px;
+    border-radius: 10px;
+    border: 1px solid #3b4b5d;
+    display: flex;
+    background-color: #3b4b5d!important;
+  }
+  .animate-wrapper{
+    width: 360px!important;
+  }
+  .vertical-level-selector, .vertical-level-shadow, .vertical-level-orto{
+    gap: 10px;
+  }
+}
+
+@media screen and (max-width: 360px){
+   .animate-wrapper{
+    width: 340px!important;
+  }
+  .vertical-level-selector, .vertical-level-shadow, .vertical-level-orto{
+    gap: 5px;
+  }
+}
+
+@media screen and (min-width: 412px){
+  .quality-card-container-bottom{
+    min-width: 130px!important;
+    border-radius: 0 10px 10px 0!important;
+  }
+}
+
+@media screen and (min-width: 414px){
+  .animate-wrapper{
+    width: 350px!important;
+  }
+  .vertical-level-selector, .vertical-level-shadow, .vertical-level-orto{
+    gap: 5px;
+  }
+}
+
+@media screen and (min-width: 430px){
+  .quality-card-container-bottom{
+    min-width: 160px!important;
+    border-radius: 0 10px 10px 0!important;
+  }
+}
+
+@media screen and (max-width: 344px){
+   .animate-wrapper{
+    width: 310px!important;
+  }
+  .vertical-level-selector, .vertical-level-shadow, .vertical-level-orto{
+    gap: 4px!important;
+  }
+}
+
 @media screen and (min-width: 1250px){
   .panel-setting-info{
     top: 0;
