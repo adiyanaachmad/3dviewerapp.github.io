@@ -439,7 +439,8 @@ main {
   border-radius: 10px;
 }
 
-.camera-card {
+.camera-card,
+.camera-card-quality {
   display: flex;
   align-items: center;
   background-color: #3b4b5d;
@@ -460,7 +461,8 @@ main {
 }
 
 .camera-card button,
-.material-card-init button {
+.material-card-init button,
+.camera-card-quality button {
   padding: 15px 10px;
   background: none;
   border: none;
@@ -723,7 +725,8 @@ main {
      margin-bottom: 25px!important;
   }
 
-  .active-camera {
+  .active-camera,
+  .active-qual {
     background-color: #739eb2!important;
     border-radius: 8px;
     color: #fff !important;
@@ -781,7 +784,14 @@ main {
     display: grid;
   }
 
-  .camera-card button {
+  .camera-card-quality {
+    background-color: #1e2a3a !important;
+    padding: 15px !important;
+    display: grid;
+  }
+
+  .camera-card button,
+  .camera-card-quality button {
     font-size: 18px;
   }
 

@@ -379,7 +379,37 @@ const shadowQualityMap = {
   "Ultra": 4096
 };
 
+const shadowTypeMap = {
+  "Basic": THREE.BasicShadowMap,
+  "Soft": THREE.PCFSoftShadowMap
+};
+
+let currentShadowType = "Basic";
+
 let currentShadowQuality = "Low";
+
+function setShadowType(type) {
+  currentShadowType = type;
+  renderer.shadowMap.type = shadowTypeMap[type] || THREE.PCFShadowMap;
+  renderer.shadowMap.needsUpdate = true;
+  renderer.compile(scene, camera);
+  updateActiveShadowTypeButton(type);
+}
+
+function updateActiveShadowTypeButton(type) {
+  document.querySelectorAll('.basic-shadow-btn, .soft-shadow-btn').forEach(btn => {
+    const isActive = btn.classList.contains(`${type.toLowerCase()}-shadow-btn`);
+    btn.classList.toggle('active-qual', isActive);
+  });
+}
+
+document.querySelector('.basic-shadow-btn').addEventListener('click', () => {
+  setShadowType("Basic");
+});
+
+document.querySelector('.soft-shadow-btn').addEventListener('click', () => {
+  setShadowType("Soft");
+});
 
 // HDRI environment
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -909,6 +939,7 @@ shadowToggles.forEach(toggle => {
   });
 });
 
+
 document.querySelectorAll('.vertical-level-shadow').forEach(wrapper => {
   const defaultShadow = wrapper.dataset.default;
   const circles = wrapper.querySelectorAll('.v-circle-shadow');
@@ -998,6 +1029,7 @@ function loadNewModel(modelName) {
 
   bloomToggles.checked = false;
   bloomEnabled = false;
+  setShadowType("Basic");
 
   const aaButton = document.getElementById('aa-toggle');
   aaButton.classList.remove('active-exf');
