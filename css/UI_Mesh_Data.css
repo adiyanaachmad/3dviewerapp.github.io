@@ -33,9 +33,9 @@
   position: fixed;
   background-color: #3b4b5d;
   color: #fff;
-  left: 480px;
+  right: 0px;
   bottom: 230px!important;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 10px;
   padding: 20px;
   width: 0px;
   max-height: 250px;
