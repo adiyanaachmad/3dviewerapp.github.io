@@ -848,7 +848,7 @@ main {
   }
 }
 
-@media screen and (min-width: 414px){
+@media screen and (min-width: 425px){
   .animate-wrapper{
     width: 350px!important;
   }
@@ -860,6 +860,13 @@ main {
 @media screen and (min-width: 430px){
   .quality-card-container-bottom{
     min-width: 160px!important;
+    border-radius: 0 10px 10px 0!important;
+  }
+}
+
+@media screen and (min-width: 540px){
+  .quality-card-container-bottom{
+    min-width: 330px!important;
     border-radius: 0 10px 10px 0!important;
   }
 }
