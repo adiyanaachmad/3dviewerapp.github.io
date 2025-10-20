@@ -7,6 +7,11 @@ import { EffectComposer } from 'https://cdn.skypack.dev/three@0.129.0/examples/j
 import { RenderPass } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/postprocessing/ShaderPass.js';
+// import Stats from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/libs/stats.module.js";
+
+
+import { gsap } from "https://cdn.skypack.dev/gsap@3.12.2";
+
 
 // Global Default
 let swingEnabled = false;
@@ -182,6 +187,14 @@ const AdditiveBlendShader = {
   `
 };
 
+
+  // const stats = new Stats();
+  // stats.dom.style.position = 'fixed';
+  // stats.dom.style.right = '10px';
+  // stats.dom.style.top = '10px';
+  // stats.dom.style.zIndex = '9999';
+  // document.body.appendChild(stats.dom);
+
 function initRenderer(antialias = false) {
   const previousTarget = controls?.target?.clone();
   const shadowWasEnabled = renderer?.shadowMap?.enabled ?? false;
@@ -343,6 +356,7 @@ bloomToggles.forEach(toggle => {
 
     bloomEnabled = e.target.checked;
     bloomToggles.forEach(t => t.checked = bloomEnabled);
+    updateBloomLayerState();
   });
 });
 
@@ -482,17 +496,23 @@ function applyGlassAndMetalMaterial(child) {
 
   if (isBloom) {
     child.userData.isBloom = true;
-    child.layers.enable(1);
+
+    if (bloomEnabled) {
+      child.layers.enable(1);
+    } else {
+      child.layers.disable(1);
+    }
 
     if (!child.material.emissive || child.material.emissive.equals(new THREE.Color(0x000000))) {
       child.material.emissive = child.material.color.clone();
-      child.material.emissiveIntensity = 1.0;
-      child.material.needsUpdate = true;
     }
+    child.material.emissiveIntensity = bloomEnabled ? 1.0 : 0.3;
+    child.material.needsUpdate = true;
   } else {
     child.userData.isBloom = false;
     child.layers.disable(1);
   }
+
 
   const useEnvMap = envMapGlobal ?? null;
 
@@ -531,6 +551,22 @@ function applyGlassAndMetalMaterial(child) {
   }
 
   child.userData.originalMaterial = child.material.clone();
+}
+
+function updateBloomLayerState() {
+  if (!object) return;
+  object.traverse(child => {
+    if (child.isMesh && child.userData.isBloom) {
+      if (bloomEnabled) {
+        child.layers.enable(1);
+        child.material.emissiveIntensity = 1.0;
+      } else {
+        child.layers.disable(1);
+        child.material.emissiveIntensity = 0.3; // kembalikan ke normal
+      }
+      child.material.needsUpdate = true;
+    }
+  });
 }
 
 
@@ -595,6 +631,7 @@ window.addEventListener("DOMContentLoaded", () => {
       });
 
       scene.add(object);
+      populateObjectDropdown(object);
       setCameraFrontTop(object);
       updateMeshDataDisplay(object);
 
@@ -707,6 +744,7 @@ function animateCameraBack(deltaTime) {
 // Animation
 function animate() {
   requestAnimationFrame(animate);
+  // stats.update();
   const deltaTime = clock.getDelta();
   controls.update();
   swingModel(deltaTime);
@@ -1083,6 +1121,7 @@ function loadNewModel(modelName) {
       });
 
       scene.add(object);
+      populateObjectDropdown(object);
       setCameraFrontTop(object);
       updateMeshDataDisplay(object);
       updateTitleWithAnimation(modelName);
@@ -1131,6 +1170,136 @@ function loadNewModel(modelName) {
       }
     });
   }, 5000);
+}
+function populateObjectDropdown(model) {
+  const menu = document.querySelector('.menu-by-object');
+  const selected = document.querySelector('.selected-object');
+
+  // 🔹 Bersihkan menu lama
+  menu.innerHTML = '';
+
+  // 🔹 Tambahkan opsi default
+  const allItem = document.createElement('li');
+  allItem.textContent = 'All Object';
+  allItem.classList.add('active-view');
+  menu.appendChild(allItem);
+
+  // 🔹 Tambahkan object dari model
+  model.children.forEach((child, i) => {
+    if (child.isMesh || child.type === "Group" || child.type === "Object3D") {
+      const li = document.createElement('li');
+      li.textContent = child.name || `Object ${i + 1}`;
+      li.dataset.objectName = child.name || `Object_${i + 1}`;
+      menu.appendChild(li);
+    }
+  });
+
+  // === Inisialisasi event ===
+  const dropdown = document.querySelector('.dropdown-object');
+  const caret = dropdown.querySelector('.caret');
+  const select = dropdown.querySelector('.select-by-object');
+
+  select.addEventListener('click', () => {
+    caret.classList.toggle('caret-rotate');
+    menu.classList.toggle('buka-menu');
+  });
+
+  const options = menu.querySelectorAll('li');
+  options.forEach(option => {
+    option.addEventListener('click', () => {
+      selected.innerText = option.innerText;
+      selected.classList.add("text-fade-in");
+      setTimeout(() => selected.classList.remove("text-fade-in"), 300);
+
+      caret.classList.remove('caret-rotate');
+      menu.classList.remove('buka-menu');
+
+      options.forEach(opt => opt.classList.remove('active-view'));
+      option.classList.add('active-view');
+
+      const chosen = option.dataset.objectName || 'default';
+      if (option.innerText === 'All Object') {
+        isolateObjectByName('default');
+      } else {
+        isolateObjectByName(chosen);
+      }
+    });
+  });
+
+  window.addEventListener("click", e => {
+    const size = dropdown.getBoundingClientRect();
+    if (
+      e.clientX < size.left ||
+      e.clientX > size.right ||
+      e.clientY < size.top ||
+      e.clientY > size.bottom
+    ) {
+      caret.classList.remove('caret-rotate');
+      menu.classList.remove('buka-menu');
+    }
+  });
+
+  // ✅ RESET dropdown ke keadaan awal setiap kali model baru dimuat
+  selected.innerText = "All Object";
+  options.forEach(opt => opt.classList.remove('active-view'));
+  if (allItem) allItem.classList.add('active-view');
+}
+
+
+function isolateObjectByName(targetName) {
+  if (!object) return;
+
+  if (targetName === 'default') {
+    object.children.forEach(child => (child.visible = true));
+
+    gsap.to(renderCamera.position, {
+      duration: 1.2,
+      x: initialCameraPosition.x,
+      y: initialCameraPosition.y,
+      z: initialCameraPosition.z,
+      ease: 'power2.inOut',
+      onUpdate: () => {
+        renderCamera.lookAt(initialCameraTarget);
+        controls.target.copy(initialCameraTarget);
+        controls.update();
+      }
+    });
+    return;
+  }
+
+  object.children.forEach(child => {
+    child.visible = (child.name === targetName);
+  });
+
+  const target = object.getObjectByName(targetName);
+  if (target) focusCameraOnObject(target);
+}
+
+function focusCameraOnObject(target) {
+  const box = new THREE.Box3().setFromObject(target);
+  const center = new THREE.Vector3();
+  const size = new THREE.Vector3();
+  box.getCenter(center);
+  box.getSize(size);
+
+  const maxDim = Math.max(size.x, size.y, size.z);
+  const distance = maxDim * 2.2;
+
+  const direction = new THREE.Vector3(0, 0.5, 1).normalize();
+  const newPos = center.clone().add(direction.multiplyScalar(distance));
+
+  gsap.to(renderCamera.position, {
+    duration: 1.2,
+    x: newPos.x,
+    y: newPos.y,
+    z: newPos.z,
+    ease: 'power2.inOut',
+    onUpdate: () => {
+      renderCamera.lookAt(center);
+      controls.target.copy(center);
+      controls.update();
+    }
+  });
 }
 
 function restoreOriginalMaterial() {
