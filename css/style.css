@@ -17,7 +17,9 @@ body {
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%) translateY(0);
-  opacity: 1;
+  opacity: 0;
+  pointer-events: none;
+  display: none;
   transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   text-align: center;
   padding: 8px 16px;
@@ -439,12 +441,21 @@ main {
   border-radius: 10px;
 }
 
-.camera-card,
-.camera-card-quality {
+.camera-card {
   display: flex;
   align-items: center;
   background-color: #3b4b5d;
   border-radius: 8px;
+  overflow: hidden;
+  padding: 8px;
+}
+
+.camera-card-quality {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  background-color: #3b4b5d;
+  border-radius: 5px;
   overflow: hidden;
   padding: 8px;
 }
@@ -514,9 +525,14 @@ main {
   .bottom-navbar{
     display: none;
     opacity: 0;
+    pointer-events: none;
   }
   .title-model {
     padding: 0;
+  }
+
+  .menu-by-object{
+    bottom: 90px!important;
   }
 
   .active-camera {
@@ -667,6 +683,26 @@ main {
     transform: translateX(20px)!important;
   }
 
+  .camera-card-quality {
+    background-color: #1e2a3a !important;
+    padding: 12px !important;
+  }
+
+  .active-qual {
+    background-color: #739eb2!important;
+    border-radius: 8px;
+    color: #fff !important;
+  }
+
+  .camera-card-quality button {
+    font-size: 18px;
+  }
+
+  .bottom-profile,
+  .object-container{
+    width: 98%!important;
+  }
+
   .bottom-nav-material,
   .bottom-nav-out,
   .bottom-select,
@@ -676,8 +712,7 @@ main {
   .bottom-camera,
   .bottom-material,
   .bottom-gif,
-  .bottom-graphic,
-  .bottom-profile{
+  .bottom-graphic{
     display: none!important;
     opacity: 0!important;
     pointer-events: none!important;
@@ -699,6 +734,16 @@ main {
     zoom: .9;
   }
 
+  .profile-card{
+    bottom: 139px!important;
+    zoom: .6!important;
+  }
+
+  .dropdown-object{
+    bottom: 139px!important;
+    zoom: .6!important;
+  }
+
   /* .header-right{
     display: none;
     pointer-events: none;
@@ -706,10 +751,11 @@ main {
 
   .animate-wrapper{
     position: fixed;
-    left: 90px;
+    right: 0px;
     bottom: 230px!important;
     zoom: .6!important;
     padding: 27px!important;
+    padding-bottom: 25px!important;
   }
 
   input:checked+.slider:before,
@@ -786,8 +832,7 @@ main {
 
   .camera-card-quality {
     background-color: #1e2a3a !important;
-    padding: 15px !important;
-    display: grid;
+    padding: 12px !important;
   }
 
   .camera-card button,
@@ -811,19 +856,6 @@ main {
 }
 
 @media screen and (max-width: 375px){
-  .quality-card-container-bottom{
-    bottom: 139px!important;
-    min-width: 230px!important;
-    padding: 0px!important;
-    background-color: transparent!important;
-  }
-  .camera-card-quality{
-    padding: 13px;
-    border-radius: 10px;
-    border: 1px solid #3b4b5d;
-    display: flex;
-    background-color: #3b4b5d!important;
-  }
   .animate-wrapper{
     width: 360px!important;
   }
@@ -841,35 +873,12 @@ main {
   }
 }
 
-@media screen and (min-width: 412px){
-  .quality-card-container-bottom{
-    min-width: 130px!important;
-    border-radius: 0 10px 10px 0!important;
-  }
-}
-
 @media screen and (min-width: 425px){
   .animate-wrapper{
     width: 350px!important;
   }
-  .vertical-level-selector, .vertical-level-shadow, .vertical-level-orto{
-    gap: 5px;
-  }
 }
 
-@media screen and (min-width: 430px){
-  .quality-card-container-bottom{
-    min-width: 160px!important;
-    border-radius: 0 10px 10px 0!important;
-  }
-}
-
-@media screen and (min-width: 540px){
-  .quality-card-container-bottom{
-    min-width: 330px!important;
-    border-radius: 0 10px 10px 0!important;
-  }
-}
 
 @media screen and (max-width: 344px){
    .animate-wrapper{

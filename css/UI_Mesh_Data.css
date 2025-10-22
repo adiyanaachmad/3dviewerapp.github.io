@@ -29,23 +29,6 @@
   zoom: .7;
 }
 
-.quality-card-container-bottom{
-  position: fixed;
-  background-color: #3b4b5d;
-  color: #fff;
-  right: 0px;
-  bottom: 230px;
-  border-radius: 10px;
-  padding: 20px;
-  width: 0px;
-  max-height: 250px;
-  flex: 0 0 auto;
-  min-width: 100px;
-  z-index: -1;
-  overflow: hidden;
-  zoom: .6;
-}
-
 .Material-card-container-bottom{
   position: fixed;
   background-color: #3b4b5d;

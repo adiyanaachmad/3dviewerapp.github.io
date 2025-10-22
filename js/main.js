@@ -417,13 +417,20 @@ function updateActiveShadowTypeButton(type) {
   });
 }
 
-document.querySelector('.basic-shadow-btn').addEventListener('click', () => {
-  setShadowType("Basic");
+document.querySelectorAll('.basic-shadow-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    setShadowType("Basic");
+    updateActiveShadowTypeButton("Basic");
+  });
 });
 
-document.querySelector('.soft-shadow-btn').addEventListener('click', () => {
-  setShadowType("Soft");
+document.querySelectorAll('.soft-shadow-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    setShadowType("Soft");
+    updateActiveShadowTypeButton("Soft");
+  });
 });
+
 
 // HDRI environment
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -1172,6 +1179,40 @@ function loadNewModel(modelName) {
   }, 5000);
 }
 
+function removeActiveFree() {
+  const toggleSkjButton = document.getElementById('toggleSkj');
+  if (toggleSkjButton) {
+    toggleSkjButton.classList.remove('active-free');
+    toggleSkjButton.style.backgroundColor = ''; // kembalikan warna default
+  }
+}
+
+function removeActiveFreeAni() {
+  const toggleAniButton = document.getElementById('toggleAni');
+  if (toggleAniButton) {
+    toggleAniButton.classList.remove('active-free');
+    toggleAniButton.style.backgroundColor = ''; // kembalikan warna default
+  }
+}
+
+function closeAllPopups() {
+    const popups = [document.getElementById('popup2'), document.getElementById('popup3'), document.getElementById('popup4'), document.getElementById('popup5'),  document.getElementById('popup6'), document.getElementById('popup7')];
+
+    popups.forEach(popup => {
+        if (popup.classList.contains('show')) {
+            closePopup(popup);
+        }
+    });
+}
+
+function removeActiveBottom() {
+  const buttons = document.querySelectorAll('.bottom-navbar button:not(.plus)');
+  buttons.forEach(button => {
+    button.classList.remove('active-bottom');
+    button.style.backgroundColor = '';  // Kembalikan warna tombol semula
+  });
+}
+
 function populateObjectDropdown(model) {
   const dropdown = document.querySelector('.dropdown-object');
   const menu = dropdown.querySelector('.menu-by-object');
@@ -1240,6 +1281,37 @@ function populateObjectDropdown(model) {
   options.forEach(opt => opt.classList.remove('active-view'));
   if (allItem) allItem.classList.add('active-view');
 }
+
+// === CLOSE POPUP 2, 4, 6, 7 SAAT DROPDOWN DIKLIK ===
+document.addEventListener("DOMContentLoaded", () => {
+  const dropdownObject = document.querySelector('.dropdown-object');
+
+  if (dropdownObject) {
+    dropdownObject.addEventListener('click', () => {
+      // Ambil popup yang ingin dicek
+      const popup2 = document.getElementById('popup2');
+      const popup4 = document.getElementById('popup4');
+      const popup6 = document.getElementById('popup6');
+      const popup7 = document.getElementById('popup7');
+
+      // Jika salah satu popup sedang terbuka → tutup semuanya
+      if (
+        (popup2 && popup2.classList.contains('show')) ||
+        (popup4 && popup4.classList.contains('show')) ||
+        (popup6 && popup6.classList.contains('show')) ||
+        (popup7 && popup7.classList.contains('show'))
+      ) {
+        closeAllPopups();
+      }
+
+      // Reset tombol animasi & SKJ
+      removeActiveFree();
+      removeActiveFreeAni();
+      removeActiveBottom()
+    });
+  }
+});
+
 
 
 function isolateObjectByName(targetName) {

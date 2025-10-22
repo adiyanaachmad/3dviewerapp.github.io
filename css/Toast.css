@@ -346,20 +346,20 @@
 .profile-card {
     position: fixed;
     background: #3b4b5d;
-    bottom: 139px!important;
+    bottom: 20px;
     border: 1px solid #3b4b5d;
     border-radius: 10px;
     padding: 13px;
     left: 0;
     min-width: 240px;
-    zoom: .6;
+    zoom: .8;
     transition: 0.3s;
 }
 
 .dropdown-object {
     position: fixed;
     background: #3b4b5d;
-    bottom: 139px;
+    bottom: 20px;
     font-size: 22px;
     font-weight: 500;
     border: 1px solid #3b4b5d;
@@ -367,14 +367,14 @@
     padding: 13px;
     right: 0;
     min-width: 240px;
-    zoom: .6;
+    zoom: .8;
     transition: 0.3s;
 }
 
 .object-dropdown {
     position: fixed;
     background: #3b4b5d;
-    bottom: 10px;
+    bottom: 20px;
     font-size: 22px;
     font-weight: 500;
     border: 1px solid #3b4b5d;
