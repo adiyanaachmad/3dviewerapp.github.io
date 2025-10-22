@@ -1171,20 +1171,26 @@ function loadNewModel(modelName) {
     });
   }, 5000);
 }
-function populateObjectDropdown(model) {
-  const menu = document.querySelector('.menu-by-object');
-  const selected = document.querySelector('.selected-object');
 
-  // 🔹 Bersihkan menu lama
+function populateObjectDropdown(model) {
+  const dropdown = document.querySelector('.dropdown-object');
+  const menu = dropdown.querySelector('.menu-by-object');
+  const select = dropdown.querySelector('.select-by-object');
+
+  const newSelect = select.cloneNode(true);
+  select.parentNode.replaceChild(newSelect, select);
+
+  const freshSelect = dropdown.querySelector('.select-by-object');
+  const selected = dropdown.querySelector('.selected-object');
+  const caret = dropdown.querySelector('.caret');
+
   menu.innerHTML = '';
 
-  // 🔹 Tambahkan opsi default
   const allItem = document.createElement('li');
-  allItem.textContent = 'All Object';
+  allItem.textContent = 'Show All Object';
   allItem.classList.add('active-view');
   menu.appendChild(allItem);
 
-  // 🔹 Tambahkan object dari model
   model.children.forEach((child, i) => {
     if (child.isMesh || child.type === "Group" || child.type === "Object3D") {
       const li = document.createElement('li');
@@ -1194,19 +1200,16 @@ function populateObjectDropdown(model) {
     }
   });
 
-  // === Inisialisasi event ===
-  const dropdown = document.querySelector('.dropdown-object');
-  const caret = dropdown.querySelector('.caret');
-  const select = dropdown.querySelector('.select-by-object');
+  const options = menu.querySelectorAll('li');
 
-  select.addEventListener('click', () => {
+  freshSelect.addEventListener('click', () => {
     caret.classList.toggle('caret-rotate');
     menu.classList.toggle('buka-menu');
   });
 
-  const options = menu.querySelectorAll('li');
   options.forEach(option => {
     option.addEventListener('click', () => {
+
       selected.innerText = option.innerText;
       selected.classList.add("text-fade-in");
       setTimeout(() => selected.classList.remove("text-fade-in"), 300);
@@ -1218,7 +1221,7 @@ function populateObjectDropdown(model) {
       option.classList.add('active-view');
 
       const chosen = option.dataset.objectName || 'default';
-      if (option.innerText === 'All Object') {
+      if (option.innerText === 'Show All Object') {
         isolateObjectByName('default');
       } else {
         isolateObjectByName(chosen);
@@ -1226,21 +1229,14 @@ function populateObjectDropdown(model) {
     });
   });
 
-  window.addEventListener("click", e => {
-    const size = dropdown.getBoundingClientRect();
-    if (
-      e.clientX < size.left ||
-      e.clientX > size.right ||
-      e.clientY < size.top ||
-      e.clientY > size.bottom
-    ) {
+  window.onclick = (e) => {
+    if (!dropdown.contains(e.target)) {
       caret.classList.remove('caret-rotate');
       menu.classList.remove('buka-menu');
     }
-  });
+  };
 
-  // ✅ RESET dropdown ke keadaan awal setiap kali model baru dimuat
-  selected.innerText = "All Object";
+  selected.innerText = "Show All Object";
   options.forEach(opt => opt.classList.remove('active-view'));
   if (allItem) allItem.classList.add('active-view');
 }
