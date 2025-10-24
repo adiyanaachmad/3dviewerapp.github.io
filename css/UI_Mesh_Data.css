@@ -101,6 +101,12 @@
     font-family: "Quicksand", sans-serif;
 }
 
+.icon-count-mesh{
+  position: relative;
+  color: #fff;
+  font-size: 40px;
+}
+
 .total-count,
 .total-fps {
     font-size: 40px;

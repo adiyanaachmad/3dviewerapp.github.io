@@ -98,7 +98,7 @@
     </div>
     <div class="card-mesh card-tri" id="cardMeshDesktop">
       <div class="card-header-mesh">
-        <h2>Mesh Data</h2>
+        <h2>Statistics</h2>
         <div class="close-mesh-data sound-init" id="meshDataVisible"
           style="font-size: 20px; cursor: pointer; color: black;"><i class="fa-solid fa-plus"></i></div>
       </div>
@@ -633,6 +633,9 @@
       <div class="model-sdfr card-bottom group-1 sound-init" data-model="Living Room">
         <img src="img/living 800-800.webp" alt="Card Image 3">
       </div>
+      <!-- <div class="model-sdfr card-bottom group-1 sound-init" data-model="Car Workshop">
+        <img src="img/CarWorkshopPage1.webp" alt="Card Image 3">
+      </div> -->
       <div class="model-sdfr card-bottom group-1 sound-init" data-model="Game Room">
         <img src="img/Retro Game Room 800-800 Final.webp" alt="Card Image 4">
       </div>
@@ -647,18 +650,26 @@
 
   <div class="bottom-data" id="popup2">
     <div class="card-mesh-bottom card-tri">
-      <div class="card-header-mesh">
-        <h2>Mesh Data</h2>
-        <div class="close-mesh-data" style="font-size: 18px; cursor: pointer; color: black;"><i
-            class="fa-solid fa-dash"></i></div>
+      <div class="mesh-col-1">
+        <div class="card-header-mesh">
+        <h2>Statistics</h2>
+          <div class="open-legend sound-init" style="font-size: 18px; cursor: pointer; color: #fff;"><i
+              class="fa-solid fa-plus"></i></div>
+        </div>
+
+        <div class="info-data-mesh">
+          <div class="total-count">0</div>
+          <div class="icon-count-mesh"><i class="fa-solid fa-diagram-sankey"></i></div>
+        </div>
+
+        <div class="progress-bar-mesh">
+          <div class="progress-triangles"></div>
+          <div class="progress-vertices"></div>
+          <div class="progress-meshes"></div>
+        </div>
       </div>
 
-      <div class="info-data-mesh">
-        <div class="total-count">0</div>
-        <!-- <div class="icon-count-mesh"><i class="fa-solid fa-diagram-sankey"></i></div> -->
-      </div>
-
-      <div class="legend">
+      <div class="legend" id="viewlegend">
         <div class="legend-item">
           <div class="legend-left">
             <span class="dot-mesh dot-triangles"></span>
@@ -681,11 +692,6 @@
           </div>
           <p class="value">0</p>
         </div>
-      </div>
-      <div class="progress-bar-mesh">
-        <div class="progress-triangles"></div>
-        <div class="progress-vertices"></div>
-        <div class="progress-meshes"></div>
       </div>
     </div>
   </div>
@@ -864,7 +870,7 @@
   <div class="object-container">
     <div class="dropdown-object">
       <div class="select-by-object">
-        <span class="selected-object">Show All Object</span>
+        <span class="selected-object sound-init">Show All Object</span>
         <span class="caret"></span>
       </div>
       <ul class="menu-by-object">

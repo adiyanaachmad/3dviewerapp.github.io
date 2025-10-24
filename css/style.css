@@ -657,6 +657,7 @@ main {
     background-color: #1e2a3a;
   }
 
+
   .info-data-mesh,
   .progress-bar-mesh {
     background-color: #3b4b5d !important;
@@ -734,6 +735,131 @@ main {
     zoom: .9;
   }
 
+   .bottom-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #3b4b5d;
+    border-radius: 12px;
+    padding: 15px;
+    /* width: 95%;
+    left: 50%;
+    transform: translateX(-50%); */
+    bottom: 30px;
+    opacity: 1;
+  }
+
+  .card-mesh-bottom {
+    position: static;
+    background: transparent;
+    padding: 0;
+    width: 100%;
+    left: -3px!important;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    zoom: 1;
+  }
+
+  /* === Kolom 1 === */
+  .mesh-col-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+    gap: 20px;
+  }
+
+  .legend-left{
+    gap: 20px!important;
+  }
+
+  .dot-mesh{
+    width: 20px!important;
+    height: 42px!important;
+    border: 5px solid #1e2a3a;
+    rotate: 90deg;
+    border-radius: 20px 20px 0px 0px!important;
+    display: inline-block;
+  }
+
+  .info-data-mesh{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .progress-bar-mesh{
+    margin-top: 0px!important;
+  }
+
+  .card-header-mesh{
+    margin-bottom: 0px!important;
+  }
+
+  .card-mesh-bottom{
+    width: 45%;
+    padding-bottom: 50px!important;
+    transition: width 0.4s ease;
+  }
+
+  .legend {
+      flex: 0.8;
+      margin-top: 0px !important;
+      display: none;
+      pointer-events: auto;
+      flex-direction: column;
+      justify-content: flex-start;
+      background: #1e2a3a;
+      border-radius: 10px;
+      padding: 16px;
+      zoom: .7;
+      height: 273px;
+      /* overflow-y: auto; */
+      font-size: 22px !important;
+      color: #fff;
+      gap: 10px !important;
+      transition: opacity 0.3s ease;
+      opacity: 0;
+  }
+  
+  .legend[style*="display: flex"] {
+    opacity: 1;
+  }
+
+  .legend::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+
+  .legend::-webkit-scrollbar-thumb {
+    background-color: #739eb2;
+    border-radius: 4px;
+  }
+
+  .legend::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .legend-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-radius: 8px;
+    border-bottom: 0px!important;
+    background-color: #3b4b5d;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    padding-right: 16px;
+  }
+
+  .legend-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
   .profile-card{
     bottom: 139px!important;
     zoom: .6!important;
@@ -765,10 +891,6 @@ main {
 
   .card-mesh-bloom{
     padding-bottom: 46px!important;
-  }
-
-  .progress-bar-mesh{
-     margin-bottom: 25px!important;
   }
 
   .active-camera,

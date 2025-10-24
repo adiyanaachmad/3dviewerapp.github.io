@@ -224,7 +224,7 @@ function initRenderer(antialias = false) {
   renderer.shadowMap.enabled = shadowWasEnabled;
   renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.8;
+  renderer.toneMappingExposure = 1.2;
 
   document.getElementById("container3D").appendChild(renderer.domElement);
 
@@ -2036,6 +2036,71 @@ const modelCredits = {
   "Fox": { creator: "Ksenia Starkova", url: "https://www.youtube.com/@KseniaStarkova" },
   "Lion Bear": { creator: "Fullsworld", url: "https://www.youtube.com/@fullsworld" },
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleLegendBtn = document.querySelector(".open-legend");
+  const legend = document.getElementById("viewlegend");
+  const cardMesh = document.querySelector(".card-mesh-bottom");
+  const icon = toggleLegendBtn.querySelector("i");
+
+  // 🔹 Kondisi awal (legend tertutup)
+  legend.style.display = "none";
+  legend.style.pointerEvents = "none";
+  cardMesh.style.width = "45%";
+  icon.classList.remove("fa-minus");
+  icon.classList.add("fa-plus");
+
+  let isLegendOpen = false; // status awal
+
+  // === Fungsi toggle legend ===
+  function toggleLegend() {
+    isLegendOpen = !isLegendOpen;
+
+    if (isLegendOpen) {
+      // 🔹 Buka legend
+      cardMesh.style.width = "94%";
+      legend.style.display = "flex";
+      legend.style.pointerEvents = "auto";
+
+      icon.classList.remove("fa-plus");
+      icon.classList.add("fa-minus");
+    } else {
+      // 🔹 Tutup legend
+      cardMesh.style.width = "45%";
+      legend.style.display = "none";
+      legend.style.pointerEvents = "none";
+
+      icon.classList.remove("fa-minus");
+      icon.classList.add("fa-plus");
+    }
+  }
+
+  // === Klik tombol open-legend ===
+  toggleLegendBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // mencegah klik tembus ke document
+    toggleLegend();
+  });
+
+  // === Klik di luar area legend & tombol ===
+  document.addEventListener("click", (e) => {
+    // jika legend sedang terbuka dan klik bukan di legend maupun tombol
+    if (
+      isLegendOpen &&
+      !legend.contains(e.target) &&
+      !toggleLegendBtn.contains(e.target)
+    ) {
+      // tutup legend
+      isLegendOpen = false;
+      cardMesh.style.width = "45%";
+      legend.style.display = "none";
+      legend.style.pointerEvents = "none";
+
+      icon.classList.remove("fa-minus");
+      icon.classList.add("fa-plus");
+    }
+  });
+});
+
 
 window.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("contextmenu", function (e) {
