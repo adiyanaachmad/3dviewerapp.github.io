@@ -98,9 +98,10 @@ document.addEventListener("DOMContentLoaded", function () {
   function expandPanel(key) {
     const panel = panels[key];
 
-    let height = "440px";
+    let height = "465px";
     if (key === "camera") height = "165px";
     if (key === "material") height = "180px";
+    if (key === "bloom") height = "440px";
 
     panel.container.style.height = height;
     panel.icon.classList.remove("fa-plus");

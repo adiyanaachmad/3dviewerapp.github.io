@@ -527,6 +527,49 @@ main {
     opacity: 0;
     pointer-events: none;
   }
+
+  .legend-left{
+    gap: 0px!important;
+  }
+
+  .dot-mesh{
+    left: -6px;
+    justify-self: left;
+    width: 25px !important;
+    height: 20px !important;
+    border: 5px solid #3b4b5d;
+    position: relative;
+    rotate: 90deg;
+    border-radius: 20px 20px 0px 0px !important;
+    display: inline-block;
+  }
+
+  .legend {
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    background-color: #3b4b5d;
+    margin-top: 10px;
+    padding: 16px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .legend-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0px!important;
+    background-color: #1e2a3a;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    padding-right: 16px;
+    padding-left: 0px;
+    border-radius: 8px;
+}
+
   .title-model {
     padding: 0;
   }

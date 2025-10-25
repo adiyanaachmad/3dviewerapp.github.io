@@ -130,6 +130,8 @@
     background-color: #1e2a3a;
     border-radius: 8px;
     padding: 14px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .progress-bar-mesh {
@@ -137,7 +139,7 @@
     height: 15px;
     gap: 3px;
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
     background-color: #1e2a3a;
     border-radius: 8px;
 }
