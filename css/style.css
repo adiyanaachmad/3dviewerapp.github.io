@@ -772,15 +772,18 @@ main {
   }
 
   .legend-left{
-    gap: 20px!important;
+    gap: 8px!important;
   }
 
   .dot-mesh{
-    width: 20px!important;
-    height: 42px!important;
+    left: -5px;
+    justify-self: left;
+    width: 25px !important;
+    height: 20px !important;
     border: 5px solid #1e2a3a;
+    position: relative;
     rotate: 90deg;
-    border-radius: 20px 20px 0px 0px!important;
+    border-radius: 20px 20px 0px 0px !important;
     display: inline-block;
   }
 
@@ -822,6 +825,16 @@ main {
       transition: opacity 0.3s ease;
       opacity: 0;
   }
+
+  /* .legend span{
+    padding-left: 8px;
+    padding-bottom: 3px;
+    position: absolute;
+  } */
+
+  span .label .vertices {
+    background-color: red;
+  }
   
   .legend[style*="display: flex"] {
     opacity: 1;
@@ -852,6 +865,7 @@ main {
     padding-bottom: 4px;
     padding-top: 4px;
     padding-right: 16px;
+    padding-left: 0px;
   }
 
   .legend-left {
