@@ -216,8 +216,8 @@ function initRenderer(antialias = false) {
         encoding: THREE.sRGBEncoding,
       });
 
-  renderer = new THREE.WebGLRenderer({ alpha: true, antialias });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer = new THREE.WebGLRenderer({ alpha: true, antialias, powerPreference: "high-performance"  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.2));
   renderer.setClearColor(0x000000, 0);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputEncoding = THREE.sRGBEncoding;
@@ -322,7 +322,7 @@ function initRenderer(antialias = false) {
   bloomComposer.renderToScreen = false;
   bloomComposer.addPass(renderScene);
   bloomComposer.addPass(bloomPass);
-  bloomComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  bloomComposer.setPixelRatio(Math.min(window.devicePixelRatio, 1.2));
   bloomComposer.setSize(window.innerWidth, window.innerHeight);
   bloomComposer.renderTarget1.depthBuffer = true;
   bloomComposer.renderTarget2.depthBuffer = true;
@@ -334,7 +334,7 @@ function initRenderer(antialias = false) {
   finalComposer.renderToScreen = true;
   finalComposer.addPass(new RenderPass(scene, renderCamera));
   finalComposer.addPass(finalPass);
-  finalComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  finalComposer.setPixelRatio(Math.min(window.devicePixelRatio, 1.2));
   finalComposer.setSize(window.innerWidth, window.innerHeight);
 }
 
@@ -501,6 +501,7 @@ function applyGlassAndMetalMaterial(child) {
   const isMetal = matName.includes("metal") || child.material.metalness > 0;
   const isBloom = child.userData?.isBloom === true || matName === "bloom_effect";
 
+  // === Handle efek bloom ===
   if (isBloom) {
     child.userData.isBloom = true;
 
@@ -520,12 +521,16 @@ function applyGlassAndMetalMaterial(child) {
     child.layers.disable(1);
   }
 
-
   const useEnvMap = envMapGlobal ?? null;
 
-  if (isGlass) {
+  // === 💎 MATERIAL GLASS ===
+  // Hanya ganti jika tidak punya texture apapun
+  if (
+    isGlass &&
+    !(child.material.map || child.material.normalMap || child.material.roughnessMap || child.material.metalnessMap)
+  ) {
     child.material = new THREE.MeshPhysicalMaterial({
-      color: child.material.color || fffffffff,
+      color: child.material.color ? child.material.color.clone() : new THREE.Color(0xffffff),
       metalness: 0,
       roughness: 0,
       transmission: 1.0,
@@ -543,11 +548,16 @@ function applyGlassAndMetalMaterial(child) {
     });
   }
 
-  else if (isMetal) {
+  // === ⚙️ MATERIAL METAL ===
+  // Hanya ganti jika tidak punya texture juga
+  else if (
+    isMetal &&
+    !(child.material.map || child.material.normalMap || child.material.roughnessMap || child.material.metalnessMap)
+  ) {
     child.material = new THREE.MeshPhysicalMaterial({
       color: child.material.color || 0xffffff,
       metalness: 0.5,
-      roughness: 0.05, 
+      roughness: 0.05,
       reflectivity: 0.8,
       clearcoat: 1.0,
       clearcoatRoughness: 0.02,
@@ -557,6 +567,7 @@ function applyGlassAndMetalMaterial(child) {
     });
   }
 
+  // Simpan salinan original untuk restore nanti
   child.userData.originalMaterial = child.material.clone();
 }
 
@@ -626,6 +637,10 @@ window.addEventListener("DOMContentLoaded", () => {
         if (child.isMesh) {
           child.castShadow = false;
           child.receiveShadow = false;
+
+          child.frustumCulled = true;     // hanya render yang terlihat
+          child.matrixAutoUpdate = false; // tidak hitung ulang transform setiap frame
+          child.updateMatrix();     
 
           child.userData.originalMaterial = child.material.clone();
 
@@ -757,6 +772,7 @@ function animate() {
   swingModel(deltaTime);
   returnToCenter();
   animateCameraBack(deltaTime);
+  
 
   if (autoRotateEnabled && controls) {
     const now = performance.now();
@@ -786,12 +802,14 @@ function animate() {
   }
 
   if (bloomEnabled) {
+    renderer.autoClear = false;
     darkenNonBloomed(scene);
     renderCamera.layers.set(1);
     bloomComposer.render();
     renderCamera.layers.set(0);
     restoreMaterials(scene);
     finalComposer.render();
+    renderer.autoClear = true;
   } else {
     renderer.render(scene, renderCamera);
   }
@@ -1114,6 +1132,10 @@ function loadNewModel(modelName) {
         if (child.isMesh) {
           child.castShadow = renderer.shadowMap.enabled;
           child.receiveShadow = renderer.shadowMap.enabled;
+
+          child.frustumCulled = true;     // hanya render yang terlihat
+          child.matrixAutoUpdate = false; // tidak hitung ulang transform setiap frame
+          child.updateMatrix();     
 
           child.userData.originalMaterial = child.material.clone();
 
